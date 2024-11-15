@@ -1,7 +1,6 @@
 # Alumni-Portal
 
-
-```markdown
+````markdown
 # University of Asia Pacific Alumni Portal
 
 This is the official repository for the University of Asia Pacific Alumni Portal.
@@ -26,6 +25,7 @@ Alumni-Portal/
 ├── LICENSE                  # License information
 └── README.md                # Project documentation
 ```
+````
 
 ## Tech Stack
 
@@ -97,7 +97,7 @@ Ensure you have the following installed:
    - Install dependencies:
 
      ```bash
-     npm install 
+     npm install
      OR
      yarn
      ```
@@ -106,7 +106,7 @@ Ensure you have the following installed:
 
      ```bash
      npm run dev
-     
+
      OR
 
      yarn dev
@@ -123,6 +123,12 @@ Ensure you have the following installed:
 
 - **API Endpoints**: The Django REST API provides various endpoints for the alumni portal. See the [API Documentation](#) for a detailed list of available endpoints.
 - **Frontend**: The Next.js app provides the user interface for alumni to connect and communicate with each other.
+
+## **API Endpoints**
+
+```bash
+- http://127.0.0.1:8000/api/v1/blogs/
+```
 
 ## Contributing
 
@@ -144,5 +150,7 @@ Special thanks to the University of Asia Pacific for supporting this project.
 ---
 
 **Note**: For production deployment, ensure that sensitive information is kept secure and follow best practices for environment setup, such as configuring a production-ready database and securing API endpoints.
+
 ```
 
+```
