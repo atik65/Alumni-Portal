@@ -4,7 +4,9 @@
 ```markdown
 # University of Asia Pacific Alumni Portal
 
-This is the official repository for the University of Asia Pacific Alumni Portal. The project aims to connect alumni, foster networking, and facilitate communication between graduates and the university community.
+This is the official repository for the University of Asia Pacific Alumni Portal.
+The project aims to connect alumni, foster networking, and facilitate communication
+between graduates and the university community.
 
 ## Project Structure
 
