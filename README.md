@@ -126,8 +126,10 @@ Ensure you have the following installed:
 
 ## **API Endpoints**
 
+- Endpoint for `blogs` CRUD:
+
 ```bash
-- http://127.0.0.1:8000/api/v1/blogs/
+ http://127.0.0.1:8000/api/v1/blogs/
 ```
 
 ## Contributing
