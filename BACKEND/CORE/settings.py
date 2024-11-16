@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'froala_editor',
+    'drf_yasg',
 
     # Local apps
     'api',
