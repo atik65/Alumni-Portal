@@ -123,7 +123,12 @@ Ensure you have the following installed:
 
 ## Usage
 
-- **API Endpoints**: The Django REST API provides various endpoints for the alumni portal. See the [API Documentation](#) for a detailed list of available endpoints.
+- **API Endpoints**: The Django REST API provides various endpoints for the alumni portal. See the [API Documentation](http://127.0.0.1:8000/api/v1/swagger/) for a detailed list of available endpoints.
+
+```bash
+http://127.0.0.1:8000/api/v1/swagger/
+```
+
 - **Frontend**: The Next.js app provides the user interface for alumni to connect and communicate with each other.
 
 ## **API Endpoints**
