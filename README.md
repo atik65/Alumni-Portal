@@ -129,6 +129,8 @@ Ensure you have the following installed:
 http://127.0.0.1:8000/api/v1/swagger/
 ```
 
+[![Swagger Preview](BACKEND/static/swagger_preview.png)](http://127.0.0.1:8000/api/v1/blogs/)
+
 - **Frontend**: The Next.js app provides the user interface for alumni to connect and communicate with each other.
 
 ## **API Endpoints**
