@@ -23,7 +23,7 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
-        title= "Alumni Portal API",
+        title= "Alumni Portal API Documentation",
         default_version='v1',
         description="API documentation for Alumni Portal of University of Asia Pacific",
         terms_of_service="https://www.google.com/policies/terms/",
