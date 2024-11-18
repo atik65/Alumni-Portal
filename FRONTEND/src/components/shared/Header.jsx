@@ -9,6 +9,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { IoSearch } from "react-icons/io5";
 import dynamic from "next/dynamic";
 // import SearchBar from "./SearchBar";
+import { signOut } from "next-auth/react";
 
 import {
   Sheet,
@@ -29,89 +30,90 @@ const SearchBar = dynamic(() => import("./SearchBar"), {
 // });
 
 import MobileMenu from "./MobileMenu";
+import { PiSignOutBold } from "react-icons/pi";
 
 export const headerData = [
   {
     id: 1,
-    title: "Airport Transfers",
-    href: "#",
+    title: "Home",
+    href: "/",
 
-    children: [
-      {
-        id: 100,
-        title: "Adelaide Airport Transfer",
-        href: "/adelaide-airport-transfer",
-      },
-      {
-        id: 101,
-        title: "Avalon Airport Transfer",
-        href: "/avalon-airport-transfers",
-      },
-      {
-        id: 102,
-        title: "Brisbane Airport Transfer",
-        href: "/brisbane-airport-transfers",
-      },
-      {
-        id: 103,
-        title: "Canberra Airport Transfer",
-        href: "/canberra-airport-transfer",
-      },
-      {
-        id: 104,
-        title: "Gold Coast Airport Transfer",
-        href: "/gold-coast-airport-transfer",
-      },
-      {
-        id: 105,
-        title: "Hobart Airport Transfer",
-        href: "/hobart-airport-transfer",
-      },
-      {
-        id: 106,
-        title: "Melbourne Airport Transfer",
-        href: "/luxury-airport-transfers-chauffeur-in-melbourne",
-      },
-      {
-        id: 107,
-        title: "Perth Airport Transfer",
-        href: "/perth-airport-transfer",
-      },
-      {
-        id: 108,
-        title: "Sydney Airport Transfer",
-        href: "/sydney-airport-transfer",
-      },
-    ],
+    // children: [
+    //   {
+    //     id: 100,
+    //     title: "Adelaide Airport Transfer",
+    //     href: "/adelaide-airport-transfer",
+    //   },
+    //   {
+    //     id: 101,
+    //     title: "Avalon Airport Transfer",
+    //     href: "/avalon-airport-transfers",
+    //   },
+    //   {
+    //     id: 102,
+    //     title: "Brisbane Airport Transfer",
+    //     href: "/brisbane-airport-transfers",
+    //   },
+    //   {
+    //     id: 103,
+    //     title: "Canberra Airport Transfer",
+    //     href: "/canberra-airport-transfer",
+    //   },
+    //   {
+    //     id: 104,
+    //     title: "Gold Coast Airport Transfer",
+    //     href: "/gold-coast-airport-transfer",
+    //   },
+    //   {
+    //     id: 105,
+    //     title: "Hobart Airport Transfer",
+    //     href: "/hobart-airport-transfer",
+    //   },
+    //   {
+    //     id: 106,
+    //     title: "Melbourne Airport Transfer",
+    //     href: "/luxury-airport-transfers-chauffeur-in-melbourne",
+    //   },
+    //   {
+    //     id: 107,
+    //     title: "Perth Airport Transfer",
+    //     href: "/perth-airport-transfer",
+    //   },
+    //   {
+    //     id: 108,
+    //     title: "Sydney Airport Transfer",
+    //     href: "/sydney-airport-transfer",
+    //   },
+    // ],
   },
 
   {
     id: 2,
-    title: "Wedding Car Hire",
-    href: "/wedding-cars-hire-melbourne",
+    title: "About",
+    href: "/",
   },
   {
     id: 3,
-    title: "Chauffeur Services",
-    href: "/best-chauffeur-service-melbourne",
+    title: "Contact",
+    href: "/",
   },
-  {
-    id: 4,
-    title: "Blog",
-    href: "/category/blog",
-  },
+  // {
+  //   id: 4,
+  //   title: "Blog",
+  //   href: "/category/blog",
+  // },
 
-  {
-    id: 5,
-    title: "Our Fleets",
-    href: "/our-fleets",
-  },
+  // {
+  //   id: 5,
+  //   title: "Our Fleets",
+  //   href: "/our-fleets",
+  // },
 ];
 
 const Header = () => {
   // const pathname = usePathname();
 
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   // const [isScrolled, setIsScrolled] = useState(false);
 
@@ -250,19 +252,29 @@ const Header = () => {
           <IoSearch className="font-bold text-lg cursor-pointer" />
         </button>
 
-        {!session?.user && (
+        {status === "unauthenticated" && (
           <Link href="/login" className="hidden md:block w-12  font-medium">
             Log in
           </Link>
         )}
 
-        {session?.user && (
+        {status === "authenticated" && (
           <Link
             href={"/profile"}
             className=" px-2 text-3xl text-black font-medium"
           >
             <AiOutlineUser />
           </Link>
+        )}
+
+        {/* signout */}
+        {status === "authenticated" && (
+          <button
+            onClick={() => signOut()}
+            className=" px-2 text-3xl text-black font-medium"
+          >
+            <PiSignOutBold />
+          </button>
         )}
 
         <Link

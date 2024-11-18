@@ -1,6 +1,6 @@
 import axios from "axios";
-import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 
 /**
  * Takes a token and returns a new token with updated
@@ -14,8 +14,6 @@ async function refreshAccessToken(token) {
     const response = await axios.post(url, { refresh: token.refreshToken });
     const refreshedTokens = response.data;
 
-    // console.log("refreshedTokens :>> ", refreshedTokens);
-
     if (response.status === 200) {
       return {
         ...token,
@@ -26,22 +24,7 @@ async function refreshAccessToken(token) {
     } else {
       throw refreshedTokens;
     }
-
-    // if (response.status !== 200) {
-    //   throw refreshedTokens;
-    // }
-
-    // return {
-    //   ...token,
-    //   accessToken: refreshedTokens.access,
-    //   // accessTokenExpires: Date.now() + 1 * 1000,
-    //   refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
-    // };
   } catch (error) {
-    // console.log("error in refresh token :>> ", error);
-    // console.log(error.message)
-    // console.log(111);
-
     return {
       ...token,
       error: "RefreshAccessTokenError",
@@ -56,6 +39,7 @@ export const authOptions = {
 
   pages: {
     signIn: "/login",
+    error: "/auth-error",
   },
 
   providers: [
@@ -92,6 +76,11 @@ export const authOptions = {
         }
       },
     }),
+
+    GoogleProvider({
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
+    }),
   ],
 
   callbacks: {
@@ -103,36 +92,63 @@ export const authOptions = {
       if (account.provider === "credentials") {
         return user;
       }
-      return false;
+
+      // you can verify additional verifications here
+      if (account.provider === "google") {
+        // console.log("profile from google :>> ", profile);
+        return profile.email_verified;
+        // return profile.email_verified && profile.email.endsWith("@uap-bd.edu");
+        // now i can only log in with uap mail only
+      }
+
+      return true;
     },
 
-    async jwt({ token, user, account }) {
-      //   console.log("token from jwt callback :>> ", token);
-      //   console.log("user from jwt callback :>> ", user);
+    async jwt(data) {
+      let { token, user, account } = data;
 
-      if (user && account.provider === "credentials") {
-        // token = user;
+      // console.log("account from jwt callback :>> ", account);
+      // console.log("token from jwt callback :>> ", token);
+      // console.log("user from jwt callback :>> ", user);
+
+      // console.log("data from jwt callback :>> ", data);
+
+      // Handle credentials provider
+      if (account?.provider === "credentials") {
         return {
           accessToken: user?.access,
           refreshToken: user?.refresh,
-          user: user,
+          user, // Storing user data for session callback
         };
       }
-      return await refreshAccessToken(token);
-      // return token;
+
+      // Handle Google provider
+      if (account?.provider === "google") {
+        return {
+          ...token,
+          accessToken: account.access_token,
+          idToken: account.id_token,
+          provider: "google",
+        };
+      }
+
+      // Handle token refresh for credentials
+      if (token?.refreshToken) {
+        return await refreshAccessToken(token);
+      }
+
+      return token;
     },
 
-    async session({ session, token }) {
-      // console.log("session from session callback :>> ", session);
-      // console.log("token from session callback :>> ", token);
-      session = token;
-      token.user.access_token = token.accessToken;
-      session.user = token.user;
+    async session(data) {
+      let { session, token, user, account } = data;
 
+      // console.log("session from session callback :>> ", token);
+      // console.log("data from session callback :>> ", data);
+      // Add accessToken and provider info to the session
+      session.user = token.user || session.user; // Ensure user data is available
       session.accessToken = token.accessToken;
-      session.error = token.error;
-
-      // console.log("session form session callback :>> ", session);
+      session.provider = token.provider || "credentials"; // Default to credentials
       return session;
     },
   },
