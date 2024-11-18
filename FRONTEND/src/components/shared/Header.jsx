@@ -278,11 +278,11 @@ const Header = () => {
         )}
 
         <Link
-          href={"/booking"}
+          href={"/portal"}
           className=" hidden sm:flex items-center justify-center bg-gradient-to-r
-           hover:bg-gradient-to-l from-[#C2CE3B] to-[#60BA08] w-[150px]  h-[48px] text-black font-bold"
+           hover:bg-gradient-to-l from-[#2A2470] to-[#2A2470] w-[150px]  h-[48px] text-white font-bold"
         >
-          <span>Book Now</span>
+          <span>Portal</span>
           <FaAngleRight />
         </Link>
 
@@ -299,7 +299,7 @@ const Header = () => {
             <button
               title="Open Menu"
               onClick={handleMobileMenu}
-              className="flex lg:hidden items-center justify-center bg-gradient-to-r from-[#C2CE3B] to-[#60BA08] px-3 text-2xl  h-[48px] text-black font-bold"
+              className="flex lg:hidden items-center justify-center bg-gradient-to-r from-[#2A2470] to-[#2A2470] px-3 text-2xl  h-[48px] text-white font-bold"
             >
               <FaBars />
             </button>

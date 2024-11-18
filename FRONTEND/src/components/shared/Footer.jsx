@@ -183,7 +183,7 @@ const Footer = () => {
 
             <Link
               href={"/contact"}
-              className="flex items-center justify-center bg-gradient-to-r from-[#C2CE3B] to-[#60BA08] px-8 py-2 text-black font-bold mt-2"
+              className="flex items-center justify-center bg-gradient-to-r from-[#2A2470] to-[#2A2470] px-8 py-2 text-white font-bold mt-2"
             >
               <span>Contact</span>
             </Link>

@@ -126,10 +126,10 @@ const MobileMenu = ({ mobileMenu, handleMobileMenu }) => {
 
       <div className=" mt-5">
         <Link
-          href={"/booking"}
+          href={"/portal"}
           className=" flex w-full items-center justify-center bg-gradient-to-r from-[#C2CE3B] to-[#60BA08]   py-5 text-black font-bold"
         >
-          <span>Book Now</span>
+          <span>Portal</span>
           <FaAngleRight />
         </Link>
       </div>
