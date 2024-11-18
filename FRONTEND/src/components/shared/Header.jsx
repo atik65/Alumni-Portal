@@ -86,17 +86,33 @@ export const headerData = [
     //   },
     // ],
   },
+  {
+    id: 100,
+    title: "News",
+    href: "/",
+  },
+  {
+    id: 101,
+    title: "Events",
+    href: "/",
+  },
+  {
+    id: 102,
+    title: "Alumni",
+    href: "/",
+  },
 
   {
     id: 2,
-    title: "About",
+    title: "Jobs",
     href: "/",
   },
   {
-    id: 3,
-    title: "Contact",
+    id: 200,
+    title: "Donation",
     href: "/",
   },
+
   // {
   //   id: 4,
   //   title: "Blog",
@@ -184,9 +200,9 @@ const Header = () => {
           {/* <h1 className="font-bold text-lg">LOGO</h1> */}
         </Link>
       </div>
-      <div className="hidden w-full lg:flex justify-center  lg:gap-5 xl:gap-10">
+      <div className="hidden w-full lg:flex   lg:gap-5 xl:gap-10  justify-center gap-5">
         {headerData.map((item) => (
-          <div className="relative" key={item.id}>
+          <div className="relative " key={item.id}>
             <Link
               onMouseEnter={() => handleSubMenu(item.id)}
               onMouseLeave={() => handleSubMenu(null)}
@@ -217,7 +233,7 @@ const Header = () => {
                     style={{
                       width: "max-content",
                     }}
-                    className={`absolute top-0 left-0 w-full   pt-2  border-t-2 border-[#C2CE3B]   bg-white
+                    className={`absolute top-0 left-0 w-full   pt-2  border-t-2 border-[#C2CE3B]    bg-white
                 
                   
                 

@@ -127,7 +127,7 @@ const MobileMenu = ({ mobileMenu, handleMobileMenu }) => {
       <div className=" mt-5">
         <Link
           href={"/portal"}
-          className=" flex w-full items-center justify-center bg-gradient-to-r from-[#2A2470] to-[#2A2470]   py-5 text-black font-bold"
+          className=" flex w-full items-center justify-center bg-gradient-to-r from-[#2A2470] to-[#2A2470]   py-5 text-white font-bold"
         >
           <span>Portal</span>
           <FaAngleRight />
