@@ -1,6 +1,6 @@
 "use client";
 import { Suspense, useState } from "react";
-import logo from "/public/assets/mnm_logo.webp";
+import logo from "/public/assets/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { FaAngleDown, FaAngleRight, FaBars } from "react-icons/fa6";
@@ -176,12 +176,12 @@ const Header = () => {
       <div className="">
         <Link href="/">
           {/* <Image className="w-[85px]" src={logo} alt="logo" /> */}
-          {/* <Image
-            className="w-[150px] lg:w-[180px] 2xl:w-[200px]"
+          <Image
+            className="w-[60px] lg:w-[80px] 2xl:w-[100px]"
             src={logo}
             alt="MNMRiDEZ Chauffeur"
-          /> */}
-          <h1 className="font-bold text-lg">LOGO</h1>
+          />
+          {/* <h1 className="font-bold text-lg">LOGO</h1> */}
         </Link>
       </div>
       <div className="hidden w-full lg:flex justify-center  lg:gap-5 xl:gap-10">

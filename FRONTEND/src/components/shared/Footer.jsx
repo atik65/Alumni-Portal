@@ -14,7 +14,7 @@ import {
 import { IoHomeOutline } from "react-icons/io5";
 import { FiPhone } from "react-icons/fi";
 import paymentMethodLogo from "/public/assets/paymentMethods.png";
-
+import logo from "../../../public/assets/logo.png";
 const Footer = () => {
   // if (pathname === "/booking") return null;
 
@@ -23,15 +23,15 @@ const Footer = () => {
       <div>
         {/* logo and social icons */}
         <div className="h-full flex flex-col gap-5 justify-between">
-          {/* <Image
-            src={carLogo}
-            className="w-36"
+          <Image
+            src={logo}
+            className="w-28"
             height={100}
             width={144}
             alt="MNMRiDEZ Chauffeur"
-          /> */}
+          />
 
-          <h1 className="text-xl font-bold">LOGO</h1>
+          {/* <h1 className="text-xl font-bold">LOGO</h1> */}
 
           {/* about */}
           <div>

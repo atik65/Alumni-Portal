@@ -41,48 +41,54 @@ export const LoginSignUpIntro = () => {
           delay={1.2}
           words={[
             {
-              text: "Discover",
+              text: "Reconnect",
             },
             {
-              text: "all",
+              text: "With",
             },
             {
-              text: "the",
+              text: "Your",
             },
             {
-              text: "latest",
+              text: "Alumni",
             },
             {
-              text: "trends",
+              text: "Network",
             },
           ]}
         />
       </h1>
 
       <p className="mt-7 text-sm">
-        Get excited and explore the latest trends and styles with the help of
-        our customized services:
+        Stay connected and take advantage of the exclusive benefits our alumni
+        portal offers:
       </p>
 
       <div className="mt-6">
         <div className="flex items-center gap-2">
           <IoCheckmark />
-          <p className="text-sm">Stay up to date with the latest trends</p>
+          <p className="text-sm">
+            Build lasting connections with fellow alumni
+          </p>
         </div>
 
         <div className="flex items-center gap-2 mt-3">
           <IoCheckmark />
-          <p className="text-sm">Buy faster</p>
+          <p className="text-sm">
+            Access career opportunities and mentorship programs
+          </p>
         </div>
 
         <div className="flex items-center gap-2 mt-3">
           <IoCheckmark />
-          <p className="text-sm">Get exclusive offers and discounts</p>
+          <p className="text-sm">
+            Stay updated with university news and events
+          </p>
         </div>
 
         <div className="flex items-center gap-2 mt-3">
           <IoCheckmark />
-          <p className="text-sm">Save your favorite products</p>
+          <p className="text-sm">Share your achievements and success stories</p>
         </div>
       </div>
     </div>
@@ -204,7 +210,9 @@ const LoginForm = () => {
       <div>
         <Button
           onClick={() => {
-            const res = signIn("google");
+            const res = signIn("google", {
+              callbackUrl: "/profile",
+            });
             console.log("res from google login = ", res);
           }}
           className="mt-3 w-full"
