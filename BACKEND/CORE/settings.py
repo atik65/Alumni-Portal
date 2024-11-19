@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-sc1*dgc_rv9m_4$sqdfeo6a+ux54jxf@9xo7mysl*^2t+2@#d8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 # Application definition
@@ -40,9 +42,9 @@ INSTALLED_APPS = [
 
     # 3rd party apps
     'rest_framework',
-    'rest_framework.authtoken',
     'corsheaders',
     'froala_editor',
+    'django_filters',
     'drf_yasg',
 
     # Local apps

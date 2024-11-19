@@ -2,9 +2,14 @@
 
 import { useSession } from "next-auth/react";
 import React from "react";
-
+import { signOut } from "next-auth/react";
+import { useCreateBlog } from "@/hooks/tanstack/useBlogs";
+import { Button } from "../ui/button";
+import { enqueueSnackbar } from "notistack";
+import Image from "next/image";
 const ProfileContainer = () => {
   const { data: session } = useSession();
+  const { mutateAsync, isPending } = useCreateBlog();
 
   console.log("session = ", session);
   // {
@@ -24,13 +29,50 @@ const ProfileContainer = () => {
 
       <div className="mt-10 w-full">
         <div className="flex flex-col justify-center items-center">
-          <img
+          <Image
+            height={200}
+            width={200}
             className="w-32 h-32 rounded-full"
             src={session?.user?.image}
             alt="Profile"
           />
           <h1 className="text-2xl font-bold">{session?.user?.name}</h1>
           <p className="text-gray-600">{session?.user?.email}</p>
+
+          <button
+            className="mt-4 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
+            onClick={() => signOut()}
+          >
+            Sign Out
+          </button>
+
+          {/* create blog */}
+
+          <Button
+            className="mt-4"
+            disabled={isPending}
+            onClick={async () => {
+              try {
+                const res = await mutateAsync({
+                  title:
+                    "My First Blog from UAP Alumni Portal -- Frontend updated one",
+                  content: "This is my first blog from UAP Alumni Portal",
+                });
+
+                enqueueSnackbar("Blog created successfully", {
+                  variant: "default",
+                });
+              } catch (error) {
+                console.log(error);
+
+                enqueueSnackbar(error?.message || "Something went wrong", {
+                  variant: "error",
+                });
+              }
+            }}
+          >
+            Create Blog
+          </Button>
         </div>
       </div>
     </div>
