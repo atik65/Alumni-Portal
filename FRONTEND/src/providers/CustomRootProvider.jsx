@@ -3,6 +3,7 @@
 import Footer from "@/components/shared/Footer";
 import Header from "@/components/shared/Header";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "next-themes";
 
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -28,6 +29,9 @@ const CustomRootProvider = ({ children, session }) => {
   //
 
   const [queryClient] = useState(() => new QueryClient());
+
+  // const { theme, setTheme } = useTheme();
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <QueryClientProvider client={queryClient}>
@@ -39,9 +43,10 @@ const CustomRootProvider = ({ children, session }) => {
               options={{ showSpinner: false }}
               shallowRouting
             />
-            <Header />
-            {children}
-            <Footer />
+            {/* <Header /> */}
+
+            <ThemeProvider>{children}</ThemeProvider>
+            {/* <Footer /> */}
           </SessionProvider>
         </SnackbarProvider>
 

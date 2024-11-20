@@ -20,7 +20,7 @@ export default async function RootLayout({ children }) {
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="en">
+    <html suppressHydrationWarning lang="en">
       {/* <body className={myFont.className}> */}
       <body className={inter.className}>
         <CustomRootProvider session={session}>{children}</CustomRootProvider>
