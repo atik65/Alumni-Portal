@@ -28,7 +28,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronsUpDown } from "lucide-react";
+import { ChevronsUpDown, SunMoon } from "lucide-react";
 
 export function AppSidebarInset({ children }) {
   const { theme, setTheme } = useTheme();
@@ -72,17 +72,16 @@ export function AppSidebarInset({ children }) {
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton
                 size="lg"
-                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground "
               >
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  {/* <activeTeam.logo className="size-4" /> */}
-                  logo
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground border-none outline-none">
+                  <SunMoon className="size-4" />
                 </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
+                {/* <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">Select Theme</span>
                   <span className="truncate text-xs">sub text</span>
-                </div>
-                <ChevronsUpDown className="ml-auto" />
+                </div> */}
+                {/* <ChevronsUpDown className="ml-auto" /> */}
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -92,18 +91,23 @@ export function AppSidebarInset({ children }) {
               sideOffset={4}
             >
               <DropdownMenuLabel className="text-xs text-muted-foreground">
-                Teams
+                Themes
               </DropdownMenuLabel>
               {[
                 {
                   name: "Light",
-                  logo: null,
+                  // logo: null,
                   key: "light",
                 },
                 {
                   name: "Dark",
-                  logo: null,
+                  // logo: null,
                   key: "dark",
+                },
+                {
+                  name: "System",
+                  // logo: null,
+                  key: "system",
                 },
               ].map((theme, index) => (
                 <DropdownMenuItem
@@ -111,9 +115,9 @@ export function AppSidebarInset({ children }) {
                   onClick={() => setTheme(theme.key)}
                   className="gap-2 p-2"
                 >
-                  <div className="flex size-6 items-center justify-center rounded-sm border">
-                    logo {/* <team.logo className="size-4 shrink-0" /> */}
-                  </div>
+                  {/* <div className="flex size-6 items-center justify-center rounded-sm border">
+                    logo <team.logo className="size-4 shrink-0" />
+                  </div> */}
                   {theme.name}
                   <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
                 </DropdownMenuItem>

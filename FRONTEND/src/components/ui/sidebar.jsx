@@ -246,6 +246,8 @@ const Sidebar = React.forwardRef(
       isDraggingRail,
     } = useSidebar();
 
+    console.log("collapsible = ", collapsible);
+
     if (collapsible === "none") {
       return (
         <div
@@ -273,7 +275,7 @@ const Sidebar = React.forwardRef(
             }}
             side={side}
           >
-            <div className="flex h-full w-full flex-col bg-white ">
+            <div className="flex h-full w-full flex-col bg-white dark:bg-gray-900 ">
               {children}
             </div>
           </SheetContent>

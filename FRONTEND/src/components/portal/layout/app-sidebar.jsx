@@ -7,23 +7,28 @@ import {
   Bell,
   BookOpen,
   Bot,
-  ChevronRight,
+  Briefcase,
+  CalendarDays,
   ChevronsUpDown,
+  CircleUserRound,
   Command,
   CreditCard,
-  Folder,
-  Forward,
   Frame,
   GalleryVerticalEnd,
+  House,
+  Info,
   LogOut,
   Map,
   MoreHorizontal,
+  Newspaper,
+  Phone,
   PieChart,
   Plus,
   Settings2,
   Sparkles,
   SquareTerminal,
-  Trash2,
+  UserRoundPen,
+  Users,
 } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -59,17 +64,18 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 // This is sample data.
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
+    name: "Atik Hasan",
+    email: "21201063@uap-bd.edu",
     avatar: "/avatars/shadcn.jpg",
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: "Alumni Portal",
       logo: GalleryVerticalEnd,
       plan: "Enterprise",
     },
@@ -190,6 +196,112 @@ const data = {
   ],
 };
 
+const sidebarData = [
+  // group --  menu
+  {
+    id: 100,
+    title: "Menu",
+    items: [
+      {
+        id: 1,
+        title: "Home",
+        href: "/",
+        icon: House,
+        tooltip: "Home",
+      },
+
+      // All Profile
+      {
+        id: 2,
+        title: "Profile",
+        href: "/portal/profile",
+        icon: CircleUserRound,
+        tooltip: "Profile",
+      },
+
+      // My Profile
+      // {
+      //   id: 3,
+      //   title: "My Profile",
+      //   href: "/portal/my-profile",
+      //   icon: UserRoundPen,
+      //   tooltip: "My Profile",
+      // },
+    ],
+  },
+
+  // group -- alumni
+  {
+    id: 200,
+    title: "Alumni",
+    items: [
+      {
+        id: 4,
+        title: "Alumni List",
+        href: "/portal/alumni-list",
+        icon: Users,
+        tooltip: "Alumni List",
+      },
+      {
+        id: 5,
+        title: "Blogs",
+        href: "/portal/news",
+        icon: Newspaper,
+        tooltip: "News",
+      },
+      {
+        id: 6,
+        title: "Events",
+        href: "/portal/events",
+        icon: CalendarDays,
+        tooltip: "Events",
+      },
+
+      // jobs
+      {
+        id: 7,
+        title: "Jobs",
+        href: "/portal/job-list",
+        icon: Briefcase,
+        tooltip: "Jobs",
+      },
+    ],
+  },
+
+  // group -- about
+  {
+    id: 300,
+    title: "About",
+    items: [
+      {
+        id: 8,
+        title: "About Alumni",
+        href: "/portal/about-alumni",
+        icon: Info,
+        tooltip: "About Alumni",
+      },
+
+      // comittee
+      {
+        id: 9,
+        title: "Committee",
+        href: "/portal/committee",
+        icon: Users,
+        tooltip: "Committee",
+      },
+
+      // contact
+      {
+        id: 10,
+        title: "Contact",
+        href: "/portal/contact",
+        icon: Phone,
+        tooltip: "Contact",
+      },
+    ],
+  },
+];
+
 export function AppSidebar({ children }) {
   const [activeTeam, setActiveTeam] = React.useState(data.teams[0]);
 
@@ -256,44 +368,49 @@ export function AppSidebar({ children }) {
           </SidebarMenu>
         </SidebarHeader>
         <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>Platform</SidebarGroupLabel>
+          {/* <SidebarGroup>
+            <SidebarGroupLabel>Menu</SidebarGroupLabel>
             <SidebarMenu>
-              {data.navMain.map((item) => (
-                <Collapsible
-                  key={item.title}
-                  asChild
-                  defaultOpen={item.isActive}
-                  className="group/collapsible"
-                >
-                  <SidebarMenuItem>
-                    <CollapsibleTrigger asChild>
-                      <SidebarMenuButton tooltip={item.title}>
-                        {item.icon && <item.icon />}
-                        <span>{item.title}</span>
-                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                      </SidebarMenuButton>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent>
-                      <SidebarMenuSub>
-                        {item.items?.map((subItem) => (
-                          <SidebarMenuSubItem key={subItem.title}>
-                            <SidebarMenuSubButton asChild>
-                              <a href={subItem.url}>
-                                <span>{subItem.title}</span>
-                              </a>
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                        ))}
-                      </SidebarMenuSub>
-                    </CollapsibleContent>
-                  </SidebarMenuItem>
-                </Collapsible>
+              <SidebarMenuButton tooltip="Home">
+                <ChevronRight className="transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                <span>Home</span>
+              </SidebarMenuButton>
+
+              {sidebarData.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton tooltip={item.tooltip} asChild>
+                    <Link href={item.href}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               ))}
             </SidebarMenu>
-          </SidebarGroup>
+          </SidebarGroup> */}
+
+          {sidebarData.map((group) => {
+            return (
+              <SidebarGroup key={group?.id}>
+                <SidebarGroupLabel>{group?.title}</SidebarGroupLabel>
+                <SidebarMenu>
+                  {group?.items.map((item) => (
+                    <SidebarMenuItem key={item?.id}>
+                      <SidebarMenuButton tooltip={item?.tooltip} asChild>
+                        <Link href={item?.href}>
+                          <item.icon />
+                          <span>{item?.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroup>
+            );
+          })}
+
           <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-            <SidebarGroupLabel>Projects</SidebarGroupLabel>
+            {/* <SidebarGroupLabel>Projects</SidebarGroupLabel>
             <SidebarMenu>
               {data.projects.map((item) => (
                 <SidebarMenuItem key={item.name}>
@@ -338,7 +455,7 @@ export function AppSidebar({ children }) {
                   <span>More</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-            </SidebarMenu>
+            </SidebarMenu> */}
           </SidebarGroup>
         </SidebarContent>
         <SidebarFooter>
@@ -350,12 +467,14 @@ export function AppSidebar({ children }) {
                     size="lg"
                     className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                   >
-                    <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage
+                    <Avatar className="h-8 w-8 rounded-lg flex items-center">
+                      {/* <AvatarImage
                         src={data.user.avatar}
                         alt={data.user.name}
-                      />
-                      <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                      /> */}
+
+                      <CircleUserRound size={28} />
+                      {/* <AvatarFallback className="rounded-lg">CN</AvatarFallback> */}
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">
@@ -376,14 +495,8 @@ export function AppSidebar({ children }) {
                 >
                   <DropdownMenuLabel className="p-0 font-normal">
                     <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                      <Avatar className="h-8 w-8 rounded-lg">
-                        <AvatarImage
-                          src={data.user.avatar}
-                          alt={data.user.name}
-                        />
-                        <AvatarFallback className="rounded-lg">
-                          CN
-                        </AvatarFallback>
+                      <Avatar className="h-8 w-auto rounded-lg flex items-center">
+                        <CircleUserRound size={20} />
                       </Avatar>
                       <div className="grid flex-1 text-left text-sm leading-tight">
                         <span className="truncate font-semibold">
