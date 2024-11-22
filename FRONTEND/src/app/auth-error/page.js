@@ -2,8 +2,10 @@
 import { useParams, useSearchParams } from "next/navigation";
 import React from "react";
 
-const error = ({ error }) => {
+const Error = ({ error }) => {
   const params = useSearchParams();
+
+  console.log("error = ", error);
 
   console.log("params = ", params.get("error"));
   return (
@@ -15,4 +17,4 @@ const error = ({ error }) => {
   );
 };
 
-export default error;
+export default Error;

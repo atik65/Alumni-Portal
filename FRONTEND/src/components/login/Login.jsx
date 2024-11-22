@@ -211,8 +211,11 @@ const LoginForm = () => {
         <Button
           onClick={() => {
             const res = signIn("google", {
-              callbackUrl: "/profile",
+              callbackUrl: "/portal",
             });
+            // const res = signIn("google", {
+            //   callbackUrl: "/profile",
+            // });
             console.log("res from google login = ", res);
           }}
           className="mt-3 w-full"

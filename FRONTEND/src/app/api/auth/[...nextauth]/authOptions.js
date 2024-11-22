@@ -87,7 +87,7 @@ export const authOptions = {
     async signIn(data) {
       const { user, account, credentials, profile } = data;
 
-      // console.log("data from sign in callback :>> ", data);
+      console.log("data from sign in callback :>> ", data);
 
       if (account.provider === "credentials") {
         return user;

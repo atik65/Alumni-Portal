@@ -45,7 +45,14 @@ const CustomRootProvider = ({ children, session }) => {
             />
             {/* <Header /> */}
 
-            <ThemeProvider>{children}</ThemeProvider>
+            <ThemeProvider
+              enableSystem
+              attribute="class"
+              defaultTheme="light"
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
             {/* <Footer /> */}
           </SessionProvider>
         </SnackbarProvider>
