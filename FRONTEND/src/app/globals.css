@@ -75,11 +75,37 @@
   /* Your default theme */
   --background: white;
   --foreground: black;
+  --core-bg: white;
+  --base-bg: #e2e8f0;
+  --sidebar-bg: #1a1b27;
+  --secondary-bg: #2778c8;
+  --light-bg: #e3f2ff;
+  --light-secondary-bg: #e1f0fd;
+  --base-text: black;
+  --secondary-text: #275cab;
+
+  /* for dark theme */
+
+  --core-bg-dark: black;
+  --base-bg-dark: rgb(34, 34, 34);
+  --sidebar-bg-dark: #1a1b27;
+  --secondary-bg-dark: #2778c8;
+  --light-bg-dark: #202020;
+  --light-secondary-bg-dark: #e1f0fd;
+  --base-text-dark: white;
+  --secondary-text-dark: #275cab;
 }
 
 [data-theme="dark"] {
   --background: black;
   --foreground: white;
+  --core-bg: black;
+  --base-bg: rgb(34, 34, 34);
+  --sidebar-bg: #1a1b27;
+  --secondary-bg: #2778c8;
+  --light-secondary-bg: #e1f0fd;
+  --base-text: white;
+  --secondary-text: #275cab;
 }
 
 @layer base {

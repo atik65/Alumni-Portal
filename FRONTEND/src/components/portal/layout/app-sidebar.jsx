@@ -307,7 +307,11 @@ export function AppSidebar({ children }) {
 
   return (
     <>
-      <Sidebar side="left" collapsible="icon">
+      <Sidebar
+        className="bg-[--sidebar-bg] text-white"
+        side="left"
+        collapsible="icon"
+      >
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>

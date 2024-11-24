@@ -37,7 +37,7 @@ export function AppSidebarInset({ children }) {
 
   return (
     <SidebarInset className="overflow-x-hidden ">
-      <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 justify-between border-b">
+      <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 justify-between border-b  ">
         <div className="flex items-center gap-2 px-4 ">
           <Tooltip>
             <TooltipTrigger asChild>
@@ -86,8 +86,8 @@ export function AppSidebarInset({ children }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent
               className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-              align="start"
-              side="bottom"
+              align="end"
+              side="top"
               sideOffset={4}
             >
               <DropdownMenuLabel className="text-xs text-muted-foreground">
@@ -134,7 +134,9 @@ export function AppSidebarInset({ children }) {
         </div>
       </header>
 
-      <div className="p-5">{children}</div>
+      <div className="p-5 h-[93vh] overflow-y-scroll bg-[--base-bg]  dark:bg-[--light-bg-dark]">
+        {children}
+      </div>
     </SidebarInset>
   );
 }

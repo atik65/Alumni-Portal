@@ -33,6 +33,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.2.1",
+    "react-paginate": "^8.2.0",
     "react-phone-input-2": "^2.15.1",
     "swiper": "^11.1.4",
     "tailwind-merge": "^2.3.0",

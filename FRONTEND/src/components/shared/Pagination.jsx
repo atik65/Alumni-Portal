@@ -22,20 +22,17 @@ const Pagination = ({ itemsPerPage, setOffSet, count, offset }) => {
     <div>
       <ReactPaginate
         forcePage={offset / itemsPerPage}
-        // forcePage={pageCount}
         breakLabel="..."
         nextLabel=">"
         onPageChange={handlePageClick}
         pageRangeDisplayed={4}
         pageCount={pageCount}
-        // pageCount={50}
         previousLabel="<"
-        // renderOnZeroPageCount={null}
-        className="flex justify-center items-center   text-black w-full select-none"
-        pageLinkClassName="px-2 md:px-3 py-1 md:py-2 border border-black  cursor-pointer"
-        activeLinkClassName="bg-[#000000] text-white"
-        previousLinkClassName="px-2 md:px-3 py-1 md:py-2 border  border-black  cursor-pointer"
-        nextLinkClassName="px-2 md:px-3 py-1 md:py-2 border  border-black  cursor-pointer"
+        className="flex justify-center items-center text-black w-full select-none gap-2"
+        pageLinkClassName="w-10 h-10 rounded-full flex items-center justify-center border border-[#ecedee] bg-[#112240] text-white hover:bg-[#1e3a8a] transition-colors"
+        activeLinkClassName="w-10 h-10 rounded-full flex items-center justify-center border border-[#ecedee] bg-white text-[#1e3a8a] hover:bg-[#1e3a8a] hover:text-white transition-colors"
+        previousLinkClassName="w-10 h-10 rounded-full flex items-center justify-center border border-[#ecedee] bg-[#112240] text-white hover:bg-[#1e3a8a] transition-colors"
+        nextLinkClassName="w-10 h-10 rounded-full flex items-center justify-center border border-[#ecedee] bg-[#112240] text-white hover:bg-[#1e3a8a] transition-colors"
         disabledLinkClassName="opacity-50 cursor-not-allowed"
       />
     </div>
