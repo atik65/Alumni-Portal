@@ -1,10 +1,11 @@
 from rest_framework import viewsets, permissions, filters  # type: ignore
 
 from .serializers import serializers
-from cms.models import Blog
+from cms.models import Blog, Job
 
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet  # type: ignore
 from django_filters import CharFilter  # type: ignore
+from django_filters import NumberFilter
 
 
 class BlogFilter(FilterSet):
@@ -35,3 +36,38 @@ class BlogsViewSet(viewsets.ModelViewSet):
     filterset_class = BlogFilter  # Use the custom filter set
     ordering_fields = ["created_at", "updated_at", "title"]
     ordering = ["-created_at"]  # Default ordering
+
+
+class JobFilter(FilterSet):
+    min_salary = NumberFilter(field_name="salary", lookup_expr="gte")
+    max_salary = NumberFilter(field_name="salary", lookup_expr="lte")
+    min_experience = NumberFilter(field_name="experience", lookup_expr="gte")
+    max_experience = NumberFilter(field_name="experience", lookup_expr="lte")
+
+    class Meta:
+        model = Job
+        fields = {
+            "jobType": ["exact"],
+            "location": ["icontains"],
+            "company": ["icontains"],
+        }
+
+
+class JobViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for managing job postings.
+    """
+
+    queryset = Job.objects.all()
+    serializer_class = serializers.JobSerializer
+    permission_classes = [permissions.AllowAny]
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+
+    search_fields = ["job_title", "company", "description", "location"]
+    filterset_class = JobFilter  # Custom filter class for advanced filtering
+    ordering_fields = ["posted_date", "salary", "experience", "job_title"]
+    ordering = ["-posted_date"]  # Default ordering by posted date, descending
