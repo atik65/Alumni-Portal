@@ -140,11 +140,14 @@ const AlumniCard = ({ index }) => {
 
       {/* view profile */}
       <div className="mt-5">
-        <button className=" text-sm font-semibold bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] w-full rounded h-10 flex gap-2 items-center justify-center hover:bg-[--secondary-bg] dark:hover:bg-[--secondary-bg] hover:text-white duration-200">
+        <Link
+          href={"/portal/alumni-list/1"}
+          className=" text-sm font-semibold bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] w-full rounded h-10 flex gap-2 items-center justify-center hover:bg-[--secondary-bg] dark:hover:bg-[--secondary-bg] hover:text-white duration-200"
+        >
           <span className="">View Profile</span>
 
-          {/* /<Eye /> */}
-        </button>
+          <Eye size={19} />
+        </Link>
       </div>
     </motion.div>
   );
