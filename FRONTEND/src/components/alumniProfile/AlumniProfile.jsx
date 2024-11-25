@@ -179,7 +179,9 @@ const ProfileContent = () => {
 
   return (
     <div className="p-4">
-      <h2 className="font-semibold text-lg sm:text-xl">Alumni's Profile </h2>
+      <h2 className="font-semibold text-lg sm:text-xl">
+        Alumni&apos;s Profile{" "}
+      </h2>
       <p className="text-sm text-gray-600">
         This is all what we know about this Alumni
       </p>
@@ -187,7 +189,7 @@ const ProfileContent = () => {
       <div className="mt-5 ">
         {data?.map((info) => {
           return (
-            <div className="mb-12">
+            <div key={info.title} className="mb-12">
               <h3 className="font-semibold text-lg mb-3">{info.title}</h3>
 
               <div className="space-y-2">
