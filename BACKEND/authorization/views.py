@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 # from rest_framework.authentication import TokenAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
-from .serializer import UserInfoSerializer, LoginSerializer, UserInfoRegisterSerializer
+from .serializer import UserInfoSerializer, LoginSerializer,  UserRegisterSerializer,UserInfoRegisterSerializer, RoleSerializer
 from .models import UserInfo
 from cms.models import Role
 
@@ -18,7 +18,7 @@ from cms.models import Role
 class RegisterView(viewsets.GenericViewSet):
     
     qureyset = User.objects.all()
-    serializer_class = UserInfoSerializer
+    serializer_class = UserRegisterSerializer
 
     def create(self, request):
          
@@ -42,6 +42,8 @@ class RegisterView(viewsets.GenericViewSet):
                 email=serializer.validated_data['email'],
                 )
 
+
+
                 # set hashed password and save user
                 user.set_password(serializer.validated_data['password'])
                 user.save()
@@ -56,6 +58,7 @@ class RegisterView(viewsets.GenericViewSet):
                     first_name=serializer.validated_data['first_name'],
                     last_name=serializer.validated_data['last_name'],
                     email=serializer.validated_data['email'], 
+
                 )
                 
                 user_info.save()
@@ -64,14 +67,14 @@ class RegisterView(viewsets.GenericViewSet):
                 access = str(token.access_token)
                 refresh = str(token)
 
+                role_serializer = RoleSerializer(role)
+                user_info_serializer = UserInfoSerializer(user_info)
 
                 return Response({
                     "message": "User created successfully",
                     "data": {
-                       "email": serializer.validated_data['email'],
-                       "first_name": serializer.validated_data['first_name'],
-                       "last_name": serializer.validated_data['last_name'],
-                       "role": str(role),
+                       "user_info": user_info_serializer.data,
+                       "role": role_serializer.data,                        
                        "status": status.HTTP_201_CREATED,
 
                        "token": {
@@ -111,7 +114,7 @@ class LoginView(viewsets.GenericViewSet):
 
             # check password
             if not user.check_password(serializer.validated_data['password']):
-                return Response({"error": "Invalid password"}, status=400)
+                return Response({"error": "Email or Password wrong"}, status=400)
 
             # create token
             token = RefreshToken.for_user(user)
@@ -123,21 +126,21 @@ class LoginView(viewsets.GenericViewSet):
             if user_info is None:
                 user_info = UserInfo.objects.create(
                     user=user,
-                    first_name=user.name,
+                    first_name='',
                     last_name='',
                     email=user.email,
                     role= Role.objects.get(id=1)
                 )
 
-            user_info_serializer = UserInfoRegisterSerializer(user_info)
+            user_info_serializer = UserInfoSerializer(user_info)
+            role_serializer = RoleSerializer(user_info.role)
 
             return Response({
                 "message": "User logged in successfully",
+                "status": status.HTTP_200_OK,
                 "data": {
-                   "email": serializer.validated_data['email'],
-                   "status": status.HTTP_200_OK,
-
                    "user_info": user_info_serializer.data,
+                   "role": role_serializer.data,
 
                    "token": {
                        "access": access,

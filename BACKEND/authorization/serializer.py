@@ -4,12 +4,19 @@ from .models import UserInfo
 from cms.models import Role
 
 
-class UserInfoSerializer(serializers.Serializer):  
+class UserRegisterSerializer(serializers.Serializer):
     email = serializers.EmailField()
     first_name = serializers.CharField()
     last_name = serializers.CharField()
     password = serializers.CharField()
     confirm_password = serializers.CharField()
+
+
+
+class UserInfoSerializer(serializers.ModelSerializer):
+    class Meta:  
+        model = UserInfo
+        fields = "__all__"
 
 
 class UserInfoRegisterSerializer(serializers.Serializer):    
@@ -21,3 +28,8 @@ class UserInfoRegisterSerializer(serializers.Serializer):
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()
+
+class RoleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Role
+        fields = "__all__"
