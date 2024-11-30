@@ -14,17 +14,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path,include
 
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
-from rest_framework import permissions
+from django.contrib import admin
+from django.urls import path, include
+
+from drf_yasg.views import get_schema_view  # type: ignore
+from drf_yasg import openapi  # type: ignore
+from rest_framework import permissions  # type: ignore
 
 schema_view = get_schema_view(
     openapi.Info(
-        title= "Alumni Portal API Documentation",
-        default_version='v1',
+        title="Alumni Portal API Documentation",
+        default_version="v1",
         description="API documentation for Alumni Portal of University of Asia Pacific",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="atik.hasan.dev@gmail.com"),
@@ -35,19 +36,25 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/v1/', include([
-
-
-        path('', include('api.urls')),
-      
-
-    #   swagger url for api documentation -- without ui
-        path('swagger.json', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-
-    #   swagger url for api documentation -- with ui
-        path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-
-
-    ])),
+    path("admin/", admin.site.urls),
+    path(
+        "api/v1/",
+        include(
+            [
+                path("", include("api.urls")),
+                #   swagger url for api documentation -- without ui
+                path(
+                    "swagger.json",
+                    schema_view.without_ui(cache_timeout=0),
+                    name="schema-json",
+                ),
+                #   swagger url for api documentation -- with ui
+                path(
+                    "swagger/",
+                    schema_view.with_ui("swagger", cache_timeout=0),
+                    name="schema-swagger-ui",
+                ),
+            ]
+        ),
+    ),
 ]
