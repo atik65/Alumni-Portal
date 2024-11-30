@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 # from rest_framework.authentication import TokenAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
-from .serializer import UserInfoSerializer, LoginSerializer,  UserRegisterSerializer,UserInfoRegisterSerializer, RoleSerializer
+from .serializer import UserInfoSerializer, LoginSerializer,  UserRegisterSerializer, RoleSerializer
 from .models import UserInfo
 from cms.models import Role
 
@@ -40,6 +40,8 @@ class RegisterView(viewsets.GenericViewSet):
                 user = User.objects.create_user(
                 username=serializer.validated_data['email'],
                 email=serializer.validated_data['email'],
+                first_name=serializer.validated_data['first_name'],
+                last_name=serializer.validated_data['last_name'],
                 )
 
 
@@ -48,10 +50,20 @@ class RegisterView(viewsets.GenericViewSet):
                 user.set_password(serializer.validated_data['password'])
                 user.save()
 
-                # create user info
+               
                 
                 # setting student role by default
-                role = Role.objects.get(id=1)
+                role = Role.objects.filter(id=1).first()
+
+                if not role:
+                    user.delete()
+                    return Response({"error": "Role does not exist"}, status=400)
+
+               
+                if role is None:
+                    return Response({"error": "Role does not exist"}, status=400)
+                
+                # create user info
                 user_info = UserInfo.objects.create(
                     user=user,
                     role=role,
@@ -60,7 +72,7 @@ class RegisterView(viewsets.GenericViewSet):
                     email=serializer.validated_data['email'], 
 
                 )
-                
+            
                 user_info.save()
 
                 token = RefreshToken.for_user(user)

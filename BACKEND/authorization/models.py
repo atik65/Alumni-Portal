@@ -19,4 +19,4 @@ class UserInfo(models.Model):
     # achievements = models.TextField()
 
     def __str__(self):
-        return self.name
+        return self.first_name 

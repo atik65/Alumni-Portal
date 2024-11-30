@@ -6,6 +6,10 @@ from cms.models import Blog, Job
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet  # type: ignore
 from django_filters import CharFilter  # type: ignore
 from django_filters import NumberFilter  # type: ignore
+from rest_framework.response import Response
+from rest_framework.pagination import LimitOffsetPagination
+from rest_framework import status
+
 
 
 class BlogFilter(FilterSet):
@@ -26,6 +30,7 @@ class BlogsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.BlogSerializer
     permission_classes = [permissions.AllowAny]
     filter_backends = [
+        
         DjangoFilterBackend,
         filters.SearchFilter,
         filters.OrderingFilter,
@@ -36,6 +41,7 @@ class BlogsViewSet(viewsets.ModelViewSet):
     filterset_class = BlogFilter  # Use the custom filter set
     ordering_fields = ["created_at", "updated_at", "title"]
     ordering = ["-created_at"]  # Default ordering
+
 
 
 # class UserFilter(FilterSet):
@@ -81,14 +87,16 @@ class JobFilter(FilterSet):
         }
 
 
-class JobViewSet(viewsets.ModelViewSet):
+class JobViewSet(viewsets.GenericViewSet):
     """
     ViewSet for managing job postings.
     """
 
-    queryset = Job.objects.all()
+    queryset = Job.objects.all().order_by("-posted_date")
+    pagination_class = LimitOffsetPagination
     serializer_class = serializers.JobSerializer
     permission_classes = [permissions.AllowAny]
+    lookup_field = "id"
     filter_backends = [
         DjangoFilterBackend,
         filters.SearchFilter,
@@ -96,6 +104,85 @@ class JobViewSet(viewsets.ModelViewSet):
     ]
 
     search_fields = ["job_title", "company", "description", "location"]
-    filterset_class = JobFilter  # Custom filter class for advanced filtering
+    # filterset_class = JobFilter  
+    filterset_fields = {
+        "jobType": ["iexact"],
+        "location": ["iexact"],
+        "company": ["iexact"],
+
+    }
     ordering_fields = ["posted_date", "salary", "experience", "job_title"]
     ordering = ["-posted_date"]  # Default ordering by posted date, descending
+
+    def list(self, request):
+        """
+        List all job postings.
+        """
+        queryset = self.get_queryset()
+        filtered_queryset = self.filter_queryset(queryset)
+        paginated_queryset = self.paginate_queryset(filtered_queryset)
+
+        if paginated_queryset is not None:
+            serializer = self.get_serializer(paginated_queryset, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(filtered_queryset, many=True)
+        return Response({
+            "status": status.HTTP_200_OK,
+            "results": serializer.data
+        })
+
+    def retrieve(self, request, *args, **kwargs):
+        """
+        Retrieve a specific job posting.
+        """
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response({
+            "status": status.HTTP_200_OK,
+            "result": serializer.data
+        })
+
+    def create(self, request, *args, **kwargs):
+        """
+        Create a new job posting.
+        """
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        # headers = self.get_success_headers(serializer.data)
+        return Response({
+            "status": status.HTTP_201_CREATED,
+            "result": serializer.data
+        })
+    
+    def update(self, request, *args, **kwargs):
+        """
+        Update an existing job posting.
+        """
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({
+            "status": status.HTTP_200_OK,
+            "result": serializer.data
+        })
+
+    def destroy(self, request, *args, **kwargs):
+        """
+        Delete a job posting.
+        """
+        if request.user.is_authenticated:
+            instance = self.get_object()
+            instance.delete()
+            return Response({
+                "status": status.HTTP_200_OK,
+                "result": "Job deleted successfully"
+            })
+        else:
+            return Response({
+                "status": status.HTTP_401_UNAUTHORIZED,
+                "error": "You are not authorized to delete this job"
+            })
