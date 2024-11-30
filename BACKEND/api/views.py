@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions, filters  # type: ignore
 
 from .serializers import serializers
-from cms.models import Blog, Job, User
+from cms.models import Blog, Job
 
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet  # type: ignore
 from django_filters import CharFilter  # type: ignore
@@ -38,32 +38,32 @@ class BlogsViewSet(viewsets.ModelViewSet):
     ordering = ["-created_at"]  # Default ordering
 
 
-class UserFilter(FilterSet):
-    name = CharFilter(field_name="name", lookup_expr="icontains")
-    email = CharFilter(field_name="email", lookup_expr="icontains")
-    interests = CharFilter(field_name="interests", lookup_expr="icontains")
+# class UserFilter(FilterSet):
+#     name = CharFilter(field_name="name", lookup_expr="icontains")
+#     email = CharFilter(field_name="email", lookup_expr="icontains")
+#     interests = CharFilter(field_name="interests", lookup_expr="icontains")
 
-    class Meta:
-        model = User
-        fields = {
-            "degree",
-            "graduation_year",
-        }
+#     class Meta:
+#         model = User
+#         fields = {
+#             "degree",
+#             "graduation_year",
+#         }
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = serializers.UserSerializer
-    permission_classes = [permissions.AllowAny]
-    filter_backends = [
-        DjangoFilterBackend,
-        filters.SearchFilter,
-        filters.OrderingFilter,
-    ]
-    search_fields = ["name", "email", "interests", "achievements"]
-    filterset_class = UserFilter
-    ordering_fields = ["graduation_year", "name"]
-    ordering = ["-name"]
+# class UserViewSet(viewsets.ModelViewSet):
+#     queryset = User.objects.all()
+#     serializer_class = serializers.UserSerializer
+#     permission_classes = [permissions.AllowAny]
+#     filter_backends = [
+#         DjangoFilterBackend,
+#         filters.SearchFilter,
+#         filters.OrderingFilter,
+#     ]
+#     search_fields = ["name", "email", "interests", "achievements"]
+#     filterset_class = UserFilter
+#     ordering_fields = ["graduation_year", "name"]
+#     ordering = ["-name"]
 
 
 class JobFilter(FilterSet):

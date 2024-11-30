@@ -42,6 +42,7 @@ urlpatterns = [
         include(
             [
                 path("", include("api.urls")),
+                path("auth/", include("authorization.urls")),
                 #   swagger url for api documentation -- without ui
                 path(
                     "swagger.json",
