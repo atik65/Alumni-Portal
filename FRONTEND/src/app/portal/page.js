@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 const Page = () => {
-  // Dummy Data for Posts
   const [posts, setPosts] = useState([
     {
       id: 1,
@@ -28,12 +28,9 @@ const Page = () => {
       comments: [],
       shares: 1,
     },
-    // Add more dummy posts if needed
   ]);
-
   const [newPostContent, setNewPostContent] = useState("");
 
-  // Dummy Data for Events
   const allEvents = [
     { id: 1, title: "Hackathon 2024", description: "Join us for an exciting coding challenge!", time: "March 10th, 10:00 AM" },
     { id: 2, title: "Annual Tech Meetup", description: "Network with tech enthusiasts and professionals.", time: "April 25th, 5:00 PM" },
@@ -41,17 +38,16 @@ const Page = () => {
     { id: 4, title: "Startup Pitch Night", description: "Showcase your ideas to investors.", time: "June 5th, 6:00 PM" },
     { id: 5, title: "Web3 Summit", description: "Deep dive into blockchain and Web3 technologies.", time: "July 20th, 9:00 AM" },
   ];
-  const [displayedEvents, setDisplayedEvents] = useState(allEvents.slice(0, 3)); // Display only the first 3 events initially
+  const [displayedEvents, setDisplayedEvents] = useState(allEvents.slice(0, 3));
 
   const loadMoreEvents = () => {
-    setDisplayedEvents(allEvents.slice(0, displayedEvents.length + 3)); // Load 3 more events
+    setDisplayedEvents(allEvents.slice(0, displayedEvents.length + 3));
   };
 
   const loadLessEvents = () => {
-    setDisplayedEvents(allEvents.slice(0, 3)); // Reset to first 3
+    setDisplayedEvents(allEvents.slice(0, 3));
   };
 
-  // Add a new post
   const addPost = () => {
     if (newPostContent.trim() === "") return;
     const newPost = {
@@ -66,16 +62,12 @@ const Page = () => {
     setNewPostContent("");
   };
 
-  // Handle Likes
   const likePost = (postId) => {
     setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post.id === postId ? { ...post, likes: post.likes + 1 } : post
-      )
+      prevPosts.map((post) => (post.id === postId ? { ...post, likes: post.likes + 1 } : post))
     );
   };
 
-  // Add Comment
   const addComment = (postId, comment) => {
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
@@ -87,129 +79,105 @@ const Page = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center p-4">
-      <div className="w-full max-w-7xl grid grid-cols-3 gap-4">
-        {/* Posts Section: Takes Two-Thirds */}
-        <div className="col-span-2 space-y-4">
+    <div className="container mx-auto xl:space-y-0 grid grid-cols-12 gap-5">
+      {/* Left Side: Posts Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="col-span-12 xl:col-span-8 bg-[--core-bg] dark:bg-[--core-bg-dark] p-5 rounded-lg"
+      >
+        <div className="mb-5">
           {/* New Post Form */}
-          <div className="p-3 border border-gray-200 bg-white rounded-lg shadow-md">
-            <textarea
-              value={newPostContent}
-              onChange={(e) => setNewPostContent(e.target.value)}
-              placeholder="What's on your mind?"
-              className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
-            ></textarea>
-            <button
-              onClick={addPost}
-              className="mt-2 text-sm font-semibold hover:bg-[--light-bg] dark:hover:bg-[--light-bg-dark] hover:text-[--secondary-text] hover:dark:text-[--base-text-dark] w-full rounded h-10 flex gap-2 items-center justify-center bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white duration-200"
-            >
-              Post
-            </button>
+          <textarea
+            value={newPostContent}
+            onChange={(e) => setNewPostContent(e.target.value)}
+            placeholder="What's on your mind?"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 dark:bg-[--core-bg-dark] dark:text-white"
+          ></textarea>
+          <button
+            onClick={addPost}
+            className="mt-2 w-full bg-[--secondary-bg] dark:bg-[--secondary-bg-dark] text-white h-10 rounded-lg"
+          >
+            Post
+          </button>
+        </div>
+
+        {/* Posts */}
+        {posts.map((post) => (
+          <div
+            key={post.id}
+            className="p-4 mb-4 border border-gray-200 bg-[--core-bg] dark:bg-[--core-bg-dark] rounded-lg shadow-md"
+          >
+            <h3 className="font-semibold text-gray-700 dark:text-white">{post.author}</h3>
+            <p className="text-gray-600 dark:text-gray-300">{post.content}</p>
+
+            <div className="mt-3 flex space-x-4">
+              <button
+                onClick={() => likePost(post.id)}
+                className="flex items-center space-x-2 text-blue-500 dark:text-blue-300"
+              >
+                👍 <span>{post.likes}</span>
+              </button>
+              <button className="flex items-center space-x-2 text-blue-500 dark:text-blue-300">
+                🔄 <span>{post.shares}</span>
+              </button>
+            </div>
+
+            <div className="mt-4">
+              {post.comments.map((comment) => (
+                <p key={comment.id} className="text-gray-600 dark:text-gray-300">
+                  <span className="font-semibold">{comment.author}:</span> {comment.text}
+                </p>
+              ))}
+              <input
+                type="text"
+                placeholder="Add a comment"
+                className="w-full p-2 mt-2 border border-gray-300 rounded-lg dark:bg-[--core-bg-dark] dark:text-white"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && e.target.value.trim() !== "") {
+                    addComment(post.id, e.target.value);
+                    e.target.value = "";
+                  }
+                }}
+              />
+            </div>
           </div>
+        ))}
+      </motion.div>
 
-          {/* Posts */}
-          {posts.map((post) => (
-            <div key={post.id} className="p-3 border border-gray-200 bg-white rounded-lg shadow-md">
-              <h3 className="font-bold text-gray-700">{post.author}</h3>
-              <p className="mt-1 text-gray-600">{post.content}</p>
-
-              <div className="mt-2 flex items-center space-x-4 text-sm text-gray-500">
-                <button
-                  onClick={() => likePost(post.id)}
-                  className="flex items-center space-x-1 hover:text-blue-500"
-                >
-                  <span>👍</span>
-                  <span>{post.likes}</span>
-                </button>
-                <button className="flex items-center space-x-1 hover:text-blue-500">
-                  <span>🔄</span>
-                  <span>{post.shares}</span>
-                </button>
-              </div>
-
-              {/* Comments */}
-              <div className="mt-3">
-                <h4 className="font-bold text-gray-700">Comments</h4>
-                {post.comments.map((comment) => (
-                  <p key={comment.id} className="mt-1 text-gray-600">
-                    <span className="font-bold">{comment.author}:</span> {comment.text}
-                  </p>
-                ))}
-
-                {/* Add Comment */}
-                <div className="mt-2 flex flex-wrap items-center gap-2">
-                  <input
-                    type="text"
-                    placeholder="Write a comment..."
-                    className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && e.target.value.trim() !== "") {
-                        addComment(post.id, e.target.value);
-                        e.target.value = "";
-                      }
-                    }}
-                  />
-                  <div
-                    className="cursor-pointer text-white rounded-full h-10 w-10 flex items-center justify-center bg-[--secondary-bg] dark:bg-[--secondary-bg] hover:bg-[--light-bg] dark:hover:bg-[--light-bg-dark] duration-200"
-                    onClick={() => {
-                      const input = document.querySelector(`input[placeholder="Write a comment..."]`);
-                      if (input && input.value.trim() !== "") {
-                        addComment(post.id, input.value);
-                        input.value = "";
-                      }
-                    }}
-                  >
-                    {/* Replace this with any Send Icon from a library like Heroicons, Material Icons, etc. */}
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-                    </svg>
-
-                  </div>
-                </div>
-
-              </div>
+      {/* Right Side: Events Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.5 }}
+        className="col-span-12 xl:col-span-4 bg-[--core-bg] dark:bg-[--core-bg-dark] p-5 rounded-lg"
+      >
+        <h2 className="font-semibold text-lg mb-4 text-gray-800 dark:text-white">Upcoming Events</h2>
+        <div>
+          {displayedEvents.map((event) => (
+            <div key={event.id} className="p-4 mb-4 border border-gray-200 bg-[--core-bg] dark:bg-[--core-bg-dark] rounded-lg">
+              <h3 className="font-semibold text-gray-700 dark:text-white">{event.title}</h3>
+              <p className="text-gray-600 dark:text-gray-300">{event.description}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{event.time}</p>
             </div>
           ))}
         </div>
-
-        {/* Events Section: Takes One-Third */}
-        <div className="space-y-4">
-          <div className="bg-white rounded-lg shadow-md p-3">
-            <h2 className="text-lg font-semibold text-gray-800 mb-3">Upcoming Events</h2>
-
-            {/* Render the events */}
-            {displayedEvents.map((event) => (
-              <div key={event.id} className="border-b pb-3 mb-3">
-                <h3 className="text-gray-800 font-semibold">{event.title}</h3>
-                <p className="text-gray-600 text-sm">{event.description}</p>
-                <p className="text-gray-500 text-sm mt-1">{event.time}</p>
-              </div>
-            ))}
-
-            {/* Load More and Load Less Buttons */}
-            <div className="mt-3 flex space-x-2">
-              {displayedEvents.length < allEvents.length && (
-                <button
-                  onClick={loadMoreEvents}
-                  className="text-sm font-semibold hover:bg-[--light-bg] dark:hover:bg-[--light-bg-dark] hover:text-[--secondary-text] hover:dark:text-[--base-text-dark] w-full rounded h-10 flex gap-2 items-center justify-center bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white duration-200"
-                >
-                  Load More
-                </button>
-              )}
-
-              {displayedEvents.length > 3 && (
-                <button
-                  onClick={loadLessEvents}
-                  className="text-sm font-semibold hover:bg-[--light-bg] dark:hover:bg-[--light-bg-dark] hover:text-[--secondary-text] hover:dark:text-[--base-text-dark] w-full rounded h-10 flex gap-2 items-center justify-center bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white duration-200"
-                >
-                  Load Less
-                </button>
-              )}
-            </div>
-          </div>
+        <div className="mt-4 flex justify-between">
+          <button
+            onClick={loadMoreEvents}
+            className="text-blue-500 dark:text-blue-300"
+          >
+            Load More
+          </button>
+          <button
+            onClick={loadLessEvents}
+            className="text-blue-500 dark:text-blue-300"
+          >
+            Load Less
+          </button>
         </div>
-
-      </div>
+      </motion.div>
     </div>
   );
 };

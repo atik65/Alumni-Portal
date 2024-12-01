@@ -18,21 +18,38 @@ import { enqueueSnackbar } from "notistack";
 import ProcessingPing from "../shared/ProcessingPing";
 import { OtpTaker } from "../shared/OtpTaker";
 import axiosRequest from "@/lib/axiosRequest";
+import Image from "next/image";
 
 const Signup = () => {
   return (
     <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 py-10">
-      <div className="order-2 lg:order-1">
+      <div className="order-2 lg:order-1 lg:mt-20">
+      <UniversityLogo
+          src="/assets/logo.png" // Replace with the actual path to your logo
+          altText="UAP Logo"
+          className="mb-9"
+        /> 
+
         <LoginSignUpIntro />
       </div>
 
       {/* signUp form */}
-      <div className="order-1 lg:order-2">
+      <div className="order-1 lg:order-2 lg:mt-20">
         <SignUpForm />
       </div>
     </div>
   );
 };
+
+export const UniversityLogo = ({ src, altText = "University Logo", className = "" }) => {
+  return (
+    <div className={`flex items-center  justify-start pl-11 ${className}`}>
+      <Image src={src} alt={altText} width={360} height={120} className="rounded" />
+    </div>
+  );
+};
+
+
 
 export default Signup;
 
