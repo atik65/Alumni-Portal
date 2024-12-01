@@ -65,6 +65,8 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
+import { enqueueSnackbar } from "notistack";
 
 // This is sample data.
 const data = {
@@ -305,6 +307,10 @@ const sidebarData = [
 export function AppSidebar({ children }) {
   const [activeTeam, setActiveTeam] = React.useState(data.teams[0]);
 
+  const { data: session } = useSession();
+
+  console.log("session = ", session);
+
   return (
     <>
       <Sidebar
@@ -482,10 +488,12 @@ export function AppSidebar({ children }) {
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">
-                        {data.user.name}
+                        {session?.user?.user_info?.first_name +
+                          " " +
+                          session?.user?.user_info?.last_name}
                       </span>
                       <span className="truncate text-xs">
-                        {data.user.email}
+                        {session?.user?.user_info?.email}
                       </span>
                     </div>
                     <ChevronsUpDown className="ml-auto size-4" />
@@ -504,10 +512,12 @@ export function AppSidebar({ children }) {
                       </Avatar>
                       <div className="grid flex-1 text-left text-sm leading-tight">
                         <span className="truncate font-semibold">
-                          {data.user.name}
+                          {session?.user?.user_info?.first_name +
+                            " " +
+                            session?.user?.user_info?.last_name}
                         </span>
                         <span className="truncate text-xs">
-                          {data.user.email}
+                          {session?.user?.user_info?.email}
                         </span>
                       </div>
                     </div>
@@ -516,26 +526,37 @@ export function AppSidebar({ children }) {
                   <DropdownMenuGroup>
                     <DropdownMenuItem>
                       <Sparkles />
-                      Upgrade to Pro
+                      {session?.user?.role?.role_name}
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                      <BadgeCheck />
-                      Account
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <Link className="cursor-pointer" href={"/portal/profile"}>
+                      <DropdownMenuItem>
+                        <BadgeCheck />
+                        Account
+                      </DropdownMenuItem>
+                    </Link>
+                    {/* <DropdownMenuItem>
                       <CreditCard />
                       Billing
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    </DropdownMenuItem> */}
+                    <DropdownMenuItem
+                      onClick={() => {
+                        enqueueSnackbar("Feature coming soon", {
+                          variant: "default",
+                        });
+                      }}
+                    >
                       <Bell />
                       Notifications
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={() => signOut()}
+                  >
                     <LogOut />
                     Log out
                   </DropdownMenuItem>

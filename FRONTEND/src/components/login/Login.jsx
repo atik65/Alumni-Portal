@@ -207,15 +207,12 @@ const LoginForm = () => {
       </form>
 
       {/* login with google */}
-      <div>
+      {/* <div>
         <Button
           onClick={() => {
             const res = signIn("google", {
               callbackUrl: "/portal",
             });
-            // const res = signIn("google", {
-            //   callbackUrl: "/profile",
-            // });
             console.log("res from google login = ", res);
           }}
           className="mt-3 w-full"
@@ -223,10 +220,10 @@ const LoginForm = () => {
           <span className="mr-2 font-medium">Continue with Google</span>{" "}
           <FcGoogle />
         </Button>
-      </div>
+      </div> */}
 
       {/* Forgot Password */}
-      <div>
+      {/* <div>
         <p className="text-sm mt-5">
           Forgot Password?{" "}
           <Link
@@ -236,7 +233,7 @@ const LoginForm = () => {
             Click Here
           </Link>
         </p>
-      </div>
+      </div> */}
 
       {/* don't have an account?  */}
       <div>
