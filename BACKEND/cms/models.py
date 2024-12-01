@@ -2,7 +2,6 @@ from django.db import models
 from django.utils import timezone
 
 
-
 # Create your models here.
 class Blog(models.Model):
     title = models.CharField(max_length=100)
@@ -13,9 +12,6 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.title
-
-
-
 
 
 # class User(models.Model):
@@ -29,7 +25,7 @@ class Blog(models.Model):
 #     achievements = models.TextField()
 
 #     def __str__(self):
-#         return self.name  
+#         return self.name
 
 
 class Job(models.Model):
@@ -68,7 +64,7 @@ class Job(models.Model):
 #     twitter_handle = models.CharField(max_length=100, blank=True)
 
 #     def __str__(self):
-#         return self.user.name  
+#         return self.user.name
 
 
 # class Contact(models.Model):
@@ -85,7 +81,7 @@ class Job(models.Model):
 #     email = models.EmailField()
 
 #     def __str__(self):
-#         return self.contact_name  
+#         return self.contact_name
 
 
 # class Message(models.Model):
@@ -100,7 +96,7 @@ class Job(models.Model):
 #     status = models.CharField(max_length=50)
 
 #     def __str__(self):
-#         return self.content[:50] 
+#         return self.content[:50]
 
 # class Donation(models.Model):
 #     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="donations")
@@ -109,7 +105,7 @@ class Job(models.Model):
 #     cause = models.TextField()
 
 #     def __str__(self):
-#         return f"{self.user.name} - {self.amount}" 
+#         return f"{self.user.name} - {self.amount}"
 
 
 class Role(models.Model):
@@ -117,7 +113,8 @@ class Role(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return self.role_name  
+        return self.role_name
+
 
 # class Mentorship(models.Model):
 #     mentor = models.ForeignKey(
@@ -143,7 +140,8 @@ class Role(models.Model):
 #     status = models.CharField(max_length=50)
 
 #     def __str__(self):
-#         return f"{self.user1.name} - {self.user2.name}"  
+#         return f"{self.user1.name} - {self.user2.name}"
+
 
 class NewsFeed(models.Model):
     title = models.CharField(max_length=255)
@@ -152,7 +150,7 @@ class NewsFeed(models.Model):
     type = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.title  
+        return self.title
 
 
 class Event(models.Model):
@@ -163,7 +161,4 @@ class Event(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return self.event_name  
-
-
-
+        return self.event_name
