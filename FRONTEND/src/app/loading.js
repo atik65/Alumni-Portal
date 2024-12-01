@@ -7,6 +7,7 @@ const loading = () => {
   return (
     <div>
       <LoadingPage />
+      
     </div>
   );
 };

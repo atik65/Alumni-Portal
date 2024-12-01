@@ -101,7 +101,7 @@ const Page = () => {
             ></textarea>
             <button
               onClick={addPost}
-              className="mt-2 w-full py-1 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600"
+              className="mt-2 text-sm font-semibold hover:bg-[--light-bg] dark:hover:bg-[--light-bg-dark] hover:text-[--secondary-text] hover:dark:text-[--base-text-dark] w-full rounded h-10 flex gap-2 items-center justify-center bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white duration-200"
             >
               Post
             </button>
@@ -149,10 +149,24 @@ const Page = () => {
                       }
                     }}
                   />
-                  <button className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-                    Send
-                  </button>
+                  <div
+                    className="cursor-pointer text-white rounded-full h-10 w-10 flex items-center justify-center bg-[--secondary-bg] dark:bg-[--secondary-bg] hover:bg-[--light-bg] dark:hover:bg-[--light-bg-dark] duration-200"
+                    onClick={() => {
+                      const input = document.querySelector(`input[placeholder="Write a comment..."]`);
+                      if (input && input.value.trim() !== "") {
+                        addComment(post.id, input.value);
+                        input.value = "";
+                      }
+                    }}
+                  >
+                    {/* Replace this with any Send Icon from a library like Heroicons, Material Icons, etc. */}
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                    </svg>
+
+                  </div>
                 </div>
+
               </div>
             </div>
           ))}
@@ -177,7 +191,7 @@ const Page = () => {
               {displayedEvents.length < allEvents.length && (
                 <button
                   onClick={loadMoreEvents}
-                  className="flex-1 py-1 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600"
+                  className="text-sm font-semibold hover:bg-[--light-bg] dark:hover:bg-[--light-bg-dark] hover:text-[--secondary-text] hover:dark:text-[--base-text-dark] w-full rounded h-10 flex gap-2 items-center justify-center bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white duration-200"
                 >
                   Load More
                 </button>
@@ -186,7 +200,7 @@ const Page = () => {
               {displayedEvents.length > 3 && (
                 <button
                   onClick={loadLessEvents}
-                  className="flex-1 py-1 bg-red-500 text-white rounded-lg shadow hover:bg-red-600"
+                  className="text-sm font-semibold hover:bg-[--light-bg] dark:hover:bg-[--light-bg-dark] hover:text-[--secondary-text] hover:dark:text-[--base-text-dark] w-full rounded h-10 flex gap-2 items-center justify-center bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white duration-200"
                 >
                   Load Less
                 </button>
