@@ -90,16 +90,17 @@ const SignUpForm = () => {
         last_name: values.lastName,
         email: values.email,
         password: values.password,
-        profile: {
-          phone_number: values.phone,
-        },
+        confirm_password: values.confirmPassword,
+        // profile: {
+        //   phone_number: values.phone,
+        // },
         // otp: values.otp,
       };
 
       try {
-        await mutateAsync(payload);
+        const res = await mutateAsync(payload);
 
-        enqueueSnackbar("Account created successfully", {
+        enqueueSnackbar(res?.message || "Account created successfully", {
           variant: "default",
         });
         resetForm();
@@ -279,7 +280,7 @@ const SignUpForm = () => {
         />
 
         {/* phone number */}
-        <div className="mt-5 relative ">
+        {/* <div className="mt-5 relative ">
           <PhoneInputField
             onChange={(phone, country, e, formattedValue) => {
               setFieldValue("phone", phone);
@@ -292,11 +293,11 @@ const SignUpForm = () => {
             value={values.phone}
             touched={touched?.phone}
             error={errors?.phone}
-          />
+          /> */}
 
-          {/* send otp button */}
-          {/* 
-          {values?.phone?.length >= 13 && (
+        {/* send otp button */}
+
+        {/* {values?.phone?.length >= 13 && (
             <button
               disabled={errors?.phone}
               onClick={() =>
@@ -312,8 +313,8 @@ const SignUpForm = () => {
               </span>
               <span>Send OTP</span>
             </button>
-          )} */}
-        </div>
+          )}
+        </div> */}
 
         {/* otp taker */}
 

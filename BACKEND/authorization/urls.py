@@ -5,7 +5,7 @@ from .views import RegisterView, LoginView
 
 router = routers.DefaultRouter()
 
-router.register(r"reg", RegisterView, "register")
+router.register(r"signup", RegisterView, "register")
 router.register(r"login", LoginView, "login")
 
 # router.register(r"blogs", BlogsViewSet, "blogs")

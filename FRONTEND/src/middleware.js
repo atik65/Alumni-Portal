@@ -2,7 +2,8 @@ export { default } from "next-auth/middleware";
 
 export const config = {
   matcher: [
-    // "/portal/:path*",
+    "/portal/:path*",
+    "/profile",
     "/dashboard/:path*",
     // "/settings/:path*",
     // "/account/:path*",

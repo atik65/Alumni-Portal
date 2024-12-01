@@ -53,20 +53,19 @@ export const authOptions = {
 
         try {
           const res = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}/login/`,
+            `${process.env.NEXT_PUBLIC_API_URL}/auth/login/`,
             {
-              phone_or_email: email,
+              email: email,
               password: password,
+              confirm_password: password,
             }
           );
           // console.log("res from auth handler :>> ", res.data);
 
           const user = res.data;
 
-          // console.log("user :>> ", user);
-
           if (user) {
-            return user;
+            return user?.data;
           }
 
           // return null;
@@ -148,6 +147,7 @@ export const authOptions = {
       // Add accessToken and provider info to the session
       session.user = token.user || session.user; // Ensure user data is available
       session.accessToken = token.accessToken;
+      session.refreshToken = token.refreshToken;
       session.provider = token.provider || "credentials"; // Default to credentials
       return session;
     },

@@ -115,7 +115,7 @@ const LoginForm = () => {
           password: values.password,
           redirect: false,
           // callbackUrl: `${window.location.origin}/dashboard`,
-          callbackUrl: `/profile`,
+          callbackUrl: `/`,
         });
         // console.log("res = ", res);
         // return;
@@ -130,7 +130,7 @@ const LoginForm = () => {
             variant: "default",
           });
 
-          router.push("/profile");
+          router.push("/");
         }
       } catch (error) {
         // console.log("error = ", error);
@@ -145,7 +145,7 @@ const LoginForm = () => {
 
   const { data: session } = useSession();
 
-  console.log("session = ", session);
+  // console.log("session = ", session);
 
   return (
     <div>
