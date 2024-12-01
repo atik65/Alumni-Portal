@@ -6,9 +6,9 @@ from cms.models import Blog, Job, Event, NewsFeed
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet  # type: ignore
 from django_filters import CharFilter  # type: ignore
 from django_filters import NumberFilter  # type: ignore
-from rest_framework.response import Response
-from rest_framework.pagination import LimitOffsetPagination
-from rest_framework import status
+from rest_framework.response import Response  # type: ignore
+from rest_framework.pagination import LimitOffsetPagination  # type: ignore
+from rest_framework import status  # type: ignore
 
 
 class BlogFilter(FilterSet):
