@@ -150,7 +150,7 @@ class JobViewSet(viewsets.GenericViewSet):
             return Response(
                 {
                     "status": status.HTTP_401_UNAUTHORIZED,
-                    "error": "You are not authorized to delete this job",
+                    "error": "You are not authorized to Create this job",
                 }
             )
 
@@ -168,7 +168,7 @@ class JobViewSet(viewsets.GenericViewSet):
             return Response(
                 {
                     "status": status.HTTP_401_UNAUTHORIZED,
-                    "error": "You are not authorized to delete this job",
+                    "error": "You are not authorized to Update this job",
                 }
             )
 
@@ -256,7 +256,7 @@ class EventViewSet(viewsets.GenericViewSet):
             return Response(
                 {
                     "status": status.HTTP_401_UNAUTHORIZED,
-                    "error": "You are not authorized to delete this Event",
+                    "error": "You are not authorized to Create this Event",
                 }
             )
 
@@ -277,7 +277,7 @@ class EventViewSet(viewsets.GenericViewSet):
             return Response(
                 {
                     "status": status.HTTP_401_UNAUTHORIZED,
-                    "error": "You are not authorized to delete this Event",
+                    "error": "You are not authorized to Update this Event",
                 }
             )
 
@@ -366,7 +366,7 @@ class NewsFeedViewSet(viewsets.GenericViewSet):
             return Response(
                 {
                     "status": status.HTTP_401_UNAUTHORIZED,
-                    "error": "You are not authorized to delete this NewsFeed",
+                    "error": "You are not authorized to Create this NewsFeed",
                 }
             )
 
@@ -387,7 +387,7 @@ class NewsFeedViewSet(viewsets.GenericViewSet):
             return Response(
                 {
                     "status": status.HTTP_401_UNAUTHORIZED,
-                    "error": "You are not authorized to delete this NewsFeed",
+                    "error": "You are not authorized to Update this NewsFeed",
                 }
             )
 
