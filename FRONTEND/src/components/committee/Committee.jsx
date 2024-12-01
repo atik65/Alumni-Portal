@@ -1,15 +1,10 @@
 "use client";
+
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Eye, Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import userAvatar from "../../../public/assets/user.jpg";
 import Image from "next/image";
 import { EllipsisVertical } from "lucide-react";
@@ -19,25 +14,34 @@ import { Plus } from "lucide-react";
 // Parent Component to render multiple cards
 const CommitteeCards = () => {
   const members = [
-    { id: 1, name: "John Doe", role: "Event Coordinator" },
-    { id: 2, name: "Jane Smith", role: "Marketing Head" },
+    { id: 1, name: "John Doe", role: "President" },
+    { id: 2, name: "Jane Smith", role: "General Secretary" },
     { id: 3, name: "Sam Wilson", role: "Finance Manager" },
     { id: 4, name: "Anna Brown", role: "Technical Lead" },
     { id: 5, name: "David Lee", role: "Project Manager" },
-    { id: 6, name: "John Doe", role: "Event Coordinator" },
-    { id: 7, name: "Jane Smith", role: "Marketing Head" },
-    { id: 8, name: "Sam Wilson", role: "Finance Manager" },
+    { id: 6, name: "Michael Johnson", role: "Event Coordinator" },
   ];
 
+  // Split members into groups
+  const leaders = members.slice(0, 2); // First two cards
+  const committeeMembers = members.slice(2); // Remaining members
+
   return (
-    <div class ="container mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-8">
-      {members.map((member, index) => (
-        <CommitteeCard key={member.id} index={index} member={member} />
-      ))}
+    <div className="container mx-auto p-8">
+      {/* Leaders Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        {leaders.map((leader, index) => (
+          <CommitteeCard key={leader.id} index={index} member={leader} />
+        ))}
+      </div>
+
+      {/* Committee Members Section */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {committeeMembers.map((member, index) => (
+          <CommitteeCard key={member.id} index={index + 2} member={member} />
+        ))}
+      </div>
     </div>
-    </div>
-    
   );
 };
 
@@ -60,7 +64,9 @@ const CommitteeCard = ({ index, member }) => {
         </div>
         <div className="w-full">
           <h2 className="font-semibold">{member.name}</h2>
-          <h3 className="font-semibold text-sm text-[--secondary-text]">Committee Member</h3>
+          <h3 className="font-semibold text-sm text-[--secondary-text]">
+            {index < 2 ? "Leader" : "Committee Member"}
+          </h3>
           <p className="text-sm opacity-70 italic">{member.role}</p>
         </div>
         <div className="w-3">
@@ -116,7 +122,9 @@ const UserOptions = () => {
         side="bottom"
         sideOffset={4}
       >
-        <DropdownMenuLabel className="text-xs text-muted-foreground">Options</DropdownMenuLabel>
+        <DropdownMenuLabel className="text-xs text-muted-foreground">
+          Options
+        </DropdownMenuLabel>
         <DropdownMenuItem>
           <Sparkles /> Message
         </DropdownMenuItem>
