@@ -25,7 +25,7 @@ export const useRegister = () => {
     mutationKey: "signup",
     mutationFn: async (body) =>
       await axiosRequest({
-        url: `/signup/`,
+        url: `/auth/signup/`,
         method: "POST",
         data: body,
       }),

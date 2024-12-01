@@ -34,7 +34,7 @@ class RegisterView(viewsets.GenericViewSet):
 
                 if user:
                     # user already exists
-                    return Response({"error": "User already exists"}, status=400)
+                    return Response({"message": "User already exists"}, status=400)
 
                 # create user
                 user = User.objects.create_user(
@@ -57,11 +57,11 @@ class RegisterView(viewsets.GenericViewSet):
 
                 if not role:
                     user.delete()
-                    return Response({"error": "Role does not exist"}, status=400)
+                    return Response({"message": "Role does not exist"}, status=400)
 
                
                 if role is None:
-                    return Response({"error": "Role does not exist"}, status=400)
+                    return Response({"message": "Role does not exist"}, status=400)
                 
                 # create user info
                 user_info = UserInfo.objects.create(
@@ -89,10 +89,10 @@ class RegisterView(viewsets.GenericViewSet):
                        "role": role_serializer.data,                        
                        "status": status.HTTP_201_CREATED,
 
-                       "token": {
-                           "access": access,
-                           "refresh": refresh
-                       },
+                    
+                        "access": access,
+                         "refresh": refresh
+                       
                    }
                     
                 }, status=status.HTTP_201_CREATED)
@@ -100,7 +100,7 @@ class RegisterView(viewsets.GenericViewSet):
             except Exception as e:
                 # return Response({"error": str(e)}, status=400)
                 return Response({
-                    "error": str(e),
+                    "message": str(e),
                     "status": status.HTTP_400_BAD_REQUEST
                 })
                 
@@ -154,10 +154,10 @@ class LoginView(viewsets.GenericViewSet):
                    "user_info": user_info_serializer.data,
                    "role": role_serializer.data,
 
-                   "token": {
-                       "access": access,
-                       "refresh": refresh
-                   },
+                   
+                   "access": access,
+                    "refresh": refresh
+                   
                }
                 
             }, status=status.HTTP_200_OK)
