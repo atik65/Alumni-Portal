@@ -14,16 +14,22 @@ import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import { enqueueSnackbar } from "notistack";
 import { FcGoogle } from "react-icons/fc";
+import Image from "next/image";
 
 const Login = () => {
   return (
     <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 py-20  ">
       <div className="order-2 lg:order-1">
+        <UniversityLogo
+          src="/assets/logo.png" // Replace with the actual path to your logo
+          altText="UAP Logo"
+          className="mb-9"
+        />
         <LoginSignUpIntro />
       </div>
 
       {/* login form */}
-      <div className="order-1 lg:order-2">
+      <div className="order-1 lg:order-2 lg:mt-40">
         <LoginForm />
       </div>
     </div>
@@ -31,6 +37,14 @@ const Login = () => {
 };
 
 export default Login;
+
+export const UniversityLogo = ({ src, altText = "University Logo", className = "" }) => {
+  return (
+    <div className={`flex items-center  justify-start pl-11 ${className}`}>
+      <Image src={src} alt={altText} width={360} height={120} className="rounded" />
+    </div>
+  );
+};
 
 export const LoginSignUpIntro = () => {
   return (
