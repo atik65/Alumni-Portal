@@ -137,22 +137,40 @@ class JobViewSet(viewsets.GenericViewSet):
         """
         Create a new job posting.
         """
+        if request.user.is_authenticated:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            # headers = self.get_success_headers(serializer.data)
+            return Response(
+                {"status": status.HTTP_201_CREATED, "result": serializer.data}
+            )
 
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        # headers = self.get_success_headers(serializer.data)
-        return Response({"status": status.HTTP_201_CREATED, "result": serializer.data})
+        else:
+            return Response(
+                {
+                    "status": status.HTTP_401_UNAUTHORIZED,
+                    "error": "You are not authorized to delete this job",
+                }
+            )
 
     def update(self, request, *args, **kwargs):
         """
         Update an existing job posting.
         """
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({"status": status.HTTP_200_OK, "result": serializer.data})
+        if request.user.is_authenticated:
+            instance = self.get_object()
+            serializer = self.get_serializer(instance, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response({"status": status.HTTP_200_OK, "result": serializer.data})
+        else:
+            return Response(
+                {
+                    "status": status.HTTP_401_UNAUTHORIZED,
+                    "error": "You are not authorized to delete this job",
+                }
+            )
 
     def destroy(self, request, *args, **kwargs):
         """
@@ -227,21 +245,41 @@ class EventViewSet(viewsets.GenericViewSet):
         """
         Create a new event.
         """
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({"status": status.HTTP_201_CREATED, "result": serializer.data})
+        if request.user.is_authenticated:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(
+                {"status": status.HTTP_201_CREATED, "result": serializer.data}
+            )
+        else:
+            return Response(
+                {
+                    "status": status.HTTP_401_UNAUTHORIZED,
+                    "error": "You are not authorized to delete this Event",
+                }
+            )
 
     def update(self, request, *args, **kwargs):
         """
         Update an existing event.
         """
-        partial = kwargs.pop("partial", False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({"status": status.HTTP_200_OK, "result": serializer.data})
+        if request.user.is_authenticated:
+            partial = kwargs.pop("partial", False)
+            instance = self.get_object()
+            serializer = self.get_serializer(
+                instance, data=request.data, partial=partial
+            )
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response({"status": status.HTTP_200_OK, "result": serializer.data})
+        else:
+            return Response(
+                {
+                    "status": status.HTTP_401_UNAUTHORIZED,
+                    "error": "You are not authorized to delete this Event",
+                }
+            )
 
     def destroy(self, request, *args, **kwargs):
         """
@@ -317,21 +355,41 @@ class NewsFeedViewSet(viewsets.GenericViewSet):
         """
         Create a new NewsFeed.
         """
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({"status": status.HTTP_201_CREATED, "result": serializer.data})
+        if request.user.is_authenticated:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(
+                {"status": status.HTTP_201_CREATED, "result": serializer.data}
+            )
+        else:
+            return Response(
+                {
+                    "status": status.HTTP_401_UNAUTHORIZED,
+                    "error": "You are not authorized to delete this NewsFeed",
+                }
+            )
 
     def update(self, request, *args, **kwargs):
         """
         Update an existing NewsFeed.
         """
-        partial = kwargs.pop("partial", False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({"status": status.HTTP_200_OK, "result": serializer.data})
+        if request.user.is_authenticated:
+            partial = kwargs.pop("partial", False)
+            instance = self.get_object()
+            serializer = self.get_serializer(
+                instance, data=request.data, partial=partial
+            )
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response({"status": status.HTTP_200_OK, "result": serializer.data})
+        else:
+            return Response(
+                {
+                    "status": status.HTTP_401_UNAUTHORIZED,
+                    "error": "You are not authorized to delete this NewsFeed",
+                }
+            )
 
     def destroy(self, request, *args, **kwargs):
         """
