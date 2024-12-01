@@ -15,19 +15,19 @@ const AboutAlumni = () => {
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-2">About the Alumni Network</h1>
         <p className="text-lg opacity-70 mb-4">Connecting past and future generations of UAP alumni to build a stronger network.</p>
-        <Link
+        {/* <Link
           href="/portal/alumni-list"
           className="text-sm font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg-dark] text-white w-full rounded h-10 flex gap-2 items-center justify-center hover:bg-[--secondary-bg-dark] dark:hover:bg-[--secondary-bg] hover:text-white duration-200"
         >
           Explore Alumni Profiles
-        </Link>
+        </Link> */}
       </div>
 
       {/* Alumni Overview */}
       <div className="grid gap-10 md:grid-cols-2 mb-8">
         <div>
           <h2 className="text-2xl font-semibold mb-4">Our Alumni</h2>
-          <p className="text-sm opacity-80">
+          <p className="text-md opacity-80">
             The University of Asia Pacific alumni network consists of thousands of passionate professionals
             who contribute significantly to industries globally. From software developers to business leaders,
             our alumni community is diverse and strong, continuously giving back to the university and society.

@@ -129,7 +129,7 @@ const Contact = () => {
 // Social Media Button Component
 const SocialMediaButton = ({ icon, link }) => (
       <button
-            className="h-10 w-10 grid place-items-center rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
+            className="h-10 w-10 grid place-items-center rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
             target="_blank"
             rel="noopener noreferrer"
       >
