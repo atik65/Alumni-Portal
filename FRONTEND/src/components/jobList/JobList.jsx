@@ -107,7 +107,7 @@ const JobPortal = () => {
       {/* Job Form */}
       <form
         onSubmit={handleSubmit}
-        className="p-5 border rounded-md shadow-md mb-10 bg-[--core-bg]"
+        className="p-5 border rounded-md shadow-md mb-10 dark:shadow-gray-900 bg-[--core-bg] text-[--base-text] dark:bg-black dark:text-white"
       >
         <h2 className="text-xl font-semibold mb-4">
           {isEditing ? "Edit Job" : "Add New Job"}
@@ -181,21 +181,21 @@ const JobPortal = () => {
         ></textarea>
         <button
           type="submit"
-          className="text-sm font-semibold bg-[--secondary-bg] dark:bg-[--light-bg-dark] text-white dark:text-[--base-text-dark] w-1/5 rounded h-10 flex gap-2 items-center justify-center"
+          className="mt-3 text-sm font-semibold bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] w-1/5 rounded h-10 flex items-center justify-center hover:bg-[--secondary-bg] dark:hover:bg-[--secondary-bg] hover:text-white duration-200"
         >
           {isEditing ? "Update Job" : "Add Job"}
         </button>
       </form>
 
       {/* Job Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] text-b">
         {jobs.map((job, index) => (
           <motion.div
             key={job.id}
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="w-full rounded-md shadow-lg bg-[--core-bg] p-5"
+            className="w-full rounded-md shadow-lg dark:shadow-gray-900 bg-[--core-bg] text-[--base-text] dark:bg-black dark:text-white p-5"
           >
             <div className="flex items-center gap-4">
               <Image
@@ -215,28 +215,27 @@ const JobPortal = () => {
             <div className="flex gap-2 mt-4">
               <button
                 onClick={() => handleEdit(job)}
-                className="text-sm font-semibold bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] w-1/3 rounded h-10 flex gap-2 items-center justify-center hover:bg-[--secondary-bg] hover:text-white duration-200"
+                className="mt-3 text-sm font-semibold bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] w-1/3 rounded h-10 flex items-center justify-center hover:bg-[--secondary-bg] dark:hover:bg-[--secondary-bg] hover:text-white duration-200"
               >
                 <Edit size={16} className="mr-2" /> Edit
               </button>
               <button
                 onClick={() => handleDelete(job.id)}
-                className="text-sm font-semibold bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] w-1/3 rounded h-10 flex gap-2 items-center justify-center hover:bg-red-600 hover:text-white duration-200"
+                className="mt-3 text-sm font-semibold bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] w-1/3 rounded h-10 flex items-center justify-center dark:hover:bg-red-600 hover:bg-red-600 hover:text-white duration-200"
+
               >
                 <Trash size={16} className="mr-2" /> Delete
               </button>
               <button
                 onClick={() => setViewingJob(job)}
-                className="text-sm font-semibold bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] w-1/3 rounded h-10 flex gap-2 items-center justify-center hover:bg-[--secondary-bg] hover:text-white duration-200"
+                className="mt-3 text-sm font-semibold bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] w-1/3 rounded h-10 flex items-center justify-center hover:bg-[--secondary-bg] dark:hover:bg-[--secondary-bg] hover:text-white duration-200"
               >
                 <Eye size={16} className="mr-2" /> View Details
               </button>
             </div>
           </motion.div>
         ))}
-      </div>
-
-
+      </div>     
       {/* Modal for Viewing Job Details */}
       {viewingJob && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
@@ -256,7 +255,7 @@ const JobPortal = () => {
             <p className="mt-4">{viewingJob.description}</p>
             <button
               onClick={() => setViewingJob(null)}
-              className="text-sm font-semibold bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] w-1/3 rounded h-10 flex gap-2 items-center justify-center hover:bg-[--secondary-bg] hover:text-white duration-200"
+              className="mt-3 text-sm font-semibold bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] w-1/3 rounded h-10 flex items-center justify-center hover:bg-[--secondary-bg] dark:hover:bg-[--secondary-bg] hover:text-white duration-200"
             >
               Close
             </button>
