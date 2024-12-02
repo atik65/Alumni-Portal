@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
@@ -29,13 +29,34 @@ import {
 import userAvatar from "../../../public/assets/user.jpg";
 import Image from "next/image";
 import Pagination from "../shared/Pagination";
+import { useGetRoles, useGetUsers } from "@/hooks/tanstack/useAlumni";
 
 const AllAlumniContainer = () => {
+  const [offset, setOffSet] = useState(0);
+  const limit = 10;
+
+  const { data: users, isLoading } = useGetUsers({
+    limit,
+    offset,
+  });
+  const { data: roles, isLoading: isRolesLoading } = useGetRoles();
+
   return (
     <div className="container max-auto">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-10 overflow-hidden">
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((i, index) => (
-          <AlumniCard key={i} index={index} />
+      <div className="mb-10">
+        <div className="flex gap-2 items-center justify-between">
+          <h1 className="text-3xl font-bold mb-4 whitespace-nowrap">
+            All Alumni and Students
+          </h1>
+        </div>
+        <p className="text-md opacity-80 text-sm italic">
+          Here you can see all alumni of UAP.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-10 overflow-hidden ">
+        {users?.results?.map((user, index) => (
+          <AlumniCard key={user?.id} index={index} user={user} />
         ))}
 
         {/* <AlumniCard /> */}
@@ -44,10 +65,10 @@ const AllAlumniContainer = () => {
       {/* pagination */}
       <div className="mt-5">
         <Pagination
-          offset={0}
-          setOffSet={() => { }}
-          count={20}
-          itemsPerPage={8}
+          offset={offset}
+          setOffSet={setOffSet}
+          count={users?.count || 0}
+          itemsPerPage={limit}
         />
       </div>
     </div>
@@ -56,7 +77,9 @@ const AllAlumniContainer = () => {
 
 export default AllAlumniContainer;
 
-const AlumniCard = ({ index }) => {
+const AlumniCard = ({ index, user }) => {
+  const { data: roles, isLoading: isRolesLoading } = useGetRoles();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 100 }}
@@ -73,15 +96,17 @@ const AlumniCard = ({ index }) => {
           />
         </div>
         <div className="w-full">
-          <h2 className="font-semibold">Md. Atikul Islam</h2>
-          <h2 className="font-semibold">Atik</h2>
+          <h2 className="font-semibold">{user?.first_name}</h2>
+          <h2 className="font-semibold">{user?.last_name}</h2>
 
-          <p className="text-sm opacity-70 italic">Student</p>
+          <p className="text-sm opacity-70 italic">
+            {roles?.results?.find((role) => role?.id === user?.role)?.role_name}
+          </p>
         </div>
 
         {/* user options */}
         <div className="w-3 ">
-          <UserOptions />
+          <UserOptions user={user} />
         </div>
       </div>
 
@@ -89,8 +114,7 @@ const AlumniCard = ({ index }) => {
 
       <div className="mt-5">
         <p className="text-sm">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae magni
-          cupiditate tenetur voluptas ipsa numquam odit eos consequuntur
+          Software Engineer with a passion for creating innovative solutions.
         </p>
       </div>
 
@@ -155,7 +179,7 @@ const AlumniCard = ({ index }) => {
 
 // user options
 
-const UserOptions = () => {
+const UserOptions = ({ user }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -180,10 +204,12 @@ const UserOptions = () => {
           Options
         </DropdownMenuLabel>
 
-        <DropdownMenuItem>
-          <Sparkles />
-          Message
-        </DropdownMenuItem>
+        <Link className="cursor-pointer" href={`mailto:${user?.email}`}>
+          <DropdownMenuItem>
+            <Sparkles />
+            Email
+          </DropdownMenuItem>
+        </Link>
 
         <DropdownMenuItem>
           <Plus />
