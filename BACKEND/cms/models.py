@@ -48,7 +48,7 @@ class Job(models.Model):
     jobType = models.CharField(
         choices=JOB_TYPE_CHOICES, max_length=50, default="Full-Time"
     )
-    Deadline = models.DateTimeField(default=timezone.now, null=True, blank=True)
+    deadline = models.DateTimeField(default=timezone.now, null=True, blank=True)
     experience = models.IntegerField(default=0, null=True, blank=True)
     salary = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     email = models.EmailField(null=True, blank=True, default="")

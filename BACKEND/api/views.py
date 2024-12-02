@@ -156,7 +156,10 @@ class JobViewSet(viewsets.GenericViewSet):
             serializer.save()
             # headers = self.get_success_headers(serializer.data)
             return Response(
-                {"status": status.HTTP_201_CREATED, "result": serializer.data}
+                {
+                    
+                    "message": "Job created successfully",
+                    "status": status.HTTP_201_CREATED, "result": serializer.data}
             )
 
         else:
