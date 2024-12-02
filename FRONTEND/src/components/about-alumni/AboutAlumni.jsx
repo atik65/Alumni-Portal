@@ -9,10 +9,10 @@ const AboutAlumni = () => {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-4xl mx-auto p-5 bg-[--core-bg] text-[--base-text] dark:bg-black dark:text-white rounded-lg shadow-lg"
+      className="max-w-4xl mx-auto p-5 bg-[--core-bg] dark:bg-[--sidebar-bg-dark] text-[--base-text] dark:bg-black dark:text-white rounded-lg shadow-lg"
     >
       {/* Hero Section */}
-      <div className="text-center mb-8">
+      <div className="text-center mb-8 py-5">
         <h1 className="text-4xl font-bold mb-2">About the Alumni Network</h1>
         <p className="text-lg opacity-70 mb-4">Connecting past and future generations of UAP alumni to build a stronger network.</p>
         {/* <Link
@@ -24,10 +24,10 @@ const AboutAlumni = () => {
       </div>
 
       {/* Alumni Overview */}
-      <div className="grid gap-10 md:grid-cols-2 mb-8">
-        <div>
-          <h2 className="text-2xl font-semibold mb-4">Our Alumni</h2>
-          <p className="text-md opacity-80">
+      <div className="grid gap-10 md:grid-cols-2 mb-8 dark:bg-[--sidebar-bg-dark] py-5">
+        <div className="dark:bg-gray-800 py-5 pe-5 ps-2 rounded-md">
+          <h2 className="text-2xl font-semibold  mb-4 ml-5">Our Alumni</h2>
+          <p className="text-md opacity-80 ml-5 ">
             The University of Asia Pacific alumni network consists of thousands of passionate professionals
             who contribute significantly to industries globally. From software developers to business leaders,
             our alumni community is diverse and strong, continuously giving back to the university and society.
@@ -90,7 +90,7 @@ const StatCard = ({ title, icon, description }) => (
 
 // Testimonial Component
 const Testimonial = ({ name, role, message }) => (
-  <div className="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-md w-72">
+  <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md w-72">
     <p className="italic text-sm mb-3">"{message}"</p>
     <h4 className="font-semibold">{name}</h4>
     <p className="text-sm opacity-70">{role}</p>
@@ -100,7 +100,7 @@ const Testimonial = ({ name, role, message }) => (
 // Social Media Button Component (Reused)
 const SocialMediaButton = ({ icon, link }) => (
   <button
-    className="h-8 w-8 grid place-items-center rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
+    className="h-8 w-8 grid place-items-center rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-400 transition-colors duration-200"
     target="_blank"
     rel="noopener noreferrer"
   >

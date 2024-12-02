@@ -9,7 +9,7 @@ const ProfileContainer = () => {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-4xl mx-auto p-5 bg-[--core-bg] text-[--base-text] dark:bg-black dark:text-white rounded-lg shadow-lg"
+      className="max-w-4xl mx-auto px-6 bg-[--core-bg] text-[--base-text] dark:bg-[--sidebar-bg-dark] py-6 dark:text-white rounded-lg shadow-lg"
     >
       {/* Header Section */}
       <div className="flex items-center gap-5 mb-8">
@@ -59,7 +59,7 @@ const ProfileContainer = () => {
       <div>
         <Link
           href="/portal/alumni-list"
-          className="text-sm font-semibold bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] w-full rounded h-10 flex gap-2 items-center justify-center hover:bg-[--secondary-bg] dark:hover:bg-[--secondary-bg] hover:text-white duration-200"
+          className="text-sm font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg] text-[--core-bg] dark:text-[--base-text-dark] w-full rounded h-10 flex gap-2 items-center justify-center hover:bg-[--sidebar-bg-dark] dark:hover:text-[--base-text] hover:text-[--core-bg] dark:hover:bg-[--light-bg] transion-colors duration-200"
         >
           Back to Alumni List
           <Eye size={19} />
@@ -72,7 +72,7 @@ const ProfileContainer = () => {
 // Social Media Button Component
 const SocialMediaButton = ({ icon, link }) => (
   <button
-    className="h-8 w-8 grid place-items-center rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
+    className="h-8 w-8 grid place-items-center rounded-full bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-400 transition-colors duration-200"
     target="_blank"
     rel="noopener noreferrer"
   >

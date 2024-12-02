@@ -45,7 +45,7 @@ const AllAlumniContainer = () => {
       <div className="mt-5">
         <Pagination
           offset={0}
-          setOffSet={() => {}}
+          setOffSet={() => { }}
           count={20}
           itemsPerPage={8}
         />
@@ -62,7 +62,7 @@ const AlumniCard = ({ index }) => {
       initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="w-full rounded-md shadow-lg dark:shadow-gray-900 bg-[--core-bg] text-[--base-text] dark:bg-black dark:text-white  p-5"
+      className="w-full rounded-md shadow-lg dark:shadow-gray-900 bg-[--core-bg] text-[--base-text] dark:bg-[--sidebar-bg-dark] dark:text-white  p-5"
     >
       <div className="flex items-top gap-5 ">
         <div className="w-20 shrink-0">
@@ -96,10 +96,10 @@ const AlumniCard = ({ index }) => {
 
       {/* social media icons */}
 
-      <div className="flex items-center gap-5 mt-5 justify-center">
+      <div className="flex items-center gap-5 mt-5 justify-center ">
         {/* facebook */}
         <button
-          className="h-8 w-8 grid place-items-center rounded-full bg-gray-200"
+          className="h-8 w-8 grid place-items-center rounded-full bg-gray-300 hover:bg-gray-400 dark:hover:bg-gray-400 transition-colors duration-200"
           target="_blank"
         >
           <Link href="/" target="_blank">
@@ -109,7 +109,7 @@ const AlumniCard = ({ index }) => {
 
         {/* twitter */}
         <button
-          className="h-8 w-8 grid place-items-center rounded-full bg-gray-200"
+          className="h-8 w-8 grid place-items-center rounded-full bg-gray-300 hover:bg-gray-400 dark:hover:bg-gray-400 transition-colors duration-200"
           target="_blank"
         >
           <Link href="/" target="_blank">
@@ -119,7 +119,7 @@ const AlumniCard = ({ index }) => {
 
         {/* linkedin */}
         <button
-          className="h-8 w-8 grid place-items-center rounded-full bg-gray-200"
+          className="h-8 w-8 grid place-items-center rounded-full bg-gray-300 hover:bg-gray-400 dark:hover:bg-gray-400 transition-colors duration-200"
           target="_blank"
         >
           <Link href="/" target="_blank">
@@ -129,7 +129,7 @@ const AlumniCard = ({ index }) => {
 
         {/* instagram */}
         <button
-          className="h-8 w-8 grid place-items-center rounded-full bg-gray-200"
+          className="h-8 w-8 grid place-items-center rounded-full bg-gray-300 hover:bg-gray-400 dark:hover:bg-gray-400 transition-colors duration-200"
           target="_blank"
         >
           <Link href="/" target="_blank">
@@ -142,7 +142,7 @@ const AlumniCard = ({ index }) => {
       <div className="mt-5">
         <Link
           href={"/portal/alumni-list/1"}
-          className=" text-sm font-semibold bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] w-full rounded h-10 flex gap-2 items-center justify-center hover:bg-[--secondary-bg] dark:hover:bg-[--secondary-bg] hover:text-white duration-200"
+          className=" text-sm font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg] text-[--base-text-dark] dark:text-[--base-text-dark] w-full rounded h-10 flex gap-2 items-center justify-center hover:bg-[--light-bg] dark:hover:bg-[--light-bg] hover:text-[--secondary-text] dark:hover:text-[--secondary-text] duration-200"
         >
           <span className="">View Profile</span>
 

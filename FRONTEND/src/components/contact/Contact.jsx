@@ -17,11 +17,11 @@ const Contact = () => {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-6xl mx-auto p-8 dark:shadow-gray-900 bg-[--core-bg] text-[--base-text] dark:bg-black dark:text-white rounded-lg shadow-lg"
+      className="max-w-6xl mx-auto p-8 dark:shadow-gray-900 bg-[--core-bg] text-[--base-text] dark:bg-[--sidebar-bg] dark:text-white rounded-lg shadow-lg"
     >
       {/* Header Section */}
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-extrabold mb-4 text-blue-600">
+        <h1 className="text-4xl font-extrabold mb-4 text-blue-600 dark:text-[--base-text-dark]">
           Get in Touch
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400">
@@ -34,7 +34,7 @@ const Contact = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Contact Information */}
         <div className="space-y-8">
-          <h2 className="text-2xl font-semibold text-gray-700">
+          <h2 className="text-2xl font-semibold text-gray-700 dark:text-[--base-text-dark]">
             Contact Information
           </h2>
           <div className="flex items-center gap-4">
@@ -61,7 +61,7 @@ const Contact = () => {
 
         {/* Social Media Links */}
         <div className="space-y-8">
-          <h2 className="text-2xl font-semibold text-gray-700">Follow Us</h2>
+          <h2 className="text-2xl font-semibold text-gray-700 dark:text-[--base-text-dark]">Follow Us</h2>
           <div className="flex gap-6">
             {[
               {
@@ -89,7 +89,7 @@ const Contact = () => {
 
       {/* Contact Form */}
       <div className="mt-16">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-6">
+        <h2 className="text-2xl font-semibold text-gray-700 mb-6 dark:text-[--base-text-dark]">
           Send Us a Message
         </h2>
         <form className="space-y-6">
