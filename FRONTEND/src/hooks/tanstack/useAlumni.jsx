@@ -43,3 +43,23 @@ export const useGetUsers = ({ limit = 10, offset = 0 }) => {
     },
   });
 };
+
+export const useGetUserInfo = (id) => {
+  const queryClient = useQueryClient();
+  const { data: session } = useSession();
+
+  return useQuery({
+    queryKey: ["user", id],
+    queryFn: async () =>
+      await axiosRequest({
+        url: `/auth/users/${id}/`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries("user", id);
+    },
+  });
+};

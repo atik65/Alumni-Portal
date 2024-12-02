@@ -4,7 +4,8 @@ from cms.models import (
     Job,
     Role,
     NewsFeed,
-    Event
+    Event,
+    Post
 
 )
 
@@ -51,3 +52,4 @@ admin.site.register(NewsFeed)
 
 
 admin.site.register(Event)
+admin.site.register(Post)

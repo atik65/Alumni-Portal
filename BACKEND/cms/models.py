@@ -1,5 +1,8 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
+# from authorization.models import UserInfo
+# from authorization.models import UserInfo
 
 
 # Create your models here.
@@ -163,3 +166,14 @@ class Event(models.Model):
 
     def __str__(self):
         return self.event_name
+
+
+class Post (models.Model):
+    post = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
+
+    def __str__(self):
+        return self.post

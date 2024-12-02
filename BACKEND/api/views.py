@@ -1,8 +1,9 @@
 from rest_framework import viewsets, permissions, filters  # type: ignore
 
 from .serializers import serializers
-from cms.models import Blog, Job, Event, NewsFeed
+from cms.models import Blog, Job, Event, NewsFeed, Post
 from authorization.models import UserInfo
+from authorization.serializer import UserInfoSerializer
 
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet  # type: ignore
 from django_filters import CharFilter  # type: ignore
@@ -432,3 +433,76 @@ class NewsFeedViewSet(viewsets.GenericViewSet):
                     "error": "You are not authorized to delete this NewsFeed",
                 }
             )
+
+
+class PostViewSet(viewsets.GenericViewSet):
+    """
+    ViewSet for managing posts.
+    """
+
+    queryset = Post.objects.all().order_by(
+        "-created_at"
+    )  # Default ordering by date_posted
+    pagination_class = LimitOffsetPagination
+    serializer_class = serializers.PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    lookup_field = "id"
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+
+    search_fields = ["post"]
+
+    # filterset_fields = {
+    #     "post": ["iexact"],  
+    # }
+
+    ordering_fields = ["created_at", "id"]
+    ordering = ["-created_at"]  # Default ordering by descending date_posted
+
+    def list(self, request, *args, **kwargs):
+        """
+        List all posts.
+        """
+        queryset = self.filter_queryset(self.get_queryset())
+
+        
+        
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({"status": status.HTTP_200_OK, "results": serializer.data})
+
+    def create(self, request, *args, **kwargs):
+        """
+        Create a new post.
+        """
+        if request.user.is_authenticated:
+
+            userInfo = UserInfo.objects.get(user=request.user.id)
+            request.data["created_by"] = request.user.id
+           
+
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+         
+            serializer.save()
+            return Response(
+                {"status": status.HTTP_201_CREATED, "result": serializer.data},
+                status=status.HTTP_201_CREATED
+            )
+        else:
+            return Response(
+                {
+                    "status": status.HTTP_401_UNAUTHORIZED,
+                    "message": "You are not authorized to Create this Post",
+                },
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+
+   

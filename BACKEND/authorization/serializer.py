@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import UserInfo
 # from django.contrib.auth.models import User
-from cms.models import Role
+from cms.models import Role, Post
 
 
 class UserRegisterSerializer(serializers.Serializer):
@@ -33,3 +33,4 @@ class RoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Role
         fields = "__all__"
+

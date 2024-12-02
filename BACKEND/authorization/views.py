@@ -172,6 +172,7 @@ class UserInfoView(viewsets.GenericViewSet):
     serializer_class = UserInfoSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = LimitOffsetPagination
+    lookup_field = 'user'
     filter_backends = [
         DjangoFilterBackend,
         filters.SearchFilter,
@@ -197,6 +198,16 @@ class UserInfoView(viewsets.GenericViewSet):
         serializer = self.get_serializer(filtered_queryset, many=True)
         return Response({"status": status.HTTP_200_OK, "results": serializer.data})
     
+    def retrieve(self, request, *args, **kwargs):
+        # Get the logged-in user's info
+        instance = self.queryset.filter(user=request.user).first()
+        
+        if not instance:
+            return Response({"status": status.HTTP_404_NOT_FOUND, "message": "User info not found."})
+        
+        serializer = self.get_serializer(instance)
+        return Response({"status": status.HTTP_200_OK, "result": serializer.data})
+        
 
 class UserRolesView(viewsets.GenericViewSet):
     queryset = Role.objects.all()
