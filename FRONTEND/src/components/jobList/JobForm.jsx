@@ -154,6 +154,7 @@ const JobPostForm = ({ open, setOpen }) => {
 
         {/* Description */}
         <TextInput
+          id="description"
           name="description"
           placeholder="Job Description"
           value={values.description}

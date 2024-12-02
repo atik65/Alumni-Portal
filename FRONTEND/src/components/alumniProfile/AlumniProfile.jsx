@@ -109,13 +109,14 @@ const ProfileIntro = () => {
 
         <div className="mt-5">
           <button
+            id="message"
             onClick={() => {
               enqueueSnackbar("Message is Coming Soon", {
                 variant: "default",
               });
             }}
             //   href={"/portal/alumni-list/1"}
-            className=" text-sm font-semibold hover:bg-[--light-bg] dark:hover:bg-[--light-bg-dark] hover:text-[--secondary-text] hover:dark:text-[--base-text-dark] w-full rounded h-10 flex gap-2 items-center justify-center bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white duration-200"
+            className=" text-sm font-semibold hover:bg-[--light-bg] dark:hover:bg-[--light-bg-dark] hover:text-[--secondary-text] hover:dark:text-[--base-text-dark] w-full rounded h-10 flex gap-2 items-center justify-center bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white duration-200" 
           >
             <span className="">Message</span>
 

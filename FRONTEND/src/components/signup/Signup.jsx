@@ -356,7 +356,7 @@ const SignUpForm = () => {
         )}
 
         {/* login button */}
-        <Button disabled={isPending} type="submit" className="mt-5 w-full">
+        <Button disabled={isPending} type="submit" className="mt-5 w-full " id="create-account">
           {isPending ? (
             <ProcessingPing />
           ) : (
@@ -372,7 +372,7 @@ const SignUpForm = () => {
       <div>
         <p className="text-sm mt-1">
           Already have an account?{" "}
-          <Link href={"/login"} className="text-primary font-semibold">
+          <Link href={"/login"} className="text-primary font-semibold" id="login-link">
             Login
           </Link>
         </p>

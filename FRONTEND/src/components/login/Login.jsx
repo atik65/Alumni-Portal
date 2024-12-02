@@ -215,7 +215,7 @@ const LoginForm = () => {
         />
 
         {/* login button */}
-        <Button disabled={isSubmitting} type="submit" className="mt-5 w-full">
+        <Button disabled={isSubmitting} type="submit" className="mt-5 w-full" id="login-button">
           <span className="mr-2 font-medium">Login</span> <RiLoginCircleLine />
         </Button>
       </form>
@@ -253,7 +253,7 @@ const LoginForm = () => {
       <div>
         <p className="text-sm mt-3">
           Don&apos;t have an account?{" "}
-          <Link href={"/signup"} className="text-primary font-semibold">
+          <Link href={"/signup"} className="text-primary font-semibold" id="signup">
             Sign Up
           </Link>
         </p>
