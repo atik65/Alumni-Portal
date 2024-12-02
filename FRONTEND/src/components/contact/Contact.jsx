@@ -103,7 +103,7 @@ const Contact = () => {
             </label>
             <input
               type="text"
-              id="name"
+              id="full-name-contact"
               name="name"
               placeholder="Enter your full name"
               className="w-full mt-2 p-3 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-600 focus:outline-none"
@@ -119,7 +119,7 @@ const Contact = () => {
             </label>
             <input
               type="email"
-              id="email"
+              id="contact-email"
               name="email"
               placeholder="Enter your email"
               className="w-full mt-2 p-3 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-600 focus:outline-none"
@@ -134,7 +134,7 @@ const Contact = () => {
               Your Message
             </label>
             <textarea
-              id="message"
+              id="write-message-contact"
               name="message"
               placeholder="Write your message"
               rows="5"
@@ -146,7 +146,7 @@ const Contact = () => {
 
         <div className="mt-5">
           <button
-            id="send-message"
+            id="send-message-contact"
             onClick={() => {
               enqueueSnackbar("Message is Sent", {
                 variant: "default",
