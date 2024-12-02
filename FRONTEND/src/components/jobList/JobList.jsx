@@ -123,7 +123,7 @@ const JobPost = ({ job, index }) => {
               variant: "default",
             })
           }
-          className="text-sm font-semibold bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] w-full rounded-md h-10 flex gap-2 items-center justify-center hover:bg-[--secondary-bg] dark:hover:bg-[--secondary-bg] hover:text-white duration-200"
+          className="text-sm font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg] text-[--base-text-dark] hover:text-[--base-text] hover:bg-[--light-bg]  dark:text-[--base-text-dark] w-full rounded-md h-10 flex gap-2 items-center justify-center  dark:hover:bg-[--light-bg] dark:hover:text-[--base-text] duration-200"
         >
           <span>View Details</span>
           <Eye size={20} />
@@ -283,7 +283,7 @@ export function AddJob() {
       <DialogTrigger asChild>
         <button
           id="add-job"
-          className="text-sm font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white rounded h-10 flex gap-2 items-center justify-center hover:bg-[--light-bg] dark:hover:bg-[--light-bg-dark] hover:text-[--secondary-text] dark:hover:text-[--base-text-dark] duration-200 px-5"
+          className="text-sm font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white rounded h-10 flex gap-2 items-center justify-center hover:bg-[--light-bg] dark:hover:bg-[--light-bg] hover:text-[--secondary-text] dark:hover:text-[--base-text] duration-200 px-5"
         >
           <span>Add Job</span>
           <Plus size={20} />

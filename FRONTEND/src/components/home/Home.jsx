@@ -16,7 +16,7 @@ const Home = () => {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="col-span-12 xl:col-span-8 dark:bg-[--sidebar-bg-dark]  rounded-lg p-8 pt-0 "
+        className="col-span-12 xl:col-span-8 dark:py-8  dark:bg-[--sidebar-bg-dark] rounded-lg p-8 pt-0 "
       >
         {/* New Post Input */}
         <div className="mb-6">
@@ -25,7 +25,7 @@ const Home = () => {
             className="w-full p-4 border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 dark:bg-[--sidebar-bg-dark] dark:text-white"
           ></textarea>
           <div className="flex justify-end w-full">
-            <button className="text-sm mt-3  font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white rounded h-10 flex gap-2 items-center justify-center hover:bg-[--light-bg] dark:hover:bg-[--light-bg-dark] hover:text-[--secondary-text] dark:hover:text-[--base-text-dark] duration-200 px-5 pe-3 uppercase">
+            <button className="text-sm mt-3  font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white rounded h-10 flex gap-2 items-center justify-center hover:bg-[--light-bg] dark:hover:bg-[--light-bg] hover:text-[--secondary-text] dark:hover:text-[--base-text] duration-300 px-5 pe-3 uppercase">
               <span>Publish Now</span>
               <Plus size={20} />
             </button>

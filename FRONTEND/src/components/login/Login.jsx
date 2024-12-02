@@ -215,7 +215,7 @@ const LoginForm = () => {
         />
 
         {/* login button */}
-        <Button disabled={isSubmitting} type="submit" className="mt-5 w-full" id="login-button">
+        <Button disabled={isSubmitting} type="submit" className="mt-5 w-full bg-[--secondary-bg] hover:bg-[--light-bg] hover:text-[--secondary-bg-dark] duration-400 dark:text-[--base-text-dark] dark:hover:text-[--base-text]">
           <span className="mr-2 font-medium">Login</span> <RiLoginCircleLine />
         </Button>
       </form>
@@ -253,7 +253,7 @@ const LoginForm = () => {
       <div>
         <p className="text-sm mt-3">
           Don&apos;t have an account?{" "}
-          <Link href={"/signup"} className="text-primary font-semibold" id="signup">
+          <Link href={"/signup"} className="text-primary font-semibold dark:hover:text-[--secondary-bg] duration-200">
             Sign Up
           </Link>
         </p>
