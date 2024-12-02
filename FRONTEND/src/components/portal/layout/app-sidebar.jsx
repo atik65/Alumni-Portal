@@ -79,7 +79,7 @@ const data = {
     {
       name: "Alumni Portal",
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
+      plan: "UAP",
     },
     {
       name: "Acme Corp.",
@@ -244,13 +244,13 @@ const sidebarData = [
         icon: Users,
         tooltip: "Alumni List",
       },
-      {
-        id: 5,
-        title: "Blogs",
-        href: "/portal/news",
-        icon: Newspaper,
-        tooltip: "News",
-      },
+      // {
+      //   id: 5,
+      //   title: "Blogs",
+      //   href: "/portal/news",
+      //   icon: Newspaper,
+      //   tooltip: "News",
+      // },
       {
         id: 6,
         title: "Events",
@@ -338,18 +338,20 @@ export function AppSidebar({ children }) {
                         {activeTeam.plan}
                       </span>
                     </div>
-                    <ChevronsUpDown className="ml-auto" />
+                    {/* <ChevronsUpDown className="ml-auto" /> */}
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent
+                {/* <DropdownMenuContent
                   className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
                   align="start"
                   side="bottom"
                   sideOffset={4}
                 >
                   <DropdownMenuLabel className="text-xs text-muted-foreground">
-                    Teams
+                    Shortcuts
                   </DropdownMenuLabel>
+
+                  
                   {data.teams.map((team, index) => (
                     <DropdownMenuItem
                       key={team.name}
@@ -372,7 +374,7 @@ export function AppSidebar({ children }) {
                       Add team
                     </div>
                   </DropdownMenuItem>
-                </DropdownMenuContent>
+                </DropdownMenuContent> */}
               </DropdownMenu>
             </SidebarMenuItem>
           </SidebarMenu>
