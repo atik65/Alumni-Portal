@@ -24,18 +24,21 @@ import {
 } from "react-icons/fa";
 import { enqueueSnackbar } from "notistack";
 import JobPostForm from "./JobForm";
+import { useGetJobs } from "@/hooks/tanstack/useJobs";
 
 const JobPost = ({ job, index }) => {
+  // {"json":{"id":12,"job_title":"d","company":"d","location":"d","description":"d","posted_date":"2024-12-02T14:00:34.966570+06:00","jobType":"Full-Time","deadline":"2024-12-30T00:00:00+06:00","experience":0,"salary":"10.00","email":"user@gmail.com"}}
+
   const {
     job_title,
     company,
     location,
     description,
+    posted_date,
     jobType,
+    deadline,
     experience,
     salary,
-    posted_date,
-    Deadline,
     email,
   } = job;
 
@@ -105,7 +108,7 @@ const JobPost = ({ job, index }) => {
 
           <div className="flex items-center gap-2">
             <FaRegClock className="text-[--secondary-bg]" />
-            <p>Deadline: {new Date(Deadline).toLocaleDateString()}</p>
+            <p>Deadline: {new Date(deadline).toLocaleDateString()}</p>
           </div>
         </div>
       )}
@@ -217,6 +220,8 @@ const JobPortal = () => {
     },
   ];
 
+  const { data, isLoading } = useGetJobs();
+
   return (
     <div className="container max-auto">
       {/* add  a job button */}
@@ -245,10 +250,20 @@ const JobPortal = () => {
         <JobPostForm />
       </div> */}
 
+      {/* loading skeleton */}
+      <div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-x-5 gap-y-10 overflow-hidden">
+          
+
+          </div>
+</div>
+
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-x-5 gap-y-10 overflow-hidden">
         {/* <JobPost job={job} index={index} /> */}
 
-        {jobs.map((job, index) => (
+        {data?.results?.map((job, index) => (
           <JobPost key={job.id} job={job} index={index} />
         ))}
       </div>
