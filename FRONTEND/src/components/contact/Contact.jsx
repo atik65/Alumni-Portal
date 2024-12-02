@@ -10,6 +10,7 @@ import {
   Mail,
 } from "lucide-react";
 import Link from "next/link";
+import { enqueueSnackbar } from "notistack";
 
 const Contact = () => {
   return (
@@ -141,14 +142,24 @@ const Contact = () => {
               required
             />
           </div>
-          <div>
-            <button
-              type="submit"
-              className="mt-3 text-sm font-semibold bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] w-full rounded h-10 flex items-center justify-center hover:bg-[--secondary-bg] dark:hover:bg-[--secondary-bg] hover:text-white duration-200"
-            >
-              Send Message
-            </button>
-          </div>
+          {/* send message */}
+
+        <div className="mt-5">
+          <button
+            id="send-message"
+            onClick={() => {
+              enqueueSnackbar("Message is Sent", {
+                variant: "default",
+              });
+            }}
+            //   href={"/portal/alumni-list/1"}
+            className=" text-sm font-semibold hover:bg-[--light-bg] dark:hover:bg-[--light-bg-dark] hover:text-[--secondary-text] hover:dark:text-[--base-text-dark] w-full rounded h-10 flex gap-2 items-center justify-center bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white duration-200" 
+          >
+            <span className="">Send Message</span>
+
+            <Mail size={17} />
+          </button>
+        </div>
         </form>
       </div>
     </motion.div>
