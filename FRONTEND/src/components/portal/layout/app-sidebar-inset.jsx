@@ -41,7 +41,7 @@ export function AppSidebarInset({ children }) {
         <div className="flex items-center gap-2 px-4 ">
           <Tooltip>
             <TooltipTrigger asChild>
-              <SidebarTrigger className="-ml-1" />
+              <SidebarTrigger id="trigger" className="-ml-1" />
             </TooltipTrigger>
             <TooltipContent side="bottom" align="start">
               Toggle Sidebar <kbd className="ml-2">⌘+b</kbd>
@@ -71,6 +71,7 @@ export function AppSidebarInset({ children }) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton
+                id="variant"
                 size="lg"
                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground "
               >

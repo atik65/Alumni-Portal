@@ -229,6 +229,7 @@ const JobPostForm = ({ open, setOpen }) => {
 
         {/* Submit Button */}
         <Button
+          id="post-job-btn"
           type="submit"
           disabled={isSubmitting || isPending}
           className="mt-5 w-full text-white bg-[--secondary-bg] hover:bg-[--secondary-bg]/90 duration-200 disabled:cursor-not-allowed disabled:opacity-50"

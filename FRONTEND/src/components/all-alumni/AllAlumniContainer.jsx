@@ -30,6 +30,7 @@ import userAvatar from "../../../public/assets/user.jpg";
 import Image from "next/image";
 import Pagination from "../shared/Pagination";
 import { useGetRoles, useGetUsers } from "@/hooks/tanstack/useAlumni";
+import { Skeleton } from "../ui/skeleton";
 
 const AllAlumniContainer = () => {
   const [offset, setOffSet] = useState(0);
@@ -53,6 +54,16 @@ const AllAlumniContainer = () => {
           Here you can see all alumni of UAP.
         </p>
       </div>
+
+      {isLoading && (
+        <div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-x-5 gap-y-10 overflow-hidden">
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i, index) => (
+              <AlumniCardSkeleton key={i} index={index} />
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-10 overflow-hidden ">
         {users?.results?.map((user, index) => (
@@ -106,7 +117,7 @@ const AlumniCard = ({ index, user }) => {
 
         {/* user options */}
         <div className="w-3 ">
-          <UserOptions user={user} />
+          <UserOptions user={user} index={index} />
         </div>
       </div>
 
@@ -165,6 +176,7 @@ const AlumniCard = ({ index, user }) => {
       {/* view profile */}
       <div className="mt-5">
         <Link
+          id={index + "view-profile"}
           href={"/portal/alumni-list/1"}
           className=" text-sm font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg] text-[--base-text-dark] dark:text-[--base-text-dark] w-full rounded h-10 flex gap-2 items-center justify-center hover:bg-[--light-bg] dark:hover:bg-[--light-bg] hover:text-[--secondary-text] dark:hover:text-[--secondary-text] duration-200"
         >
@@ -179,11 +191,12 @@ const AlumniCard = ({ index, user }) => {
 
 // user options
 
-const UserOptions = ({ user }) => {
+const UserOptions = ({ user, index }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
+          id={index + "options"}
           size="lg"
           className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground ml-auto w-full justify-end outline-none border-none"
         >
@@ -205,7 +218,7 @@ const UserOptions = ({ user }) => {
         </DropdownMenuLabel>
 
         <Link className="cursor-pointer" href={`mailto:${user?.email}`}>
-          <DropdownMenuItem>
+          <DropdownMenuItem id={index + "email"}>
             <Sparkles />
             Email
           </DropdownMenuItem>
@@ -217,5 +230,33 @@ const UserOptions = ({ user }) => {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+  );
+};
+
+export const AlumniCardSkeleton = () => {
+  return (
+    <div className="space-y-3">
+      <div className="flex gap-5">
+        <Skeleton className="h-16 w-16 flex-shrink-0 rounded-full" />
+        <div className="w-full space-y-2">
+          <Skeleton className="h-5 w-full rounded-md" />
+          <Skeleton className="h-5 w-full rounded-md" />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-5">
+        <Skeleton className="h-8 rounded-md" />
+      </div>
+
+      <div className="flex justify-center gap-3">
+        <Skeleton className="h-10 w-10 flex-shrink-0 rounded-full" />
+        <Skeleton className="h-10 w-10 flex-shrink-0 rounded-full" />
+        <Skeleton className="h-10 w-10 flex-shrink-0 rounded-full" />
+        <Skeleton className="h-10 w-10 flex-shrink-0 rounded-full" />
+      </div>
+      <div className="grid grid-cols-1 gap-5">
+        <Skeleton className="h-8 rounded-md" />
+      </div>
+    </div>
   );
 };

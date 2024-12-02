@@ -1,181 +1,117 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
+import Image from "next/image";
+
+import noPhoto from "../../../public/assets/noPhoto.png";
+import userPhoto from "../../../public/assets/user.jpg";
+import { Plus } from "lucide-react";
 
 const Home = () => {
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      author: "John Doe",
-      content: "Excited to announce my new blog post on React best practices!",
-      likes: 24,
-      comments: [{ id: 1, text: "Great post! Can't wait to read it.", author: "Jane" }],
-      shares: 3,
-    },
-    {
-      id: 2,
-      author: "Emily Clark",
-      content: "How to design a scalable backend system? Sharing some tips.",
-      likes: 75,
-      comments: [],
-      shares: 10,
-    },
-    {
-      id: 3,
-      author: "Sarah Lee",
-      content: "Anyone knows a good tutorial for advanced React hooks?",
-      likes: 15,
-      comments: [],
-      shares: 1,
-    },
-  ]);
-  const [newPostContent, setNewPostContent] = useState("");
-
-  const allEvents = [
-    { id: 1, title: "Hackathon 2024", description: "Join us for an exciting coding challenge!", time: "March 10th, 10:00 AM" },
-    { id: 2, title: "Annual Tech Meetup", description: "Network with tech enthusiasts and professionals.", time: "April 25th, 5:00 PM" },
-    { id: 3, title: "Design Thinking Workshop", description: "Explore innovative design solutions.", time: "May 15th, 2:00 PM" },
-    { id: 4, title: "Startup Pitch Night", description: "Showcase your ideas to investors.", time: "June 5th, 6:00 PM" },
-    { id: 5, title: "Web3 Summit", description: "Deep dive into blockchain and Web3 technologies.", time: "July 20th, 9:00 AM" },
-  ];
-  const [displayedEvents, setDisplayedEvents] = useState(allEvents.slice(0, 3));
-
-  const loadMoreEvents = () => {
-    setDisplayedEvents(allEvents.slice(0, displayedEvents.length + 3));
-  };
-
-  const loadLessEvents = () => {
-    setDisplayedEvents(allEvents.slice(0, 3));
-  };
-
-  const addPost = () => {
-    if (newPostContent.trim() === "") return;
-    const newPost = {
-      id: posts.length + 1,
-      author: "You",
-      content: newPostContent,
-      likes: 0,
-      comments: [],
-      shares: 0,
-    };
-    setPosts([newPost, ...posts]);
-    setNewPostContent("");
-  };
-
-  const likePost = (postId) => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) => (post.id === postId ? { ...post, likes: post.likes + 1 } : post))
-    );
-  };
-
-  const addComment = (postId, comment) => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post.id === postId
-          ? { ...post, comments: [...post.comments, { id: Date.now(), text: comment, author: "You" }] }
-          : post
-      )
-    );
-  };
-
   return (
-    <div className="container mx-auto xl:space-y-0 grid grid-cols-12 gap-5">
+    <div className="container mx-auto xl:space-y-0 grid grid-cols-12 gap-6 py-8 px-4">
       {/* Left Side: Posts Section */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="col-span-12 xl:col-span-8 bg-[--core-bg] dark:bg-[--sidebar-bg-dark] p-5 rounded-lg"
+        className="col-span-12 xl:col-span-8 dark:bg-[--sidebar-bg-dark]  rounded-lg p-8 pt-0 "
       >
-        <div className="mb-5">
-          {/* New Post Form */}
+        {/* New Post Input */}
+        <div className="mb-6">
           <textarea
-            value={newPostContent}
-            onChange={(e) => setNewPostContent(e.target.value)}
             placeholder="What's on your mind?"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 dark:bg-[--sidebar-bg-dark] dark:text-white"
+            className="w-full p-4 border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 dark:bg-[--sidebar-bg-dark] dark:text-white"
           ></textarea>
-          <button
-            onClick={addPost}
-            className="mt-2 w-full bg-[--secondary-bg] dark:bg-[--core-bg-dark] hover:bg-[--secondary-bg-dark] dark:hover:bg-[--secondary-bg] duration-200 text-white h-10 rounded-lg"
-          >
-            Post
-          </button>
+          <div className="flex justify-end w-full">
+            <button className="text-sm mt-3  font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white rounded h-10 flex gap-2 items-center justify-center hover:bg-[--light-bg] dark:hover:bg-[--light-bg-dark] hover:text-[--secondary-text] dark:hover:text-[--base-text-dark] duration-200 px-5 pe-3 uppercase">
+              <span>Publish Now</span>
+              <Plus size={20} />
+            </button>
+          </div>
         </div>
 
-        {/* Posts */}
-        {posts.map((post) => (
-          <div
-            key={post.id}
-            className="p-4 mb-4 border border-gray-200 bg-[--core-bg] dark:bg-[--sidebar-bg-dark] rounded-lg shadow-md"
-          >
-            <h3 className="font-semibold text-gray-700 dark:text-white">{post.author}</h3>
-            <p className="text-gray-600 dark:text-gray-300">{post.content}</p>
-
-            <div className="mt-3 flex space-x-4">
-              <button
-                onClick={() => likePost(post.id)}
-                className="flex items-center space-x-2 text-blue-500 dark:text-blue-300"
-              >
-                👍 <span>{post.likes}</span>
-              </button>
-              <button className="flex items-center space-x-2 text-blue-500 dark:text-blue-300">
-                🔄 <span>{post.shares}</span>
-              </button>
+        {/* Example Posts */}
+        <div className="space-y-6">
+          {[1, 2, 3, 4, 5].map((post) => (
+            <div className="p-5 border border-gray-200 bg-gray-50 dark:bg-[--sidebar-bg-dark] rounded-lg shadow-md">
+              <div className="flex items-center gap-3">
+                <Image
+                  src={userPhoto}
+                  alt="John Doe"
+                  width={50}
+                  height={50}
+                  className="rounded-full"
+                />
+                <div>
+                  <h3 className="font-semibold text-gray-800 dark:text-white">
+                    John Doe
+                  </h3>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    Student
+                  </span>
+                </div>
+              </div>
+              <p className="text-gray-600 mt-5 dark:text-gray-300">
+                Excited to announce my new blog post on Next.js best practices!
+                Learn how to optimize your Next.js code for performance and
+                scalability.
+              </p>
+              <div className="mt-3 flex space-x-6 text-sm text-gray-500 dark:text-gray-400">
+                <span>👍 24</span>
+                {/* <span>💬 1 Comment</span>
+              <span>🔄 3 Shares</span> */}
+              </div>
             </div>
-
-            <div className="mt-4">
-              {post.comments.map((comment) => (
-                <p key={comment.id} className="text-gray-600 dark:text-gray-300">
-                  <span className="font-semibold">{comment.author}:</span> {comment.text}
-                </p>
-              ))}
-              <input
-                type="text"
-                placeholder="Add a comment"
-                className="w-full p-2 mt-2 border border-gray-300 rounded-lg dark:bg-[--slidebar-bg-dark] dark:text-white"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && e.target.value.trim() !== "") {
-                    addComment(post.id, e.target.value);
-                    e.target.value = "";
-                  }
-                }}
-              />
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </motion.div>
 
       {/* Right Side: Events Section */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.5 }}
-        className="col-span-12 xl:col-span-4 bg-[--core-bg] dark:bg-[--sidebar-bg-dark] p-5 rounded-lg"
+        transition={{ duration: 0.5, delay: 0.3 }}
+        className="col-span-12 xl:col-span-4 bg-white dark:bg-[--sidebar-bg-dark] p-6 rounded-lg shadow-lg"
       >
-        <h2 className="font-semibold text-lg mb-4 text-gray-800 dark:text-white">Upcoming Events</h2>
-        <div>
-          {displayedEvents.map((event) => (
-            <div key={event.id} className="p-4 mb-4 border border-gray-200 bg-[--core-bg] dark:bg-[--slider-bg-dark] rounded-lg">
-              <h3 className="font-semibold text-gray-700 dark:text-white">{event.title}</h3>
-              <p className="text-gray-600 dark:text-gray-300">{event.description}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{event.time}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-4 flex justify-between">
-          <button
-            onClick={loadMoreEvents}
-            className="text-blue-500 dark:text-blue-300"
-          >
-            Load More
-          </button>
-          <button
-            onClick={loadLessEvents}
-            className="text-blue-500 dark:text-blue-300"
-          >
-            Load Less
-          </button>
+        <h2 className="font-semibold text-lg mb-6 text-gray-800 dark:text-white">
+          Upcoming Events
+        </h2>
+        <div className="space-y-4">
+          <div className="p-4 border border-gray-200 bg-gray-50 dark:bg-[--sidebar-bg-dark] rounded-lg shadow-md">
+            <h3 className="font-semibold text-gray-800 dark:text-white">
+              Hackathon 2024
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              Join us for an exciting coding challenge!
+            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              March 10th, 10:00 AM
+            </p>
+          </div>
+          <div className="p-4 border border-gray-200 bg-gray-50 dark:bg-[--sidebar-bg-dark] rounded-lg shadow-md">
+            <h3 className="font-semibold text-gray-800 dark:text-white">
+              Annual Tech Meetup
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              Network with tech enthusiasts and professionals.
+            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              April 25th, 5:00 PM
+            </p>
+          </div>
+          <div className="p-4 border border-gray-200 bg-gray-50 dark:bg-[--sidebar-bg-dark] rounded-lg shadow-md">
+            <h3 className="font-semibold text-gray-800 dark:text-white">
+              Design Thinking Workshop
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              Explore innovative design solutions.
+            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              May 15th, 2:00 PM
+            </p>
+          </div>
         </div>
       </motion.div>
     </div>

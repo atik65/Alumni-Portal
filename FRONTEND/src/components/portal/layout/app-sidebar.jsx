@@ -309,7 +309,7 @@ export function AppSidebar({ children }) {
 
   const { data: session } = useSession();
 
-  console.log("session = ", session);
+  // console.log("session = ", session);
 
   return (
     <>
@@ -408,7 +408,11 @@ export function AppSidebar({ children }) {
                 <SidebarMenu>
                   {group?.items.map((item) => (
                     <SidebarMenuItem key={item?.id}>
-                      <SidebarMenuButton tooltip={item?.tooltip} asChild>
+                      <SidebarMenuButton
+                        id={item?.id + item?.title}
+                        tooltip={item?.tooltip}
+                        asChild
+                      >
                         <Link href={item?.href}>
                           <item.icon />
                           <span>{item?.title}</span>
@@ -476,6 +480,7 @@ export function AppSidebar({ children }) {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <SidebarMenuButton
+                    id="user"
                     size="lg"
                     className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                   >
@@ -534,7 +539,7 @@ export function AppSidebar({ children }) {
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <Link className="cursor-pointer" href={"/portal/profile"}>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem id="account">
                         <BadgeCheck />
                         Account
                       </DropdownMenuItem>
@@ -544,6 +549,7 @@ export function AppSidebar({ children }) {
                       Billing
                     </DropdownMenuItem> */}
                     <DropdownMenuItem
+                      id="notifications"
                       onClick={() => {
                         enqueueSnackbar("Feature coming soon", {
                           variant: "default",
