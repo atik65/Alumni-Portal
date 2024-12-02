@@ -25,6 +25,7 @@ import {
 import { enqueueSnackbar } from "notistack";
 import JobPostForm from "./JobForm";
 import { useGetJobs } from "@/hooks/tanstack/useJobs";
+import { Skeleton } from "../ui/skeleton";
 
 const JobPost = ({ job, index }) => {
   // {"json":{"id":12,"job_title":"d","company":"d","location":"d","description":"d","posted_date":"2024-12-02T14:00:34.966570+06:00","jobType":"Full-Time","deadline":"2024-12-30T00:00:00+06:00","experience":0,"salary":"10.00","email":"user@gmail.com"}}
@@ -251,14 +252,15 @@ const JobPortal = () => {
       </div> */}
 
       {/* loading skeleton */}
-      <div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-x-5 gap-y-10 overflow-hidden">
-          
-
+      {isLoading && (
+        <div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-x-5 gap-y-10 overflow-hidden">
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i, index) => (
+              <JobCardSkeleton key={i} index={index} />
+            ))}
           </div>
-</div>
-
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-x-5 gap-y-10 overflow-hidden">
         {/* <JobPost job={job} index={index} /> */}
@@ -295,3 +297,29 @@ export function AddJob() {
     </Dialog>
   );
 }
+
+export const JobCardSkeleton = () => {
+  return (
+    <div className="space-y-3">
+      <div className="grid grid-cols-2 gap-5">
+        <Skeleton className="h-7 rounded-md" />
+        <Skeleton className="h-5 rounded-md" />
+      </div>
+      <div className="grid grid-cols-2 gap-5">
+        <Skeleton className="h-5 rounded-md" />
+        <Skeleton className="h-5 rounded-md" />
+      </div>
+      <div className="grid grid-cols-1 gap-5">
+        <Skeleton className="h-5 rounded-md" />
+      </div>
+
+      <div className="grid grid-cols-2 gap-5">
+        <Skeleton className="h-5 rounded-md" />
+        <Skeleton className="h-5 rounded-md" />
+      </div>
+      <div className="grid grid-cols-1 gap-5">
+        <Skeleton className="h-8 rounded-md" />
+      </div>
+    </div>
+  );
+};

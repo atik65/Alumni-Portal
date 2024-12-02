@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -9,6 +9,8 @@ from django.contrib.auth.models import User
 from .serializer import UserInfoSerializer, LoginSerializer,  UserRegisterSerializer, RoleSerializer
 from .models import UserInfo
 from cms.models import Role
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.pagination import LimitOffsetPagination
 
 
 
@@ -163,3 +165,65 @@ class LoginView(viewsets.GenericViewSet):
             }, status=status.HTTP_200_OK)
 
         return Response(serializer.errors)
+    
+
+class UserInfoView(viewsets.GenericViewSet):
+    queryset = UserInfo.objects.all().order_by('first_name')
+    serializer_class = UserInfoSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = LimitOffsetPagination
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    search_fields = ["first_name", "last_name", "email"]
+    filterset_fields = {
+        # "role": ["id"],  
+    }
+    # ordering_fields = ["first_name", "last_name", "email", "id", 'created_at', 'updated_at']
+    # ordering = ["-first_name"]
+
+    def list(self, request):
+        
+        queryset = self.get_queryset()
+        filtered_queryset = self.filter_queryset(queryset)
+        paginated_queryset = self.paginate_queryset(filtered_queryset)
+
+        if paginated_queryset is not None:
+            serializer = self.get_serializer(paginated_queryset, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(filtered_queryset, many=True)
+        return Response({"status": status.HTTP_200_OK, "results": serializer.data})
+    
+
+class UserRolesView(viewsets.GenericViewSet):
+    queryset = Role.objects.all()
+    serializer_class = RoleSerializer
+    permission_classes = [IsAuthenticated]
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    search_fields = ["name"]
+    filterset_fields = {
+        # "role": ["id"],  
+    }
+    # ordering_fields = ["first_name", "last_name", "email", "id", 'created_at', 'updated_at']
+    # ordering = ["-first_name"]
+
+    def list(self, request):
+        
+        queryset = self.get_queryset()
+        filtered_queryset = self.filter_queryset(queryset)
+        paginated_queryset = self.paginate_queryset(filtered_queryset)
+
+        if paginated_queryset is not None:
+            serializer = self.get_serializer(paginated_queryset, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(filtered_queryset, many=True)
+        return Response({"status": status.HTTP_200_OK, "results": serializer.data})
+    
