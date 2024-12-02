@@ -563,6 +563,7 @@ export function AppSidebar({ children }) {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     className="cursor-pointer"
+                    id="logout"
                     onClick={() => signOut()}
                   >
                     <LogOut />

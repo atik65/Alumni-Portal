@@ -357,6 +357,7 @@ const SignUpForm = () => {
 
         {/* login button */}
         <Button disabled={isPending} type="submit" className="mt-5 w-full bg-[--secondary-bg] hover:bg-[--light-bg] hover:text-[--secondary-bg-dark] duration-400 dark:text-[--base-text-dark] dark:hover:text-[--base-text]">
+        <Button disabled={isPending} type="submit" className="mt-5 w-full " id="create-account">
           {isPending ? (
             <ProcessingPing />
           ) : (
@@ -372,7 +373,7 @@ const SignUpForm = () => {
       <div>
         <p className="text-sm mt-1">
           Already have an account?{" "}
-          <Link href={"/login"} className="text-primary font-semibold dark:hover:text-[--secondary-text] hover:text-[--secondary-bg] duration-200">
+          <Link href={"/login"} className="text-primary font-semibold">
             Login
           </Link>
         </p>
