@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Calendar, MapPin, Eye } from "lucide-react";
 import eventImage from "../../../public/assets/event.webp";
+import { useGetEvent } from "@/hooks/tanstack/useEvents";
 
 const EventsContainer = () => {
   const events = [
@@ -31,6 +32,8 @@ const EventsContainer = () => {
       link: "/portal/events/3",
     },
   ];
+
+  const { data, isLoading } = useGetEvent();
 
   return (
     <div className="container mx-auto">
@@ -98,3 +101,5 @@ const EventCard = ({ index, title, date, location, image, link }) => {
     </motion.div>
   );
 };
+
+
