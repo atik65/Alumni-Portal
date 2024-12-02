@@ -132,7 +132,7 @@ class JobViewSet(viewsets.GenericViewSet):
         """
         instance = self.get_object()
         serializer = self.get_serializer(instance)
-        return Response({"status": status.HTTP_200_OK, "result": serializer.data})
+        return Response({"status": status.HTTP_200_OK, "result": serializer.data},status=status.HTTP_401_UNAUTHORIZED)
 
     def create(self, request, *args, **kwargs):
         """
@@ -140,6 +140,7 @@ class JobViewSet(viewsets.GenericViewSet):
         """
         if request.user.is_authenticated:
 
+          
             user = request.user
             user_info = UserInfo.objects.get(user=user)
 
@@ -147,8 +148,9 @@ class JobViewSet(viewsets.GenericViewSet):
                 return Response(
                     {
                         "status": status.HTTP_401_UNAUTHORIZED,
-                        "error": "You are not authorized to Create this job",
-                    }
+                        "message": "You are not authorized to Create this job",
+                    },
+                    status=status.HTTP_401_UNAUTHORIZED
                 )
 
             serializer = self.get_serializer(data=request.data)
@@ -157,17 +159,20 @@ class JobViewSet(viewsets.GenericViewSet):
             # headers = self.get_success_headers(serializer.data)
             return Response(
                 {
-                    
                     "message": "Job created successfully",
-                    "status": status.HTTP_201_CREATED, "result": serializer.data}
+                    "status": status.HTTP_201_CREATED,
+                    "result": serializer.data,
+                }
             )
 
         else:
+            
             return Response(
                 {
                     "status": status.HTTP_401_UNAUTHORIZED,
-                    "error": "You are not authorized to Create this job",
-                }
+                    "message": "You are not authorized to Create this job",
+                },
+                status=status.HTTP_401_UNAUTHORIZED,
             )
 
     def update(self, request, *args, **kwargs):
@@ -184,7 +189,7 @@ class JobViewSet(viewsets.GenericViewSet):
             return Response(
                 {
                     "status": status.HTTP_401_UNAUTHORIZED,
-                    "error": "You are not authorized to Update this job",
+                    "message": "You are not authorized to Update this job",
                 }
             )
 
@@ -202,7 +207,7 @@ class JobViewSet(viewsets.GenericViewSet):
             return Response(
                 {
                     "status": status.HTTP_401_UNAUTHORIZED,
-                    "error": "You are not authorized to delete this job",
+                    "message": "You are not authorized to delete this job",
                 }
             )
 
