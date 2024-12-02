@@ -9,7 +9,7 @@ const AboutAlumni = () => {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-4xl mx-auto p-5 bg-[--core-bg] dark:bg-[--sidebar-bg-dark] text-[--base-text] dark:bg-black dark:text-white rounded-lg shadow-lg"
+      className="max-w-4xl mx-auto p-5 bg-[--core-bg] dark:bg-[--sidebar-bg-dark] text-[--base-text] dark:text-white rounded-lg shadow-lg"
     >
       {/* Hero Section */}
       <div className="text-center mb-8 py-5">

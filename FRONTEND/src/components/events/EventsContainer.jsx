@@ -92,7 +92,7 @@ const EventCard = ({ index, title, date, location, image, link }) => {
         {/* View Details */}
         <Link
           href={link}
-          className="mt-3 text-sm font-semibold bg-[--light-bg] dark:bg-[--light-bg-dark] text-[--secondary-text] dark:text-[--base-text-dark] w-full rounded h-10 flex items-center justify-center hover:bg-[--secondary-bg] dark:hover:bg-[--secondary-bg] hover:text-white duration-200"
+          className="mt-3 text-sm font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg] text-[--base-text-dark] dark:text-[--base-text-dark] w-full rounded h-10 flex items-center justify-center hover:bg-[--secondary-bg] dark:hover:bg-[--light-bg] hover:lg:bg-[--light-bg]  hover:text-[--base-text] dark:hover:text-[--base-text]  transition-colors duration-200"
         >
           <span>View Details</span>
           <Eye size={19} className="ml-2" />
