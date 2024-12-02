@@ -5,8 +5,7 @@ import Header from "@/components/shared/Header";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 
-// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SessionProvider } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { Suspense, useState } from "react";
@@ -57,7 +56,7 @@ const CustomRootProvider = ({ children, session }) => {
           </SessionProvider>
         </SnackbarProvider>
 
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </Suspense>
   );

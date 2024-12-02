@@ -4,6 +4,26 @@ import axiosRequest from "@/lib/axiosRequest";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 
+export const useGetJobs = () => {
+  const queryClient = useQueryClient();
+  const { data: session } = useSession();
+
+  return useQuery({
+    queryKey: ["jobs"],
+    queryFn: async () =>
+      await axiosRequest({
+        url: `/jobs/`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries("jobs");
+    },
+  });
+};
+
 export const useCreateJob = () => {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
