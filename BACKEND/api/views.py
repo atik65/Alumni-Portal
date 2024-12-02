@@ -2,6 +2,7 @@ from rest_framework import viewsets, permissions, filters  # type: ignore
 
 from .serializers import serializers
 from cms.models import Blog, Job, Event, NewsFeed
+from authorization.models import UserInfo
 
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet  # type: ignore
 from django_filters import CharFilter  # type: ignore
@@ -138,6 +139,18 @@ class JobViewSet(viewsets.GenericViewSet):
         Create a new job posting.
         """
         if request.user.is_authenticated:
+
+            user = request.user
+            user_info = UserInfo.objects.get(user=user)
+
+            if user_info.role.id == 1:
+                return Response(
+                    {
+                        "status": status.HTTP_401_UNAUTHORIZED,
+                        "error": "You are not authorized to Create this job",
+                    }
+                )
+
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()

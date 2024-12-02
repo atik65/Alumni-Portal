@@ -40,17 +40,18 @@ class Job(models.Model):
         (REMOTE, "Remote"),
         (INTERN, "Intern"),
     ]
-    job_title = models.CharField(max_length=255)
-    company = models.CharField(max_length=255)
-    location = models.CharField(max_length=255)
-    description = models.TextField()
-    posted_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
+    job_title = models.CharField(max_length=255, default="")
+    company = models.CharField(max_length=255, null=True, blank=True, default="")
+    location = models.CharField(max_length=255, null=True, blank=True, default="")
+    description = models.TextField(default="")
+    posted_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     jobType = models.CharField(
         choices=JOB_TYPE_CHOICES, max_length=50, default="Full-Time"
     )
     Deadline = models.DateTimeField(default=timezone.now, null=True, blank=True)
-    experience = models.IntegerField(default=0)
+    experience = models.IntegerField(default=0, null=True, blank=True)
     salary = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    email = models.EmailField(null=True, blank=True, default="")
 
     def __str__(self):
         return self.job_title  # Return the first attribute 'job_title'
