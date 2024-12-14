@@ -38,10 +38,20 @@ const Login = () => {
 
 export default Login;
 
-export const UniversityLogo = ({ src, altText = "University Logo", className = "" }) => {
+export const UniversityLogo = ({
+  src,
+  altText = "University Logo",
+  className = "",
+}) => {
   return (
     <div className={`flex items-center  justify-start pl-11 ${className}`}>
-      <Image src={src} alt={altText} width={360} height={120} className="rounded" />
+      <Image
+        src={src}
+        alt={altText}
+        width={360}
+        height={120}
+        className="rounded"
+      />
     </div>
   );
 };
@@ -215,7 +225,12 @@ const LoginForm = () => {
         />
 
         {/* login button */}
-        <Button disabled={isSubmitting} type="submit" className="mt-5 w-full bg-[--secondary-bg] hover:bg-[--light-bg] hover:text-[--secondary-bg-dark] duration-400 dark:text-[--base-text-dark] dark:hover:text-[--base-text]">
+        <Button
+          id="login-button"
+          disabled={isSubmitting}
+          type="submit"
+          className="mt-5 w-full bg-[--secondary-bg] hover:bg-[--light-bg] hover:text-[--secondary-bg-dark] duration-400 dark:text-[--base-text-dark] dark:hover:text-[--base-text]"
+        >
           <span className="mr-2 font-medium">Login</span> <RiLoginCircleLine />
         </Button>
       </form>
@@ -253,7 +268,11 @@ const LoginForm = () => {
       <div>
         <p className="text-sm mt-3">
           Don&apos;t have an account?{" "}
-          <Link href={"/signup"} className="text-primary font-semibold dark:hover:text-[--secondary-bg] duration-200">
+          <Link
+            id="signup"
+            href={"/signup"}
+            className="text-primary font-semibold dark:hover:text-[--secondary-bg] duration-200"
+          >
             Sign Up
           </Link>
         </p>

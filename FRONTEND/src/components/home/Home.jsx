@@ -70,6 +70,7 @@ const Home = () => {
             </div>
             <div className="flex justify-end w-full">
               <button
+                id="publish-now"
                 type="submit"
                 disabled={isPending}
                 className="text-sm mt-3  font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white rounded h-10 flex gap-2 items-center justify-center hover:bg-[--light-bg] dark:hover:bg-[--light-bg-dark] hover:text-[--secondary-text] dark:hover:text-[--base-text-dark] duration-200 px-5 pe-3 uppercase disabled:cursor-not-allowed disabled:opacity-50"

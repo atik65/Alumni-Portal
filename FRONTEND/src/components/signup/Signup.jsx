@@ -24,11 +24,11 @@ const Signup = () => {
   return (
     <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 py-10">
       <div className="order-2 lg:order-1 lg:mt-20">
-      <UniversityLogo
+        <UniversityLogo
           src="/assets/logo.png" // Replace with the actual path to your logo
           altText="UAP Logo"
           className="mb-9"
-        /> 
+        />
 
         <LoginSignUpIntro />
       </div>
@@ -41,15 +41,23 @@ const Signup = () => {
   );
 };
 
-export const UniversityLogo = ({ src, altText = "University Logo", className = "" }) => {
+export const UniversityLogo = ({
+  src,
+  altText = "University Logo",
+  className = "",
+}) => {
   return (
     <div className={`flex items-center  justify-start pl-11 ${className}`}>
-      <Image src={src} alt={altText} width={360} height={120} className="rounded" />
+      <Image
+        src={src}
+        alt={altText}
+        width={360}
+        height={120}
+        className="rounded"
+      />
     </div>
   );
 };
-
-
 
 export default Signup;
 
@@ -356,7 +364,12 @@ const SignUpForm = () => {
         )}
 
         {/* login button */}
-        <Button disabled={isPending} type="submit" className="mt-5 w-full bg-[--secondary-bg] hover:bg-[--light-bg] hover:text-[--secondary-bg-dark] duration-400 dark:text-[--base-text-dark] dark:hover:text-[--base-text]">
+        <Button
+          id="create-account"
+          disabled={isPending}
+          type="submit"
+          className="mt-5 w-full bg-[--secondary-bg] hover:bg-[--light-bg] hover:text-[--secondary-bg-dark] duration-400 dark:text-[--base-text-dark] dark:hover:text-[--base-text]"
+        >
           {isPending ? (
             <ProcessingPing />
           ) : (
@@ -372,7 +385,10 @@ const SignUpForm = () => {
       <div>
         <p className="text-sm mt-1">
           Already have an account?{" "}
-          <Link href={"/login"} className="text-primary font-semibold dark:hover:text-[--secondary-bg] duration-200">
+          <Link
+            href={"/login"}
+            className="text-primary font-semibold dark:hover:text-[--secondary-bg] duration-200"
+          >
             Login
           </Link>
         </p>

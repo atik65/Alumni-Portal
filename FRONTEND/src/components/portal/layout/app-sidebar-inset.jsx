@@ -112,6 +112,7 @@ export function AppSidebarInset({ children }) {
                 },
               ].map((theme, index) => (
                 <DropdownMenuItem
+                  id={theme.name}
                   key={theme.name}
                   onClick={() => setTheme(theme.key)}
                   className="gap-2 p-2"
