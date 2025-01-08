@@ -141,10 +141,10 @@ const LoginForm = () => {
           // callbackUrl: `${window.location.origin}/dashboard`,
           callbackUrl: `/`,
         });
-        // console.log("res = ", res);
+        console.log("res = ", res);
         // return;
         if (res?.status != 200) {
-          enqueueSnackbar("Email or Password wrong", {
+          enqueueSnackbar(res?.error || "Email or Password wrong", {
             variant: "error",
           });
         }

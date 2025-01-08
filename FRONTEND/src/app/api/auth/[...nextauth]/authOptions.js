@@ -39,7 +39,8 @@ export const authOptions = {
 
   pages: {
     signIn: "/login",
-    error: "/auth-error",
+    // error: "/auth-error",
+    error: "/login",
   },
 
   providers: [
@@ -70,7 +71,9 @@ export const authOptions = {
 
           // return null;
         } catch (err) {
-          console.log("err in log in :>> ", err?.response);
+          // console.log("err in log in :>> ", err?.response?.data);
+          console.log("err in log in :>> ", err?.response?.data?.error);
+          throw new Error(err?.response?.data?.error || "Login failed");
           return null;
         }
       },
@@ -89,6 +92,7 @@ export const authOptions = {
       console.log("data from sign in callback :>> ", data);
 
       if (account.provider === "credentials") {
+        console.log("user from credentials callback :>> ", user);
         return user;
       }
 
