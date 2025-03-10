@@ -1,5 +1,7 @@
 from rest_framework import serializers  # type: ignore
 from django.contrib.auth.models import User
+
+
 from cms.models import (
     Blog,
     # User,
@@ -90,7 +92,28 @@ class EventSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+# class PostSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Post
+#         fields = "__all__"
+
+
 class PostSerializer(serializers.ModelSerializer):
+    
+    created_by = serializers.ReadOnlyField(source='created_by.first_name')
+    
+    
+
     class Meta:
         model = Post
-        fields = "__all__"
+        fields = ('post', 'created_at', 'updated_at', 'created_by', )
+        
+        
+        def validate_post(self, value):
+            if len(value) < 10:
+                raise serializers.ValidationError(
+                    "Post must be at least 10 characters long"
+                )
+            return value
+            
+            

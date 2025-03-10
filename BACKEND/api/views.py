@@ -1,5 +1,6 @@
 from rest_framework import viewsets, permissions, filters  # type: ignore
 
+
 from .serializers import serializers
 from cms.models import Blog, Job, Event, NewsFeed, Post
 from authorization.models import UserInfo
@@ -11,7 +12,7 @@ from django_filters import NumberFilter  # type: ignore
 from rest_framework.response import Response  # type: ignore
 from rest_framework.pagination import LimitOffsetPagination  # type: ignore
 from rest_framework import status  # type: ignore
-
+   
 
 class BlogFilter(FilterSet):
 
@@ -490,6 +491,7 @@ class PostViewSet(viewsets.GenericViewSet):
 
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
+            
          
             serializer.save()
             return Response(

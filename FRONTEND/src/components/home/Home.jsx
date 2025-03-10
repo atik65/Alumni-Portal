@@ -183,7 +183,8 @@ const PostCard = ({ post }) => {
         />
         <div>
           <h3 className="font-semibold text-gray-800 dark:text-white">
-            {userInfo?.result?.first_name + " " + userInfo?.result?.last_name}
+            {/* {userInfo?.result?.first_name + " " + userInfo?.result?.last_name} */}
+            {post?.created_by}
           </h3>
           <span className="text-sm text-gray-500 dark:text-gray-400 italic">
             {
@@ -194,10 +195,13 @@ const PostCard = ({ post }) => {
         </div>
       </div>
       <p className="text-gray-600 mt-5 dark:text-gray-300">{post?.post}</p>
-      <div className="mt-3 flex space-x-6 text-sm text-gray-500 dark:text-gray-400">
+      {/* <div className="mt-3 flex space-x-6 text-sm text-gray-500 dark:text-gray-400">
         <span>👍 24</span>
         <span>💬 1 Comment</span>
-      </div>
+      </div> */}
+
+      {/* <Comments /> */}
+      {/* <i className="text-[8px] pt-5"> Comments are coming soon</i> */}
     </div>
   );
 };
