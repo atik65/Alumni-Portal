@@ -99,7 +99,7 @@ const Home = () => {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
-        className="col-span-12 xl:col-span-4 bg-white dark:bg-[--sidebar-bg-dark] p-6 rounded-lg shadow-lg sticky top-0 max-h-[80vh] overflow-y-auto"
+        className="col-span-12 xl:col-span-4 bg-white dark:bg-[--sidebar-bg-dark] p-6 rounded-lg shadow-lg sticky top-0 max-h-[88vh] overflow-y-auto"
       >
         {/* <h2 className="font-semibold text-lg mb-6 text-gray-800 dark:text-white">
           Upcoming Events

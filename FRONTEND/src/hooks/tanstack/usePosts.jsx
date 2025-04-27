@@ -52,7 +52,7 @@ export const useCreateComment = () => {
   return useMutation({
     mutationFn: async (data) =>
       await axiosRequest({
-        url: `/posts/${data.post_id}/comments/`,
+        url: `/posts/${data.post}/comments/`,
         method: "POST",
         data: data,
         headers: {
