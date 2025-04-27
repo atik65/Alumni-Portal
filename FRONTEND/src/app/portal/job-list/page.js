@@ -1,6 +1,6 @@
 // import JobPortal from "@/components/jobList/JobList";
 // import JobList from "@/components/jobList/JobList";
-import JobPortal from "@/components/jobList/JobList";
+import JobPortal from "../../../components/jobList/JobList";
 import React from "react";
 
 const page = () => {

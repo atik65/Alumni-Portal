@@ -11,13 +11,13 @@ import PhoneInputField from "../ui/phone-input";
 import { IoIosPaperPlane } from "react-icons/io";
 import { TypewriterEffectSmooth } from "../ui/typewritter-effect";
 import { useFormik } from "formik";
-import { signupSchema } from "@/validationSchema/authentication";
-import { useRegister, useSendOtp } from "@/hooks/tanstack/useAuth";
+import { signupSchema } from "../../validationSchema/authentication";
+import { useRegister, useSendOtp } from "../../hooks/tanstack/useAuth";
 import { useRouter } from "next/navigation";
 import { enqueueSnackbar } from "notistack";
 import ProcessingPing from "../shared/ProcessingPing";
 import { OtpTaker } from "../shared/OtpTaker";
-import axiosRequest from "@/lib/axiosRequest";
+import axiosRequest from "../../lib/axiosRequest";
 import Image from "next/image";
 
 const Signup = () => {

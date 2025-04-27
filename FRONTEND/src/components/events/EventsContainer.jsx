@@ -6,7 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Calendar, MapPin, Eye } from "lucide-react";
 import eventImage from "../../../public/assets/event.webp";
-import { useGetEvent } from "@/hooks/tanstack/useEvents";
+import { useGetEvent } from "../../hooks/tanstack/useEvents";
+import { AddEvent } from "./AddEvent";
 
 const EventsContainer = () => {
   const events = [
@@ -34,19 +35,35 @@ const EventsContainer = () => {
   ];
 
   const { data, isLoading } = useGetEvent();
+  console.log(data);
+
+  //   {
+  //   "status": 200,
+  //   "results": [
+  //     {
+  //       "id": 1,
+  //       "event_name": "Iftar Mahfil",
+  //       "date": "2025-04-30T18:00:00+06:00",
+  //       "event_type": "Meetup",
+  //       "location": "UAP Plaza",
+  //       "description": "Come and chill"
+  //     }
+  //   ]
+  // }
 
   return (
     <div className="container mx-auto">
-      <div className="w-full  p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {events.map((event, index) => (
+      <AddEvent />
+      <div className="w-full  p-5 px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {data?.results.map((event, index) => (
           <EventCard
             key={index}
             index={index}
-            title={event.title}
+            title={event.event_name}
             date={event.date}
             location={event.location}
-            image={event.image}
-            link={event.link}
+            image={eventImage}
+            link={`/portal/events/${event.id}`}
           />
         ))}
       </div>
@@ -82,7 +99,7 @@ const EventCard = ({ index, title, date, location, image, link }) => {
         {/* Date and Location */}
         <div className="flex items-center text-sm gap-2 text-opacity-70">
           <Calendar size={16} className="text-[--secondary-bg]" />
-          <p>{date}</p>
+          <p>{date.split("T")[0]}</p>
         </div>
         <div className="flex items-center text-sm gap-2 text-opacity-70">
           <MapPin size={16} className="text-[--secondary-bg]" />
@@ -101,5 +118,3 @@ const EventCard = ({ index, title, date, location, image, link }) => {
     </motion.div>
   );
 };
-
-

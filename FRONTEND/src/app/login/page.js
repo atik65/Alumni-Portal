@@ -1,4 +1,5 @@
-import Login from "@/components/login/Login";
+// import Login from "@/components/login/Login";
+import Login from "../../components/login/Login.jsx";
 import React from "react";
 
 const page = () => {

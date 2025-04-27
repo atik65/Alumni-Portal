@@ -1,13 +1,11 @@
-import Contact from "@/components/contact/Contact";
-import ProfileContainer from "@/components/profile/ProfileContainer";
-import React from "react";
+import Contact from "../../../components/contact/Contact";
 
 const page = () => {
-      return (
-            <div>
-                  <Contact />
-            </div>
-      );
+  return (
+    <div>
+      <Contact />
+    </div>
+  );
 };
 
 export default page;

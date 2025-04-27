@@ -1,6 +1,6 @@
 "use client";
 
-import axiosRequest from "@/lib/axiosRequest";
+import axiosRequest from "../../lib/axiosRequest";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 
@@ -28,18 +28,18 @@ export const useCreatePost = () => {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
 
-    return useMutation({
-      mutationFn: async (data) =>
-        await axiosRequest({
-          url: `/posts/`,
-          method: "POST",
-          data: data,
-          headers: {
-            Authorization: `Bearer ${session?.accessToken}`,
-          },
-        }),
-      onSuccess: () => {
-        queryClient.invalidateQueries("posts");
-      },
-    });
+  return useMutation({
+    mutationFn: async (data) =>
+      await axiosRequest({
+        url: `/posts/`,
+        method: "POST",
+        data: data,
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries("posts");
+    },
+  });
 };

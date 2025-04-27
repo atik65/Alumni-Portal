@@ -1,7 +1,7 @@
 "use client";
 
-import Footer from "@/components/shared/Footer";
-import Header from "@/components/shared/Header";
+// import Footer from "@/components/shared/Footer";
+// import Header from "@/components/shared/Header";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 

@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "../../components/ui/dialog";
 
 import {
   FaBuilding,
@@ -22,9 +22,8 @@ import {
   FaDollarSign,
   FaRegClock,
 } from "react-icons/fa";
-import { enqueueSnackbar } from "notistack";
 import JobPostForm from "./JobForm";
-import { useGetJobs } from "@/hooks/tanstack/useJobs";
+import { useGetJobs } from "../../hooks/tanstack/useJobs";
 import { Skeleton } from "../ui/skeleton";
 
 const JobPost = ({ job, index }) => {
@@ -76,8 +75,8 @@ const JobPost = ({ job, index }) => {
       {/* Job Description */}
       <div className="mt-4">
         <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
-          {description.length > 150
-            ? `${description.slice(0, 150)}...`
+          {description.length > 100
+            ? `${description.slice(0, 100)}...`
             : description}
         </p>
       </div>
@@ -116,18 +115,18 @@ const JobPost = ({ job, index }) => {
 
       {/* View Details Button */}
       <div className="mt-5">
-        <button
-          // href={`/jobs/${job.id}`}
-          onClick={() =>
-            enqueueSnackbar("Job details will be available soon!", {
-              variant: "default",
-            })
-          }
+        <Link
+          href={`/portal/job-list/${job.id}`}
+          // onClick={() =>
+          //   enqueueSnackbar("Job details will be available soon!", {
+          //     variant: "default",
+          //   })
+          // }
           className="text-sm font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg] text-[--base-text-dark] hover:text-[--base-text] hover:bg-[--light-bg]  dark:text-[--base-text-dark] w-full rounded-md h-10 flex gap-2 items-center justify-center  dark:hover:bg-[--light-bg] dark:hover:text-[--base-text] duration-200"
         >
           <span>View Details</span>
           <Eye size={20} />
-        </button>
+        </Link>
       </div>
     </motion.div>
   );

@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { enqueueSnackbar } from "notistack";
 import { Input, SelectInput, TextInput } from "../ui/input";
 import { Button } from "../ui/button";
-import { useCreateJob } from "@/hooks/tanstack/useJobs";
+import { useCreateJob } from "../../hooks/tanstack/useJobs";
 
 const JobPostForm = ({ open, setOpen }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);

@@ -9,7 +9,7 @@ import { RiLoginCircleLine } from "react-icons/ri";
 import Link from "next/link";
 import { TypewriterEffectSmooth } from "../ui/typewritter-effect";
 import { useFormik } from "formik";
-import { loginSchema } from "@/validationSchema/authentication";
+import { loginSchema } from "../../validationSchema/authentication";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import { enqueueSnackbar } from "notistack";

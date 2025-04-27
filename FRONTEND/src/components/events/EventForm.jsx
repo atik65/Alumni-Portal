@@ -4,7 +4,7 @@ import { useState } from "react";
 import { enqueueSnackbar } from "notistack";
 import { Input, SelectInput, TextInput } from "../ui/input";
 import { Button } from "../ui/button";
-import { useCreateEvent } from "@/hooks/tanstack/useEvents";
+import { useCreateEvent } from "../../hooks/tanstack/useEvents";
 
 const EventPostForm = ({ open, setOpen }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,7 +28,7 @@ const EventPostForm = ({ open, setOpen }) => {
       description: "",
       eventType: "Online",
       start_date: "",
-      end_date: "",
+      start_time: "",
       email: "",
     },
     validationSchema: Yup.object({
@@ -40,9 +40,9 @@ const EventPostForm = ({ open, setOpen }) => {
       start_date: Yup.date()
         .required("Start date is required.")
         .typeError("Invalid date."),
-      end_date: Yup.date()
-        .required("End date is required.")
-        .typeError("Invalid date."),
+      start_time: Yup.string()
+        .required("Start time is required.")
+        .typeError("Invalid time."),
       email: Yup.string()
         .email("Invalid email address.")
         .required("Contact email is required."),
@@ -58,8 +58,10 @@ const EventPostForm = ({ open, setOpen }) => {
           description: values.description,
           eventType: values.eventType,
           start_date: values.start_date,
-          end_date: values.end_date,
+          start_time: values.start_time,
           email: values.email,
+          event_type: values.eventType,
+          date: values.start_date,
         };
 
         // Simulate API call to create an event
@@ -155,15 +157,15 @@ const EventPostForm = ({ open, setOpen }) => {
           className="mt-5"
         />
 
-        {/* End Date */}
+        {/* Start Time */}
         <Input
-          name="end_date"
-          type="date"
-          placeholder="End Date"
-          value={values.end_date}
+          name="start_time"
+          type="time"
+          placeholder="Start Time"
+          value={values.start_time}
           onChange={handleChange}
-          error={errors.end_date}
-          touched={touched.end_date}
+          error={errors.start_time}
+          touched={touched.start_time}
           className="mt-5"
         />
 

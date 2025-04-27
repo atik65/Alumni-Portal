@@ -7,11 +7,12 @@ import Image from "next/image";
 import noPhoto from "../../../public/assets/noPhoto.png";
 import userPhoto from "../../../public/assets/user.jpg";
 import { Plus } from "lucide-react";
-import { useCreatePost, useGetPosts } from "@/hooks/tanstack/usePosts";
-import { useGetRoles, useGetUserInfo } from "@/hooks/tanstack/useAlumni";
+import { useCreatePost, useGetPosts } from "../../hooks/tanstack/usePosts";
+import { useGetRoles, useGetUserInfo } from "../../hooks/tanstack/useAlumni";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { enqueueSnackbar } from "notistack";
+import EventList from "./EventList";
 
 const Home = () => {
   const { data: posts, isLoading } = useGetPosts();
@@ -103,7 +104,7 @@ const Home = () => {
         transition={{ duration: 0.5, delay: 0.3 }}
         className="col-span-12 xl:col-span-4 bg-white dark:bg-[--sidebar-bg-dark] p-6 rounded-lg shadow-lg sticky top-0 max-h-[80vh] overflow-y-auto"
       >
-        <h2 className="font-semibold text-lg mb-6 text-gray-800 dark:text-white">
+        {/* <h2 className="font-semibold text-lg mb-6 text-gray-800 dark:text-white">
           Upcoming Events
         </h2>
         <div className="space-y-4">
@@ -151,7 +152,9 @@ const Home = () => {
               May 15th, 2:00 PM
             </p>
           </div>
-        </div>
+        </div> */}
+
+        <EventList />
       </motion.div>
     </div>
   );

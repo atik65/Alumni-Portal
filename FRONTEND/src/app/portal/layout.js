@@ -1,4 +1,4 @@
-import PortalProvider from "@/providers/PortalProvider";
+import PortalProvider from "../../providers/PortalProvider";
 import React from "react";
 
 const layout = ({ children }) => {

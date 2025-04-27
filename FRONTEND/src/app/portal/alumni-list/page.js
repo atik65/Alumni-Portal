@@ -1,4 +1,4 @@
-import AllAlumniContainer from "@/components/all-alumni/AllAlumniContainer";
+import AllAlumniContainer from "../../../components/all-alumni/AllAlumniContainer";
 import React from "react";
 
 const page = () => {

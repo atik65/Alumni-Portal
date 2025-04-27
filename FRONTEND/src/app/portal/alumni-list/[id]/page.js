@@ -1,4 +1,4 @@
-import AlumniProfile from "@/components/alumniProfile/AlumniProfile";
+import AlumniProfile from "../../../../components/alumniProfile/AlumniProfile";
 import React from "react";
 
 const page = () => {

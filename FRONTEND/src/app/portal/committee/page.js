@@ -1,5 +1,4 @@
-import Committee from "@/components/committee/Committee";
-import React from "react";
+import Committee from "../../../components/committee/Committee";
 
 const page = () => {
   return (

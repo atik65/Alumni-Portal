@@ -1,6 +1,7 @@
 // import { SidebarInset } from "../ui/sidebar";
 
-import { Separator } from "@/components/ui/separator";
+// import { Separator } from "../../components/ui/separator";
+import { Separator } from "../../../components/ui/separator";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,15 +9,18 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+} from "../../../components/ui/breadcrumb";
 // import Socials from "@/components/socials";
-import { SidebarMenuButton, SidebarTrigger } from "@/components/ui/sidebar";
+import {
+  SidebarMenuButton,
+  SidebarTrigger,
+} from "../../../components/ui/sidebar";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { SidebarInset } from "@/components/ui/sidebar";
+} from "../../../components/ui/tooltip";
+import { SidebarInset } from "../../../components/ui/sidebar";
 
 import { useTheme } from "next-themes";
 import {
@@ -27,7 +31,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "../../../components/ui/dropdown-menu";
 import { ChevronsUpDown, SunMoon } from "lucide-react";
 
 export function AppSidebarInset({ children }) {

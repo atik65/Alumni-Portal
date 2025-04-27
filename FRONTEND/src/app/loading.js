@@ -1,13 +1,12 @@
 "use client";
 
-import LoadingPage from "@/components/shared/LoadingPage";
 import React from "react";
+import LoadingPage from "../components/shared/LoadingPage";
 
 const loading = () => {
   return (
     <div>
       <LoadingPage />
-      
     </div>
   );
 };

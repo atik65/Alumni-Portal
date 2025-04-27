@@ -31,13 +31,13 @@ import {
   Users,
 } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
+// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../../components/ui/avatar";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -47,7 +47,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "../../../components/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
@@ -63,7 +63,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
-} from "@/components/ui/sidebar";
+} from "../../../components/ui/sidebar";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { enqueueSnackbar } from "notistack";

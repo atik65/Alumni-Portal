@@ -1,10 +1,12 @@
-import ProfileContainer from "../../../components/profile/ProfileContainer";
+"use client";
+
+import JobDetails from "../../../../components/jobList/JobDetails";
 import React from "react";
 
 const page = () => {
   return (
     <div>
-      <ProfileContainer />
+      <JobDetails />
     </div>
   );
 };

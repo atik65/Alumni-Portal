@@ -24,12 +24,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "../../components/ui/dropdown-menu";
 
 import userAvatar from "../../../public/assets/user.jpg";
 import Image from "next/image";
 import Pagination from "../shared/Pagination";
-import { useGetRoles, useGetUsers } from "@/hooks/tanstack/useAlumni";
+import { useGetRoles, useGetUsers } from "../../hooks/tanstack/useAlumni";
 import { Skeleton } from "../ui/skeleton";
 
 const AllAlumniContainer = () => {

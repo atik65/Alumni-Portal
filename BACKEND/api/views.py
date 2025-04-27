@@ -134,7 +134,7 @@ class JobViewSet(viewsets.GenericViewSet):
         """
         instance = self.get_object()
         serializer = self.get_serializer(instance)
-        return Response({"status": status.HTTP_200_OK, "result": serializer.data},status=status.HTTP_401_UNAUTHORIZED)
+        return Response({"status": status.HTTP_200_OK, "result": serializer.data}, status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
         """
@@ -484,16 +484,9 @@ class PostViewSet(viewsets.GenericViewSet):
         Create a new post.
         """
         if request.user.is_authenticated:
-
-            userInfo = UserInfo.objects.get(user=request.user.id)
-            request.data["created_by"] = request.user.id
-           
-
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
-            
-         
-            serializer.save()
+            serializer.save(created_by=request.user)
             return Response(
                 {"status": status.HTTP_201_CREATED, "result": serializer.data},
                 status=status.HTTP_201_CREATED
