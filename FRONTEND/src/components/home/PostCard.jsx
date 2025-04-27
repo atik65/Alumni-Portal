@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, Send } from "lucide-react";
+import { Loader2, MessageCircle, Send } from "lucide-react";
 import userPhoto from "../../../public/assets/user.jpg";
 import { useGetRoles, useGetUserInfo } from "../../hooks/tanstack/useAlumni";
 import {
@@ -20,6 +20,10 @@ import {
   AvatarImage,
 } from "../../components/ui/avatar";
 import { formatDistanceToNow } from "date-fns";
+import { useFormik } from "formik";
+import { commentSchema } from "../../validationSchema/commentSchema";
+import { useCreateComment } from "../../hooks/tanstack/usePosts";
+import { enqueueSnackbar } from "notistack";
 
 // Mock data for comments - replace with actual API calls
 const mockComments = [
@@ -51,6 +55,14 @@ const mockComments = [
 ];
 
 const Comment = ({ comment }) => {
+  // class CommentSerializer(serializers.ModelSerializer):
+  //   user = serializers.StringRelatedField(read_only=True)
+
+  //   class Meta:
+  //       model = Comment
+  //       fields = ['id', 'post', 'user', 'content', 'created_at', 'updated_at']
+  //       read_only_fields = ['id', 'user', 'created_at', 'updated_at']
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -59,22 +71,26 @@ const Comment = ({ comment }) => {
     >
       <Avatar className="h-8 w-8">
         <AvatarImage
-          src={comment.user.avatar.src || "/placeholder.svg"}
-          alt={comment.user.name}
+          src={comment?.user?.avatar || "/placeholder.svg"}
+          alt={comment?.user?.name}
         />
-        <AvatarFallback>{comment.user.name.charAt(0)}</AvatarFallback>
+        <AvatarFallback>
+          {comment?.user?.first_name?.charAt(0).toUpperCase() +
+            comment?.user?.last_name?.charAt(0).toUpperCase()}
+        </AvatarFallback>
       </Avatar>
       <div className="flex-1">
         <div className="flex items-baseline gap-2">
           <h4 className="font-medium text-sm text-gray-900 dark:text-gray-100">
-            {comment.user.name}
+            {comment?.user?.first_name} {comment?.user?.last_name}
+            {/* <span>{comment?.user?.username}</span> */}
           </h4>
           <span className="text-xs text-gray-500 dark:text-gray-400">
-            {formatDistanceToNow(comment.timestamp, { addSuffix: true })}
+            {formatDistanceToNow(comment?.created_at, { addSuffix: true })}
           </span>
         </div>
         <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">
-          {comment.content}
+          {comment?.content}
         </p>
       </div>
     </motion.div>
@@ -85,17 +101,35 @@ const CommentForm = ({
   onSubmit,
   placeholder = "Write a comment...",
   initialValue = "",
-  buttonText = "Post",
+  postId,
+  open = false,
+  setOpen = () => {},
+  setShowComments = () => {},
 }) => {
-  const [comment, setComment] = useState(initialValue);
+  const { mutateAsync, isPending } = useCreateComment();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (comment.trim()) {
-      onSubmit(comment);
-      setComment("");
-    }
-  };
+  const { handleSubmit, handleChange, values, resetForm } = useFormik({
+    initialValues: {
+      content: initialValue,
+    },
+    validationSchema: commentSchema,
+    onSubmit: async (values) => {
+      const payload = {
+        post: postId,
+        content: values.content,
+      };
+
+      try {
+        const res = await mutateAsync(payload);
+        enqueueSnackbar("Comment added successfully", { variant: "default" });
+        resetForm();
+        setOpen(false);
+        setShowComments(true);
+      } catch (error) {
+        enqueueSnackbar("Failed to add comment", { variant: "error" });
+      }
+    },
+  });
 
   return (
     <form onSubmit={handleSubmit} className="flex gap-3 items-start mt-2">
@@ -108,49 +142,42 @@ const CommentForm = ({
       </Avatar>
       <div className="flex-1 relative">
         <Textarea
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
+          value={values.content}
+          onChange={handleChange}
+          name="content"
           placeholder={placeholder}
           className="min-h-[60px] w-full resize-none outline-none pr-10 text-sm"
         />
-        <button
-          type="submit"
-          className="absolute right-2 bottom-2 text-primary hover:text-primary/80 transition-colors"
-          disabled={!comment.trim()}
-        >
-          <Send size={18} />
-          <span className="sr-only">Send comment</span>
-        </button>
+        {!isPending && (
+          <button
+            type="submit"
+            className="absolute right-2 bottom-2 text-primary hover:text-primary/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            disabled={!values.content.trim() || isPending}
+          >
+            <Send size={18} />
+            <span className="sr-only">Send comment</span>
+          </button>
+        )}
+
+        {/* if isPending then show a loading spinner */}
+        {isPending && (
+          <div className="absolute right-2 bottom-2 text-primary">
+            <Loader2 size={18} className="animate-spin" />
+          </div>
+        )}
       </div>
+      {/* {!errors.content && !touched.content && (
+        <p className="text-xs text-red-500">{errors.content}</p>
+      )} */}
     </form>
   );
 };
 
-const CommentModal = ({ postId, onCommentAdded }) => {
-  const handleSubmit = (comment) => {
-    // Here you would call your API to add the comment
-    console.log("Adding comment to post", postId, comment);
-
-    // Mock implementation - add to the list
-    const newComment = {
-      id: Math.random().toString(),
-      user: {
-        id: "currentUser",
-        name: "You",
-        avatar: userPhoto,
-        role: "Member",
-      },
-      content: comment,
-      timestamp: new Date(),
-      likes: 0,
-    };
-
-    onCommentAdded(newComment);
-    // Close the modal (handled by DialogClose)
-  };
+const CommentModal = ({ postId, onCommentAdded, setShowComments }) => {
+  const [open, setOpen] = useState(false);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           variant="outline"
@@ -167,7 +194,10 @@ const CommentModal = ({ postId, onCommentAdded }) => {
         </DialogHeader>
         <div className="py-4">
           <CommentForm
-            onSubmit={handleSubmit}
+            open={open}
+            setOpen={setOpen}
+            postId={postId}
+            setShowComments={setShowComments}
             placeholder="Share your thoughts on this post..."
             buttonText="Post Comment"
           />
@@ -250,11 +280,11 @@ const PostCard = ({ post }) => {
           >
             <MessageCircle size={18} />
             <span className="text-xs text-gray-500 dark:text-gray-400 sm:text-sm">
-              {comments.length} Comments
+              {post?.comments?.length} Comments
             </span>
           </Button>
 
-          <CommentModal postId={post?.id} onCommentAdded={handleAddComment} />
+          <CommentModal setShowComments={setShowComments} postId={post?.id} />
         </div>
 
         <AnimatePresence>
@@ -269,25 +299,27 @@ const PostCard = ({ post }) => {
               <div className="border-t border-gray-100 dark:border-gray-800 pt-4">
                 <div className="pr-2">
                   <CommentForm
-                    onSubmit={(comment) =>
-                      handleAddComment({
-                        id: Math.random().toString(),
-                        user: {
-                          id: "currentUser",
-                          name: "You",
-                          avatar: userPhoto,
-                          role: "Member",
-                        },
-                        content: comment,
-                        timestamp: new Date(),
-                        likes: 0,
-                      })
-                    }
+                    postId={post?.id}
+                    setShowComments={setShowComments}
+                    // onSubmit={(comment) =>
+                    //   handleAddComment({
+                    //     id: Math.random().toString(),
+                    //     user: {
+                    //       id: "currentUser",
+                    //       name: "You",
+                    //       avatar: userPhoto,
+                    //       role: "Member",
+                    //     },
+                    //     content: comment,
+                    //     timestamp: new Date(),
+                    //     likes: 0,
+                    //   })
+                    // }
                   />
                 </div>
 
                 <div className="mt-4 space-y-1 divide-y divide-gray-100 dark:divide-gray-800">
-                  {comments.map((comment) => (
+                  {post?.comments?.map((comment) => (
                     <Comment key={comment.id} comment={comment} />
                   ))}
                 </div>

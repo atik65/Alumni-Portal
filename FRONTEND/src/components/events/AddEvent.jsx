@@ -28,7 +28,7 @@ export function AddEvent() {
           <Plus size={20} />
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] md:max-w-[600px] border-black bg-gray-100">
+      <DialogContent className="sm:max-w-[425px] md:max-w-[600px] max-h-[90vh] overflow-y-auto border-black bg-gray-100">
         <DialogHeader>
           <DialogTitle>Add an Event</DialogTitle>
           <DialogDescription>

@@ -5,6 +5,8 @@ import { enqueueSnackbar } from "notistack";
 import { Input, SelectInput, TextInput } from "../ui/input";
 import { Button } from "../ui/button";
 import { useCreateEvent } from "../../hooks/tanstack/useEvents";
+import ImageUploader from "../shared/ImageUploader";
+import { getImgToB64 } from "../../lib/utils";
 
 const EventPostForm = ({ open, setOpen }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,6 +32,7 @@ const EventPostForm = ({ open, setOpen }) => {
       start_date: "",
       start_time: "",
       email: "",
+      image: [],
     },
     validationSchema: Yup.object({
       event_name: Yup.string().required("Event name is required."),
@@ -62,6 +65,7 @@ const EventPostForm = ({ open, setOpen }) => {
           email: values.email,
           event_type: values.eventType,
           date: values.start_date,
+          image: values.image[0],
         };
 
         // Simulate API call to create an event
@@ -83,9 +87,41 @@ const EventPostForm = ({ open, setOpen }) => {
     },
   });
 
+  const handleUpload = async (files) => {
+    // In a real application, you would upload these files to your server or cloud storage
+    console.log("Files to upload:", files);
+
+    const b64 = await Promise.all(files.map(getImgToB64));
+
+    setFieldValue("image", b64);
+
+    return;
+  };
+
+  const handleRemove = (index) => {
+    setFieldValue("image", (prev) => {
+      const newFiles = [...prev];
+      newFiles.splice(index, 1);
+      return newFiles;
+    });
+  };
+
   return (
     <div className="bg-white rounded-lg p-5">
       <form onSubmit={handleSubmit}>
+        {/* image */}
+        <div>
+          <ImageUploader
+            onUpload={handleUpload}
+            onRemove={handleRemove}
+            maxFiles={1}
+            maxSizeMB={10}
+            acceptedFileTypes={["image/jpeg", "image/png", "image/webp"]}
+            label="Post Images"
+            description="Drag and drop your images here or click to browse"
+          />
+        </div>
+
         {/* Event Name */}
         <Input
           name="event_name"
