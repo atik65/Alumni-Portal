@@ -109,19 +109,6 @@ const EventPostForm = ({ open, setOpen }) => {
   return (
     <div className="bg-white rounded-lg p-5">
       <form onSubmit={handleSubmit}>
-        {/* image */}
-        <div>
-          <ImageUploader
-            onUpload={handleUpload}
-            onRemove={handleRemove}
-            maxFiles={1}
-            maxSizeMB={10}
-            acceptedFileTypes={["image/jpeg", "image/png", "image/webp"]}
-            label="Post Images"
-            description="Drag and drop your images here or click to browse"
-          />
-        </div>
-
         {/* Event Name */}
         <Input
           name="event_name"
@@ -216,6 +203,19 @@ const EventPostForm = ({ open, setOpen }) => {
           touched={touched.email}
           className="mt-5 border"
         />
+
+        {/* image */}
+        <div className="mt-5 px-3">
+          <ImageUploader
+            onUpload={handleUpload}
+            onRemove={handleRemove}
+            maxFiles={1}
+            maxSizeMB={10}
+            acceptedFileTypes={["image/jpeg", "image/png", "image/webp"]}
+            label="Event Image"
+            description="Drag and drop your images here or click to browse"
+          />
+        </div>
 
         {/* Submit Button */}
         <Button

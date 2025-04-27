@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Calendar, MapPin, Eye } from "lucide-react";
+import { Calendar, MapPin, Eye, ImageOff } from "lucide-react";
 import eventImage from "../../../public/assets/event.webp";
 import { useGetEvent } from "../../hooks/tanstack/useEvents";
 import { AddEvent } from "./AddEvent";
@@ -62,7 +62,7 @@ const EventsContainer = () => {
             title={event.event_name}
             date={event.date}
             location={event.location}
-            image={eventImage}
+            image={event.image}
             link={`/portal/events/${event.id}`}
           />
         ))}
@@ -82,14 +82,20 @@ const EventCard = ({ index, title, date, location, image, link }) => {
       className="rounded-md shadow-lg dark:shadow-gray-900 bg-[--core-bg] text-[--base-text] dark:bg-black dark:text-white overflow-hidden"
     >
       {/* Event Image */}
-      <div className="relative w-full h-40">
-        <Image
-          src={image}
-          alt={title}
-          fill
-          className="object-cover"
-          style={{ borderBottom: "4px solid var(--secondary-bg)" }}
-        />
+      <div className="relative w-full h-48">
+        {image ? (
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="object-cover "
+            style={{ borderBottom: "4px solid var(--secondary-bg)" }}
+          />
+        ) : (
+          <div className="flex items-center justify-center w-full h-full">
+            <ImageOff size={100} strokeWidth={1} />
+          </div>
+        )}
       </div>
 
       {/* Event Details */}
