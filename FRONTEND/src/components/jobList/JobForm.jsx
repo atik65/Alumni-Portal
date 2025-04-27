@@ -107,7 +107,7 @@ const JobPostForm = ({ open, setOpen }) => {
   });
 
   return (
-    <div className="bg-white rounded-lg p-5">
+    <div className="bg-white rounded-lg p-5 dark:shadow-gray-900 bg-[--core-bg] dark:bg-[--sidebar-bg]">
       {/* Form Title */}
       {/* <div>
         <h1 className="text-xl md:text-xl lg:text-2xl font-semibold">
@@ -177,7 +177,7 @@ const JobPostForm = ({ open, setOpen }) => {
           ]}
           error={errors.jobType}
           touched={touched.jobType}
-          className="mt-5"
+          className="mt-5 dark:shadow-gray-900 bg-[--core-bg] dark:bg-[--sidebar-bg]"
         />
 
         {/* Experience */}

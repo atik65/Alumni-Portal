@@ -84,7 +84,7 @@ const EventPostForm = ({ open, setOpen }) => {
   });
 
   return (
-    <div className="bg-white rounded-lg p-5">
+    <div className="bg-white dark:shadow-gray-900 bg-[--core-bg] dark:bg-[--sidebar-bg] rounded-lg p-5">
       <form onSubmit={handleSubmit}>
         {/* Event Name */}
         <Input
@@ -131,7 +131,7 @@ const EventPostForm = ({ open, setOpen }) => {
         />
 
         {/* Event Type */}
-        <SelectInput
+        <SelectInput 
           name="eventType"
           value={values.eventType}
           onChange={(e) => setFieldValue("eventType", e.target.value)}
@@ -142,7 +142,7 @@ const EventPostForm = ({ open, setOpen }) => {
           ]}
           error={errors.eventType}
           touched={touched.eventType}
-          className="mt-5"
+          className="mt-5 dark:bg-[--sidebar-bg]"
         />
 
         {/* Start Date */}

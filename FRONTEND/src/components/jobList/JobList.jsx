@@ -288,7 +288,7 @@ export function AddJob() {
           <Plus size={20} />
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] md:max-w-[600px] border-black bg-gray-100">
+      <DialogContent className="sm:max-w-[425px] md:max-w-[600px] border-black bg-gray-100 dark:shadow-gray-900 bg-[--core-bg] dark:bg-[--sidebar-bg]">
         <DialogHeader>
           <DialogTitle>Add a Job</DialogTitle>
           <DialogDescription>Add a job to your job portal.</DialogDescription>
