@@ -43,3 +43,24 @@ export const useCreatePost = () => {
     },
   });
 };
+
+// use Create Comment
+export const useCreateComment = () => {
+  const queryClient = useQueryClient();
+  const { data: session } = useSession();
+
+  return useMutation({
+    mutationFn: async (data) =>
+      await axiosRequest({
+        url: `/posts/${data.post_id}/comments/`,
+        method: "POST",
+        data: data,
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries("posts");
+    },
+  });
+};
