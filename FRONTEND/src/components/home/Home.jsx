@@ -10,7 +10,7 @@ import * as Yup from "yup";
 import { enqueueSnackbar } from "notistack";
 import EventList from "./EventList";
 import PostCard from "./PostCard";
-
+import HomeLeft from "./HomeLeft";
 const Home = () => {
   const { data: posts, isLoading } = useGetPosts();
 
@@ -41,13 +41,16 @@ const Home = () => {
     });
 
   return (
-    <div className="container mx-auto xl:space-y-0 grid grid-cols-12 gap-6 py-8 px-4 relative ">
+    <div className="container mx-auto xl:space-y-0 grid grid-cols-12 gap-6 py-8 pt-0  px-4 relative ">
+      <div className="col-span-12 xl:col-span-3 sticky top-0 max-h-[88vh] overflow-y-auto">
+        <HomeLeft />
+      </div>
       {/* Left Side: Posts Section */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="col-span-12 xl:col-span-8 dark:bg-[--sidebar-bg-dark] dark:pt-10  rounded-lg p-8 pt-0 "
+        className="col-span-12 xl:col-span-6 dark:bg-[--sidebar-bg-dark] dark:pt-10  rounded-lg p-8 pt-0 "
       >
         {/* New Post Input */}
         <div className="mb-6">
@@ -99,7 +102,7 @@ const Home = () => {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
-        className="col-span-12 xl:col-span-4 bg-white dark:bg-[--sidebar-bg-dark] p-6 rounded-lg shadow-lg sticky top-0 max-h-[88vh] overflow-y-auto"
+        className="col-span-12 xl:col-span-3 bg-white dark:bg-[--sidebar-bg-dark] p-6 rounded-lg shadow-lg sticky top-0 max-h-[88vh] overflow-y-auto"
       >
         {/* <h2 className="font-semibold text-lg mb-6 text-gray-800 dark:text-white">
           Upcoming Events

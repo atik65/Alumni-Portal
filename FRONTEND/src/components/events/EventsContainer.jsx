@@ -8,6 +8,7 @@ import { Calendar, MapPin, Eye, ImageOff } from "lucide-react";
 import eventImage from "../../../public/assets/event.webp";
 import { useGetEvent } from "../../hooks/tanstack/useEvents";
 import { AddEvent } from "./AddEvent";
+import ImageZoomViewModal from "../shared/ImageZoomViewModal";
 
 const EventsContainer = () => {
   const events = [
@@ -52,7 +53,7 @@ const EventsContainer = () => {
   // }
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto w-full">
       <AddEvent />
       <div className="w-full  p-5 px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {data?.results.map((event, index) => (
@@ -79,17 +80,22 @@ const EventCard = ({ index, title, date, location, image, link }) => {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="rounded-md shadow-lg dark:shadow-gray-900 bg-[--core-bg] text-[--base-text] dark:bg-black dark:text-white overflow-hidden"
+      className="rounded-md shadow-lg dark:shadow-gray-900 bg-[--core-bg] text-[--base-text] dark:bg-black dark:text-white overflow-hidden w-full"
     >
       {/* Event Image */}
-      <div className="relative w-full h-48">
+      <div className="relative w-full h-48 overflow-hidden">
         {image ? (
-          <Image
-            src={image}
-            alt={title}
-            fill
-            className="object-cover "
-            style={{ borderBottom: "4px solid var(--secondary-bg)" }}
+          // <Image
+          //   src={image}
+          //   alt={title}
+          //   fill
+          //   className="object-cover "
+          //   style={{ borderBottom: "4px solid var(--secondary-bg)" }}
+          // />
+
+          <ImageZoomViewModal
+            className="object-contain w-full  rounded-[15px] "
+            imgURI={image}
           />
         ) : (
           <div className="flex items-center justify-center w-full h-full">

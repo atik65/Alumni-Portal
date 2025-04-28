@@ -4,6 +4,7 @@ import React from "react";
 import { MapPin, Calendar, ImageOff } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import ImageZoomViewModal from "../shared/ImageZoomViewModal";
 
 const HomeEventCard = ({ event }) => {
   return (
@@ -19,11 +20,16 @@ const HomeEventCard = ({ event }) => {
       {/* Left Image */}
       <div className="relative w-full md:w-48 h-40 md:h-auto">
         {event?.image ? (
-          <Image
-            src={event.image || "/placeholder.jpg"}
-            alt={event.event_name}
-            fill
-            className="object-cover object-center"
+          // <Image
+          //   src={event.image || "/placeholder.jpg"}
+          //   alt={event.event_name}
+          //   fill
+          //   className="object-cover object-center"
+          // />
+
+          <ImageZoomViewModal
+            className="object-cover w-full  h-48"
+            imgURI={event.image}
           />
         ) : (
           <div className="flex items-center justify-center w-full h-full">

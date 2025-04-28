@@ -88,7 +88,7 @@
 
   --core-bg-dark: black;
   --base-bg-dark: rgb(34, 34, 34);
-  --sidebar-bg-dark: #1a1b27;
+  --sidebar-bg-dark: rgb(17 24 39);
   --secondary-bg-dark: #2778c8;
   --light-bg-dark: #202020;
   --light-secondary-bg-dark: #e1f0fd;
@@ -116,4 +116,23 @@
   /* body {
     @apply bg-background text-foreground;
   } */
+}
+
+/* scroll bar for all */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+/* .review-scroll::-webkit-scrollbar-track {
+  background-color: #cfb284;
+  border-radius: 76px;
+} */
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--secondary-bg);
+  border-radius: 10px;
+  cursor: crosshair;
+  height: 50px;
 }
