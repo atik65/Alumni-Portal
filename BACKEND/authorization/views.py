@@ -192,21 +192,18 @@ class UserInfoView(viewsets.GenericViewSet):
         paginated_queryset = self.paginate_queryset(filtered_queryset)
 
         if paginated_queryset is not None:
-            serializer = self.get_serializer(paginated_queryset, many=True)
+            serializer = self.get_serializer(paginated_queryset, many=True, context={'request': request})
             return self.get_paginated_response(serializer.data)
 
-        serializer = self.get_serializer(filtered_queryset, many=True)
+        serializer = self.get_serializer(filtered_queryset, many=True, context={'request': request})
         return Response({"status": status.HTTP_200_OK, "results": serializer.data})
     
-    def retrieve(self, request, *args, **kwargs):
-        # Get the logged-in user's info
-        instance = self.queryset.filter(user=request.user).first()
-        
-        if not instance:
-            return Response({"status": status.HTTP_404_NOT_FOUND, "message": "User info not found."})
-        
-        serializer = self.get_serializer(instance)
-        return Response({"status": status.HTTP_200_OK, "result": serializer.data})
+def retrieve(self, request, *args, **kwargs):
+    instance = self.queryset.filter(user=request.user).first()
+    if not instance:
+        return Response({"status": status.HTTP_404_NOT_FOUND, "message": "User info not found."})
+    serializer = self.get_serializer(instance, context={'request': request})
+    return Response(serializer.data)
         
 
 class UserRolesView(viewsets.GenericViewSet):

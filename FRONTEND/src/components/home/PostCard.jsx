@@ -3,7 +3,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, MessageCircle, Send } from "lucide-react";
 import userPhoto from "../../../public/assets/user.jpg";
-import { useGetRoles, useGetUserInfo } from "../../hooks/tanstack/useAlumni";
 import {
   Dialog,
   DialogContent,
@@ -25,34 +24,6 @@ import { commentSchema } from "../../validationSchema/commentSchema";
 import { useCreateComment } from "../../hooks/tanstack/usePosts";
 import { enqueueSnackbar } from "notistack";
 
-// Mock data for comments - replace with actual API calls
-const mockComments = [
-  {
-    id: 1,
-    user: {
-      id: "user1",
-      name: "Alex Johnson",
-      avatar: userPhoto,
-      role: "Alumni",
-    },
-    content: "This is really insightful! Thanks for sharing your experience.",
-    timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
-    likes: 3,
-  },
-  {
-    id: 2,
-    user: {
-      id: "user2",
-      name: "Sam Rivera",
-      avatar: userPhoto,
-      role: "Student",
-    },
-    content:
-      "I'd love to hear more about this topic. Could you elaborate on the second point?",
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2), // 2 hours ago
-    likes: 1,
-  },
-];
 
 const Comment = ({ comment }) => {
   // class CommentSerializer(serializers.ModelSerializer):
@@ -213,33 +184,26 @@ const CommentModal = ({ postId, onCommentAdded, setShowComments }) => {
 };
 
 const PostCard = ({ post }) => {
-  const { data: userInfo, isLoading } = useGetUserInfo(post?.created_by);
-  const { data: roles, isLoading: isRolesLoading } = useGetRoles();
   const [showComments, setShowComments] = useState(false);
-  const [comments, setComments] = useState(mockComments);
-
-  const handleAddComment = (newComment) => {
-    setComments((prev) => [newComment, ...prev]);
-  };
 
   const toggleComments = () => {
     setShowComments(!showComments);
   };
 
-  if (isLoading || isRolesLoading) {
-    return (
-      <div className="p-5 border border-gray-200 bg-gray-50 dark:bg-[--sidebar-bg-dark] rounded-lg shadow-md animate-pulse">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-gray-300 dark:bg-gray-700"></div>
-          <div className="flex-1">
-            <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/3 mb-2"></div>
-            <div className="h-3 bg-gray-200 dark:bg-gray-800 rounded w-1/4"></div>
-          </div>
-        </div>
-        <div className="h-16 bg-gray-200 dark:bg-gray-800 rounded mt-5"></div>
-      </div>
-    );
-  }
+  // if (isRolesLoading) {
+  //   return (
+  //     <div className="p-5 border border-gray-200 bg-gray-50 dark:bg-[--sidebar-bg-dark] rounded-lg shadow-md animate-pulse">
+  //       <div className="flex items-center gap-3">
+  //         <div className="w-12 h-12 rounded-full bg-gray-300 dark:bg-gray-700"></div>
+  //         <div className="flex-1">
+  //           <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/3 mb-2"></div>
+  //           <div className="h-3 bg-gray-200 dark:bg-gray-800 rounded w-1/4"></div>
+  //         </div>
+  //       </div>
+  //       <div className="h-16 bg-gray-200 dark:bg-gray-800 rounded mt-5"></div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <motion.div
@@ -253,22 +217,21 @@ const PostCard = ({ post }) => {
             src={userPhoto.src || "/placeholder.svg"}
             alt={post?.created_by}
           />
-          <AvatarFallback>{post?.created_by?.charAt(0)}</AvatarFallback>
+          <AvatarFallback>
+            {post?.created_by?.first_name?.charAt(0).toUpperCase()}
+          </AvatarFallback>
         </Avatar>
         <div>
           <h3 className="font-semibold text-gray-800 dark:text-white">
-            {post?.created_by}
+            {post.created_by.first_name} {post.created_by.last_name}
           </h3>
           <span className="text-sm text-gray-500 dark:text-gray-400 italic">
-            {
-              roles?.results?.find((role) => role.id === userInfo?.result?.role)
-                ?.role_name
-            }
+            {post.created_by.role?.role_name}
           </span>
         </div>
       </div>
 
-      <p className="text-gray-600 mt-5 dark:text-gray-300">{post?.post}</p>
+      <p className="text-gray-600 mt-5 dark:text-gray-300">{post.post}</p>
 
       <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800">
         <div className="flex items-center justify-between">
@@ -280,11 +243,11 @@ const PostCard = ({ post }) => {
           >
             <MessageCircle size={18} />
             <span className="text-xs text-gray-500 dark:text-gray-400 sm:text-sm">
-              {post?.comments?.length} Comments
+              {post.comments.length} Comments
             </span>
           </Button>
 
-          <CommentModal setShowComments={setShowComments} postId={post?.id} />
+          <CommentModal setShowComments={setShowComments} postId={post.id} />
         </div>
 
         <AnimatePresence>
@@ -299,27 +262,13 @@ const PostCard = ({ post }) => {
               <div className="border-t border-gray-100 dark:border-gray-800 pt-4">
                 <div className="pr-2">
                   <CommentForm
-                    postId={post?.id}
+                    postId={post.id}
                     setShowComments={setShowComments}
-                    // onSubmit={(comment) =>
-                    //   handleAddComment({
-                    //     id: Math.random().toString(),
-                    //     user: {
-                    //       id: "currentUser",
-                    //       name: "You",
-                    //       avatar: userPhoto,
-                    //       role: "Member",
-                    //     },
-                    //     content: comment,
-                    //     timestamp: new Date(),
-                    //     likes: 0,
-                    //   })
-                    // }
                   />
                 </div>
 
                 <div className="mt-4 space-y-1 divide-y divide-gray-100 dark:divide-gray-800">
-                  {post?.comments?.map((comment) => (
+                  {post.comments.map((comment) => (
                     <Comment key={comment.id} comment={comment} />
                   ))}
                 </div>

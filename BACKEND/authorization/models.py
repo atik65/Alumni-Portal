@@ -17,6 +17,7 @@ class UserInfo(models.Model):
     # degree = models.CharField(max_length=255)
     # interests = models.TextField()
     # achievements = models.TextField()
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
 
     def __str__(self):
         return self.first_name 

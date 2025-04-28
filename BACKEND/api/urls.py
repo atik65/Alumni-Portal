@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers  # type: ignore
-from .views import BlogsViewSet, JobViewSet, EventViewSet, NewsFeedViewSet,PostViewSet
+from .views import BlogsViewSet, JobViewSet, EventViewSet, NewsFeedViewSet,PostViewSet, CommentListGetCreateView
 
 router = routers.DefaultRouter()
 
@@ -15,4 +15,6 @@ router.register(r"posts", PostViewSet, basename="posts")
 urlpatterns = [
     # path('', views.blog_list, name='blog_list'),
     path("", include(router.urls)),
+    path('posts/<int:post_id>/comments/', CommentListGetCreateView.as_view(), name='comment-list-create'),
+
 ]

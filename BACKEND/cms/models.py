@@ -163,6 +163,7 @@ class Event(models.Model):
     event_type = models.CharField(max_length=50)
     location = models.CharField(max_length=255)
     description = models.TextField()
+    image = models.ImageField(upload_to='event_images/', null=True, blank=True)
 
     def __str__(self):
         return self.event_name
@@ -177,3 +178,14 @@ class Post (models.Model):
 
     def __str__(self):
         return self.post
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Comment by {self.user.username} on {self.post.id}"

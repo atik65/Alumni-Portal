@@ -1,8 +1,6 @@
 from rest_framework import viewsets, permissions, filters  # type: ignore
-
-
 from .serializers import serializers
-from cms.models import Blog, Job, Event, NewsFeed, Post
+from cms.models import Blog, Job, Event, NewsFeed, Post, Comment
 from authorization.models import UserInfo
 from authorization.serializer import UserInfoSerializer
 
@@ -12,8 +10,9 @@ from django_filters import NumberFilter  # type: ignore
 from rest_framework.response import Response  # type: ignore
 from rest_framework.pagination import LimitOffsetPagination  # type: ignore
 from rest_framework import status  # type: ignore
-   
+from rest_framework import generics
 
+   
 class BlogFilter(FilterSet):
 
     # To enable substring filtering (icontains) across multiple fields, you can define a custom FilterSet with CharFilter for each field, specifying the lookup_expr='icontains'. This allows you to filter multiple fields based on partial matches.
@@ -501,3 +500,14 @@ class PostViewSet(viewsets.GenericViewSet):
             )
 
    
+class CommentListGetCreateView(generics.ListCreateAPIView):
+    serializer_class = serializers.CommentSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        post_id = self.kwargs['post_id']
+        return Comment.objects.filter(post_id=post_id).order_by('-created_at')
+
+    def perform_create(self, serializer):
+        post_id = self.kwargs['post_id']
+        serializer.save(user=self.request.user, post_id=post_id)
