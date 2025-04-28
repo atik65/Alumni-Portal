@@ -1,12 +1,18 @@
 "use client";
 
 import React from "react";
-import { MapPin, Calendar, ImageOff } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import ImageZoomViewModal from "../shared/ImageZoomViewModal";
 
 const HomeEventCard = ({ event }) => {
+  // Define the color based on the event type
+  const eventTypeColor = {
+    "Music Event": "bg-blue-200 text-blue-600",
+    "Campus Event": "bg-pink-200 text-pink-600",
+    // Add more types as needed
+  };
+
   return (
     <motion.div
       key={event.id}
@@ -15,67 +21,73 @@ const HomeEventCard = ({ event }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
-      className="flex flex-col md:flex-row bg-white dark:bg-[--sidebar-bg-dark] border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300"
+      className="flex items-center justify-between bg-white dark:bg-[#1a202c] border-gray-200 dark:border-gray-700 rounded-lg p-4 mb-4  shadow hover:shadow-md transition-all duration-200 cursor-pointer border-gradient"
     >
-      {/* Left Image */}
-      <div className="relative w-full md:w-48 h-40 md:h-auto">
-        {event?.image ? (
-          // <Image
-          //   src={event.image || "/placeholder.jpg"}
-          //   alt={event.event_name}
-          //   fill
-          //   className="object-cover object-center"
-          // />
-
-          <ImageZoomViewModal
-            className="object-cover w-full  h-48"
-            imgURI={event.image}
-          />
-        ) : (
-          <div className="flex items-center justify-center w-full h-full">
-            <ImageOff size={100} strokeWidth={1} />
-          </div>
-        )}
-      </div>
-
-      {/* Right Content */}
-      <div className="flex flex-col p-4 justify-between">
-        <div>
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-1">
-            {event.event_name}
-          </h3>
-          <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
-            {event.description.length > 100
-              ? `${event.description.slice(0, 100)}...`
-              : event.description}
-          </p>
+      {/* Left Section (Icon) */}
+      <div className="flex  gap-x-4">
+        {/* Event Image */}
+        <div className="w-28 h-20 flex items-center justify-center  overflow-hidden">
+          {event.image ? (
+            <Image
+              src={event.image}
+              alt={event.event_name}
+              width={200}
+              height={200}
+              quality={100}
+              className="object-cover w-full h-full"
+            />
+          ) : (
+            <Image
+              src={"/assets/noPhoto.png"}
+              alt={event.event_name}
+              width={200}
+              height={200}
+              quality={100}
+              className="object-cover w-full h-full"
+            />
+          )}
         </div>
 
-        <div className="flex flex-col gap-2 text-gray-500 dark:text-gray-400 text-xs">
-          <div className="flex items-center gap-1.5">
-            <Calendar size={14} className="text-[--secondary-bg]" />
-            <span>
+        {/* Event Details */}
+
+        <div>
+          <div className="">
+            <h3 className="text-sm font-semibold text-gray-800 dark:text-white">
+              {event.event_name}
+            </h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              {event.location}
+            </p>
+          </div>
+
+          <div className="mt-2">
+            <p className="text-xs font-medium text-gray-800 dark:text-white">
               {new Date(event.date).toLocaleDateString()} at{" "}
               {new Date(event.date).toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
               })}
-            </span>
-          </div>
-
-          {event.location && (
-            <div className="flex items-center gap-1.5">
-              <MapPin size={14} className="text-[--secondary-bg]" />
-              <span>{event.location}</span>
-            </div>
-          )}
-
-          <div className="mt-2">
-            <span className="inline-block bg-[--secondary-bg]  dark:bg-gray-400 text-white dark:text-black px-2.5 py-1 rounded-full text-[10px] font-semibold">
-              {event.event_type}
-            </span>
+            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Time</p>
           </div>
         </div>
+      </div>
+
+      {/* Right Section (Date and Time) */}
+      <div className="flex items-center ">
+        {/* <div className="text-right">
+          <p className="text-sm font-medium text-gray-800 dark:text-white">
+            {new Date(event.date).toLocaleDateString()} at{" "}
+            {new Date(event.date).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">Time</p>
+        </div> */}
+
+        {/* Arrow Icon */}
+        <ArrowRight size={16} className="text-[--secondary-text]" />
       </div>
     </motion.div>
   );

@@ -15,11 +15,11 @@ const EventList = () => {
   }
 
   return (
-    <div>
+    <div className="">
       <h2 className="font-semibold text-lg mb-6 text-gray-800 dark:text-white">
         Upcoming Events
       </h2>
-      <div className="space-y-4">
+      <div className="space-y-4 max-h-[88vh] overflow-y-auto overflow-x-hidden home-events pb-24 ">
         {data?.results.map((event) => (
           <HomeEventCard key={event.id} event={event} />
         ))}

@@ -24,7 +24,6 @@ import { commentSchema } from "../../validationSchema/commentSchema";
 import { useCreateComment } from "../../hooks/tanstack/usePosts";
 import { enqueueSnackbar } from "notistack";
 
-
 const Comment = ({ comment }) => {
   // class CommentSerializer(serializers.ModelSerializer):
   //   user = serializers.StringRelatedField(read_only=True)
@@ -151,6 +150,9 @@ const CommentModal = ({ postId, onCommentAdded, setShowComments }) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
+          as={motion.button}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.98 }}
           variant="outline"
           size="sm"
           className="gap-2 text-xs sm:text-sm text-gray-700 dark:text-gray-400"
@@ -209,7 +211,7 @@ const PostCard = ({ post }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="p-5 border border-gray-200 bg-white dark:bg-[--sidebar-bg-dark] rounded-lg shadow-md transition-all hover:shadow-lg"
+      className="p-5  bg-white dark:bg-[--sidebar-bg-dark] rounded-lg shadow-md transition-all hover:shadow-lg"
     >
       <div className="flex items-center gap-3">
         <Avatar className="h-12 w-12">

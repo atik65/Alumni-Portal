@@ -124,6 +124,10 @@
   width: 6px;
   height: 6px;
 }
+.home-events::-webkit-scrollbar {
+  width: 0px;
+  height: 6px;
+}
 
 /* .review-scroll::-webkit-scrollbar-track {
   background-color: #cfb284;
