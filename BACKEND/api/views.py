@@ -246,7 +246,7 @@ class EventViewSet(viewsets.GenericViewSet):
         """
         List all events.
         """
-        queryset = self.filter_queryset(self.get_queryset())
+        queryset = self.filter_queryset(self.get_queryset()).order_by("-id")
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)

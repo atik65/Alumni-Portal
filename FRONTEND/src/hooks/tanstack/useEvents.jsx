@@ -10,7 +10,7 @@ export const useGetEvent = () => {
   const { data: session } = useSession();
 
   return useQuery({
-    queryKey: ["event"],
+    queryKey: ["events"],
     queryFn: async () =>
       await axiosRequest({
         url: `/events/`,
@@ -19,9 +19,6 @@ export const useGetEvent = () => {
           Authorization: `Bearer ${session?.accessToken}`,
         },
       }),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["events"]); // Re-fetch the event list after creation
-    },
   });
 };
 
