@@ -61,46 +61,11 @@ class JobSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-# class ContactSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Contact
-#         fields = "__all__"
-
-
-# class MessageSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Message
-#         fields = "__all__"
-
-
-# class DonationSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Donation
-#         fields = "__all__"
-
 
 class UserRoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Role
         fields = "__all__"
-
-
-# class UserProfileSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = UserProfile
-#         fields = "__all__"
-
-
-# class MentorshipSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Mentorship
-#         fields = "__all__"
-
-
-# class ConnectionSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Connection
-#         fields = "__all__"
 
 
 class NewsFeedSerializer(serializers.ModelSerializer):
@@ -118,12 +83,20 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    user = UserShortSerializer(read_only=True)
+    user = serializers.SerializerMethodField()
+    # user = UserShortSerializer(read_only=True)
 
     class Meta:
         model = Comment
         fields = ['id', 'post', 'user', 'content', 'created_at', 'updated_at']
         read_only_fields = ['id', 'user', 'created_at', 'updated_at']
+
+    def get_user(self, obj):
+        try:
+            user_info = UserInfo.objects.get(user=obj.user)
+            return UserInfoSerializer(user_info).data
+        except UserInfo.DoesNotExist:
+            return None
 
 
 class PostSerializer(serializers.ModelSerializer):

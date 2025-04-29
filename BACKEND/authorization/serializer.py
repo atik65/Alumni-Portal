@@ -15,7 +15,7 @@ class RoleSerializer(serializers.ModelSerializer):
 class UserIsSuperUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["is_superuser"]
+        fields = ["is_superuser" , "id"]
 
 class UserRegisterSerializer(serializers.Serializer):
     email = serializers.EmailField()

@@ -198,13 +198,13 @@ class UserInfoView(viewsets.GenericViewSet):
         serializer = self.get_serializer(filtered_queryset, many=True, context={'request': request})
         return Response({"status": status.HTTP_200_OK, "results": serializer.data})
     
-def retrieve(self, request, *args, **kwargs):
-    instance = self.queryset.filter(user=request.user).first()
-    if not instance:
-        return Response({"status": status.HTTP_404_NOT_FOUND, "message": "User info not found."})
-    serializer = self.get_serializer(instance, context={'request': request})
-    return Response(serializer.data)
-        
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.queryset.filter(user=request.user).first()
+        if not instance:
+            return Response({"status": status.HTTP_404_NOT_FOUND, "message": "User info not found."})
+        serializer = self.get_serializer(instance, context={'request': request})
+        return Response(serializer.data)
+            
 
 class UserRolesView(viewsets.GenericViewSet):
     queryset = Role.objects.all()
@@ -235,3 +235,5 @@ class UserRolesView(viewsets.GenericViewSet):
         serializer = self.get_serializer(filtered_queryset, many=True)
         return Response({"status": status.HTTP_200_OK, "results": serializer.data})
     
+
+
