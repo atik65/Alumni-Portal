@@ -100,11 +100,13 @@ export const useGetUserDetails = () => {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
 
+  console.log("session = ", session);
+
   return useQuery({
     queryKey: ["userInfo"],
     queryFn: async () =>
       await axiosRequest({
-        url: `/user-info/`,
+        url: `/auth/users/${session?.user?.user_info?.user}/`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${session?.accessToken}`,

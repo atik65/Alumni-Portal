@@ -23,6 +23,7 @@ import { useFormik } from "formik";
 import { commentSchema } from "../../validationSchema/commentSchema";
 import { useCreateComment } from "../../hooks/tanstack/usePosts";
 import { enqueueSnackbar } from "notistack";
+import { useGetUserDetails } from "../../hooks/tanstack/useAuth";
 
 const Comment = ({ comment }) => {
   // class CommentSerializer(serializers.ModelSerializer):
@@ -41,7 +42,11 @@ const Comment = ({ comment }) => {
     >
       <Avatar className="h-8 w-8">
         <AvatarImage
-          src={comment?.user?.avatar || "/placeholder.svg"}
+          className="w-full object-cover object-top"
+          src={
+            process.env.NEXT_PUBLIC_BACKEND_URL + comment?.user?.avatar ||
+            "/placeholder.svg"
+          }
           alt={comment?.user?.name}
         />
         <AvatarFallback>
@@ -77,6 +82,7 @@ const CommentForm = ({
   setShowComments = () => {},
 }) => {
   const { mutateAsync, isPending } = useCreateComment();
+  const { data: userInfo, isLoading } = useGetUserDetails();
 
   const { handleSubmit, handleChange, values, resetForm } = useFormik({
     initialValues: {
@@ -105,7 +111,8 @@ const CommentForm = ({
     <form onSubmit={handleSubmit} className="flex gap-3 items-start mt-2">
       <Avatar className="h-8 w-8 mt-1">
         <AvatarImage
-          src={userPhoto.src || "/placeholder.svg"}
+          className="w-full object-cover object-top"
+          src={userInfo?.avatar || "/placeholder.svg"}
           alt="Your avatar"
         />
         <AvatarFallback>Y</AvatarFallback>
@@ -163,9 +170,9 @@ const CommentModal = ({ postId, onCommentAdded, setShowComments }) => {
       </DialogTrigger>
       <DialogContent className="w-[90%] rounded-md sm:max-w-[500px] lg:max-w-[700px] bg-white dark:bg-[--sidebar-bg-dark]">
         <DialogHeader>
-          <DialogTitle>Add a Comment</DialogTitle>
+          <DialogTitle>What's on your mind?</DialogTitle>
         </DialogHeader>
-        <div className="py-4">
+        <div className="py-2">
           <CommentForm
             open={open}
             setOpen={setOpen}
@@ -216,7 +223,11 @@ const PostCard = ({ post }) => {
       <div className="flex items-center gap-3">
         <Avatar className="h-12 w-12">
           <AvatarImage
-            src={userPhoto.src || "/placeholder.svg"}
+            className="w-full object-cover object-top"
+            src={
+              process.env.NEXT_PUBLIC_BACKEND_URL + post?.created_by?.avatar ||
+              "/placeholder.svg"
+            }
             alt={post?.created_by}
           />
           <AvatarFallback>

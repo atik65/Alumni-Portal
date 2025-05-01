@@ -1,327 +1,182 @@
 "use client";
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import Image from "next/image";
-import companyLogo from "/public/assets/logo.png";
-import Link from "next/link";
-import { Eye, Edit, Trash, Plus } from "lucide-react";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../../components/ui/dialog";
-
-import {
-  FaBuilding,
-  FaMapMarkerAlt,
-  FaDollarSign,
-  FaRegClock,
-} from "react-icons/fa";
-import JobPostForm from "./JobForm";
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "next-themes";
 import { useGetJobs } from "../../hooks/tanstack/useJobs";
 import { Skeleton } from "../ui/skeleton";
-
-const JobPost = ({ job, index }) => {
-  // {"json":{"id":12,"job_title":"d","company":"d","location":"d","description":"d","posted_date":"2024-12-02T14:00:34.966570+06:00","jobType":"Full-Time","deadline":"2024-12-30T00:00:00+06:00","experience":0,"salary":"10.00","email":"user@gmail.com"}}
-
-  const {
-    job_title,
-    company,
-    location,
-    description,
-    posted_date,
-    jobType,
-    deadline,
-    experience,
-    salary,
-    email,
-  } = job;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 100 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="w-full rounded-lg shadow-lg dark:shadow-gray-900 bg-[--core-bg] text-[--base-text] dark:bg-black dark:text-white p-6 border border-gray-200 dark:border-gray-700 hover:shadow-xl duration-300"
-    >
-      {/* Job Title and Type */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-xl font-semibold">{job_title}</h2>
-          <p className="text-sm italic text-[--secondary-bg]">{jobType}</p>
-        </div>
-        <div className="text-sm text-gray-500">
-          Posted: {new Date(posted_date).toLocaleDateString()}
-        </div>
-      </div>
-
-      {/* Company and Location */}
-      <div className="flex items-center gap-5 mt-3 text-sm text-gray-700 dark:text-gray-400">
-        <div className="flex items-center gap-2">
-          <FaBuilding className="text-[--secondary-bg]" />
-          <p>{company || "N/A"}</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <FaMapMarkerAlt className="text-[--secondary-bg]" />
-          <p>{location || "Remote"}</p>
-        </div>
-      </div>
-
-      {/* Job Description */}
-      <div className="mt-4">
-        <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
-          {description.length > 100
-            ? `${description.slice(0, 100)}...`
-            : description}
-        </p>
-      </div>
-
-      {/* Job Details */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5 text-sm text-gray-800 dark:text-gray-300">
-        <div className="flex items-center gap-2">
-          <span className="font-semibold">Experience:</span>
-          <p>{experience} years</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <FaDollarSign className="text-[--secondary-bg]" />
-          <p>{salary} BDT</p>
-        </div>
-      </div>
-
-      {/* Contact Email */}
-      {email && (
-        <div className="grid grid-cols-2 gap-3">
-          <div className="mt-3 text-sm text-gray-600 dark:text-gray-400">
-            <span className="font-semibold">Contact:</span>{" "}
-            <a
-              href={`mailto:${email}`}
-              className="text-[--secondary-bg] underline"
-            >
-              {email}
-            </a>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <FaRegClock className="text-[--secondary-bg]" />
-            <p>Deadline: {new Date(deadline).toLocaleDateString()}</p>
-          </div>
-        </div>
-      )}
-
-      {/* View Details Button */}
-      <div className="mt-5">
-        <Link
-          href={`/portal/job-list/${job.id}`}
-          // onClick={() =>
-          //   enqueueSnackbar("Job details will be available soon!", {
-          //     variant: "default",
-          //   })
-          // }
-          className="text-sm font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg] text-[--base-text-dark] hover:text-[--base-text] hover:bg-[--light-bg]  dark:text-[--base-text-dark] w-full rounded-md h-10 flex gap-2 items-center justify-center  dark:hover:bg-[--light-bg] dark:hover:text-[--base-text] duration-200"
-        >
-          <span>View Details</span>
-          <Eye size={20} />
-        </Link>
-      </div>
-    </motion.div>
-  );
-};
+import JobPost from "./JobPost";
+import AddJob from "./AddJob";
 
 const JobPortal = () => {
-  const jobs = [
-    {
-      id: 1,
-      job_title: "Software Engineer",
-      company: "Google",
-      location: "Mountain View, CA",
-      description:
-        "Develop and maintain scalable applications, ensuring performance and security.",
-      jobType: "Full-Time",
-      experience: 2,
-      salary: "120000.00",
-      posted_date: "2024-12-01T12:00:00Z",
-      Deadline: "2024-12-31T23:59:59Z",
-      email: "hr@google.com",
-    },
-    {
-      id: 2,
-      job_title: "UI/UX Designer",
-      company: "Apple",
-      location: "Cupertino, CA",
-      description:
-        "Design user-friendly interfaces for mobile and web platforms. Collaborate with product teams.",
-      jobType: "Part-Time",
-      experience: 3,
-      salary: "80000.00",
-      posted_date: "2024-11-20T12:00:00Z",
-      Deadline: "2024-12-15T23:59:59Z",
-      email: "careers@apple.com",
-    },
-    {
-      id: 3,
-      job_title: "Product Manager",
-      company: "Microsoft",
-      location: "Seattle, WA",
-      description:
-        "Lead cross-functional teams to deliver product features on time and within budget.",
-      jobType: "Remote",
-      experience: 4,
-      salary: "150000.00",
-      posted_date: "2024-12-02T10:00:00Z",
-      Deadline: "2025-01-10T23:59:59Z",
-      email: "jobs@microsoft.com",
-    },
-    {
-      id: 4,
-      job_title: "Data Scientist",
-      company: "Meta",
-      location: "Menlo Park, CA",
-      description:
-        "Analyze large datasets to derive actionable insights and support decision-making processes.",
-      jobType: "Intern",
-      experience: 0,
-      salary: "50000.00",
-      posted_date: "2024-12-01T09:00:00Z",
-      Deadline: "2024-12-20T23:59:59Z",
-      email: "internships@meta.com",
-    },
-    {
-      id: 5,
-      job_title: "Marketing Specialist",
-      company: "Amazon",
-      location: "New York, NY",
-      description:
-        "Develop and execute marketing campaigns to enhance brand visibility and customer engagement.",
-      jobType: "Full-Time",
-      experience: 2,
-      salary: "70000.00",
-      posted_date: "2024-11-25T08:00:00Z",
-      Deadline: "2024-12-15T23:59:59Z",
-      email: "marketing@amazon.com",
-    },
-    {
-      id: 6,
-      job_title: "Frontend Developer",
-      company: "Tesla",
-      location: "Austin, TX",
-      description:
-        "Implement responsive user interfaces for Tesla's web applications.",
-      jobType: "Remote",
-      experience: 1,
-      salary: "90000.00",
-      posted_date: "2024-11-30T15:00:00Z",
-      Deadline: "2024-12-31T23:59:59Z",
-      email: "frontend@tesla.com",
-    },
-  ];
-
   const { data, isLoading } = useGetJobs();
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
 
   return (
-    <div className="container max-auto">
-      {/* add  a job button */}
-      <div className="mb-10">
-        <div className="flex gap-2 items-center justify-between">
-          <h1 className="text-3xl font-bold mb-4 whitespace-nowrap">
-            Job Portal
-          </h1>
-          {/* 
-          <button className="text-sm font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white rounded h-10 flex gap-2 items-center justify-center hover:bg-[--light-bg] dark:hover:bg-[--light-bg-dark] hover:text-[--secondary-text] dark:hover:text-[--base-text-dark] duration-200 px-5">
-            <span>Add Job</span>
-            <Plus size={20} />
-          </button> */}
+    <div
+      className={`min-h-screen w-full p-4 md:p-8 ${
+        isDark
+          ? "bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
+          : "bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50"
+      }`}
+    >
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="max-w-5xl mx-auto"
+        >
+          {/* Header section */}
+          <motion.div
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className={`mb-8 p-6 rounded-lg ${
+              isDark
+                ? "backdrop-blur-md bg-black/20 border-white/10"
+                : "backdrop-blur-md bg-white/70 border-black/5 shadow-md"
+            }`}
+          >
+            <div className="flex gap-2 items-center justify-between mb-3">
+              <h1
+                className={`text-2xl font-bold whitespace-nowrap ${
+                  isDark
+                    ? "bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300"
+                    : "bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 to-blue-700"
+                }`}
+              >
+                Job Portal
+              </h1>
+              <AddJob />
+            </div>
+            <p
+              className={`text-sm ${
+                isDark ? "text-gray-300" : "text-gray-700"
+              }`}
+            >
+              Browse a wide range of job opportunities on our job portal.
+              Whether you're a student, a recent graduate, or a seasoned
+              professional, we have the perfect job for you.
+            </p>
+          </motion.div>
 
-          <AddJob />
-        </div>
-        <p className="text-md opacity-80">
-          Browse a wide range of job opportunities on our job portal. Whether
-          you're a student, a recent graduate, or a seasoned professional, we
-          have the perfect job for you.
-        </p>
-      </div>
-
-      {/* job form */}
-      {/* <div>
-        <JobPostForm />
-      </div> */}
-
-      {/* loading skeleton */}
-      {isLoading && (
-        <div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-x-5 gap-y-10 overflow-hidden">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i, index) => (
-              <JobCardSkeleton key={i} index={index} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-x-5 gap-y-10 overflow-hidden">
-        {/* <JobPost job={job} index={index} /> */}
-
-        {data?.results?.map((job, index) => (
-          <JobPost key={job.id} job={job} index={index} />
-        ))}
-      </div>
+          {/* Job listings */}
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <JobCardSkeleton key={i} isDark={isDark} />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {data?.results?.map((job, index) => (
+                <JobPost key={job.id} job={job} index={index} />
+              ))}
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };
 
 export default JobPortal;
 
-export function AddJob() {
-  const [open, setOpen] = useState(false);
-
+export const JobCardSkeleton = ({ isDark }) => {
   return (
-    <Dialog onOpenChange={setOpen} open={open}>
-      <DialogTrigger asChild>
-        <button
-          id="add-job"
-          className="text-sm font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white rounded h-10 flex gap-2 items-center justify-center hover:bg-[--light-bg] dark:hover:bg-[--light-bg] hover:text-[--secondary-text] dark:hover:text-[--base-text] duration-200 px-5"
-        >
-          <span>Add Job</span>
-          <Plus size={20} />
-        </button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] md:max-w-[600px] border-black bg-gray-100 dark:shadow-gray-900 bg-[--core-bg] dark:bg-[--sidebar-bg]">
-        <DialogHeader>
-          <DialogTitle>Add a Job</DialogTitle>
-          <DialogDescription>Add a job to your job portal.</DialogDescription>
-        </DialogHeader>
-
-        <JobPostForm open={open} setOpen={setOpen} />
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-export const JobCardSkeleton = () => {
-  return (
-    <div className="space-y-3">
-      <div className="grid grid-cols-2 gap-5">
-        <Skeleton className="h-7 rounded-md" />
-        <Skeleton className="h-5 rounded-md" />
-      </div>
-      <div className="grid grid-cols-2 gap-5">
-        <Skeleton className="h-5 rounded-md" />
-        <Skeleton className="h-5 rounded-md" />
-      </div>
-      <div className="grid grid-cols-1 gap-5">
-        <Skeleton className="h-5 rounded-md" />
+    <div
+      className={`p-4 rounded-lg space-y-3 ${
+        isDark
+          ? "backdrop-blur-md bg-black/20 border border-white/10"
+          : "backdrop-blur-md bg-white/70 border border-black/5 shadow-sm"
+      }`}
+    >
+      <div className="flex justify-between items-start">
+        <Skeleton
+          className={`h-6 w-2/3 ${isDark ? "bg-gray-800" : "bg-gray-200"}`}
+        />
+        <Skeleton
+          className={`h-5 w-1/4 ${isDark ? "bg-gray-800" : "bg-gray-200"}`}
+        />
       </div>
 
-      <div className="grid grid-cols-2 gap-5">
-        <Skeleton className="h-5 rounded-md" />
-        <Skeleton className="h-5 rounded-md" />
+      <div className="flex gap-3 mt-2">
+        <Skeleton
+          className={`h-7 w-7 rounded-full ${
+            isDark ? "bg-gray-800" : "bg-gray-200"
+          }`}
+        />
+        <div className="space-y-1 flex-1">
+          <Skeleton
+            className={`h-3 w-16 ${isDark ? "bg-gray-800" : "bg-gray-200"}`}
+          />
+          <Skeleton
+            className={`h-4 w-24 ${isDark ? "bg-gray-800" : "bg-gray-200"}`}
+          />
+        </div>
+
+        <Skeleton
+          className={`h-7 w-7 rounded-full ${
+            isDark ? "bg-gray-800" : "bg-gray-200"
+          }`}
+        />
+        <div className="space-y-1 flex-1">
+          <Skeleton
+            className={`h-3 w-16 ${isDark ? "bg-gray-800" : "bg-gray-200"}`}
+          />
+          <Skeleton
+            className={`h-4 w-24 ${isDark ? "bg-gray-800" : "bg-gray-200"}`}
+          />
+        </div>
       </div>
-      <div className="grid grid-cols-1 gap-5">
-        <Skeleton className="h-8 rounded-md" />
+
+      <div>
+        <Skeleton
+          className={`h-3 w-20 mb-1 ${isDark ? "bg-gray-800" : "bg-gray-200"}`}
+        />
+        <Skeleton
+          className={`h-[60px] w-full ${
+            isDark ? "bg-gray-800" : "bg-gray-200"
+          }`}
+        />
       </div>
+
+      <div className="flex gap-3">
+        <Skeleton
+          className={`h-7 w-7 rounded-full ${
+            isDark ? "bg-gray-800" : "bg-gray-200"
+          }`}
+        />
+        <div className="space-y-1 flex-1">
+          <Skeleton
+            className={`h-3 w-16 ${isDark ? "bg-gray-800" : "bg-gray-200"}`}
+          />
+          <Skeleton
+            className={`h-4 w-24 ${isDark ? "bg-gray-800" : "bg-gray-200"}`}
+          />
+        </div>
+
+        <Skeleton
+          className={`h-7 w-7 rounded-full ${
+            isDark ? "bg-gray-800" : "bg-gray-200"
+          }`}
+        />
+        <div className="space-y-1 flex-1">
+          <Skeleton
+            className={`h-3 w-16 ${isDark ? "bg-gray-800" : "bg-gray-200"}`}
+          />
+          <Skeleton
+            className={`h-4 w-24 ${isDark ? "bg-gray-800" : "bg-gray-200"}`}
+          />
+        </div>
+      </div>
+
+      <Skeleton
+        className={`h-9 w-full rounded-full ${
+          isDark ? "bg-gray-800" : "bg-gray-200"
+        }`}
+      />
     </div>
   );
 };
