@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import RegistrationRequestSlider from "./slider";
+import { useRouter } from "next-nprogress-bar";
 
 const RegistrationContainer = () => {
   const canvasRef = useRef(null);
@@ -147,49 +148,7 @@ const RegistrationContainer = () => {
     },
   };
 
-  // Stats data
-  const stats = [
-    {
-      icon: <GraduationCap className="text-purple-500" size={24} />,
-      value: "25,000+",
-      label: "Alumni",
-    },
-    {
-      icon: <Building2 className="text-blue-500" size={24} />,
-      value: "50+",
-      label: "Years of Excellence",
-    },
-    {
-      icon: <Users className="text-cyan-500" size={24} />,
-      value: "500+",
-      label: "Companies Hiring",
-    },
-    {
-      icon: <Globe className="text-indigo-500" size={24} />,
-      value: "120+",
-      label: "Countries Represented",
-    },
-  ];
-
-  // Testimonials data
-  const testimonials = [
-    {
-      quote:
-        "Joining the alumni network opened doors to opportunities I never imagined possible.",
-      name: "Sarah Johnson",
-      position: "Software Engineer at Google",
-      year: "Class of 2018",
-      image: "/placeholder.svg?height=80&width=80",
-    },
-    {
-      quote:
-        "The connections I made through the alumni portal helped me secure my dream job.",
-      name: "Michael Chen",
-      position: "Product Manager at Microsoft",
-      year: "Class of 2015",
-      image: "/placeholder.svg?height=80&width=80",
-    },
-  ];
+  const router = useRouter();
 
   return (
     <div className="container mx-auto px-4 py-8  h-[100vh] items-center">
@@ -217,7 +176,8 @@ const RegistrationContainer = () => {
             {/* University Logo and Heading */}
             <motion.div
               variants={itemVariants}
-              className="text-center lg:text-left"
+              className="text-center lg:text-left cursor-pointer"
+              onClick={() => router.push("/")}
             >
               <div className="inline-block mb-4">
                 <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
@@ -266,67 +226,13 @@ const RegistrationContainer = () => {
               </div>
             </motion.div>
 
-            {/* Stats */}
-            {/* <motion.div
-              variants={itemVariants}
-              className="grid grid-cols-2 gap-4"
-            >
-              {stats.map((stat, index) => (
-                <div
-                  key={index}
-                  className="backdrop-blur-md bg-black/20 rounded-xl p-4 border border-gray-800 flex flex-col items-center text-center"
-                >
-                  <div className="mb-2">{stat.icon}</div>
-                  <div className="text-2xl font-bold text-white">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-gray-400">{stat.label}</div>
-                </div>
-              ))}
-            </motion.div> */}
-
-            {/* Testimonial */}
-            {/* <motion.div variants={itemVariants} className="relative">
-              <div className="absolute -top-6 -left-2 text-6xl text-purple-600 opacity-30">
-                "
-              </div>
-              <div className="backdrop-blur-md bg-black/20 rounded-xl p-6 border border-gray-800 relative z-10">
-                <div className="flex items-start gap-4">
-                  <div className="hidden sm:block">
-                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-purple-500">
-                      <Image
-                        src={testimonials[0].image || "/placeholder.svg"}
-                        alt={testimonials[0].name}
-                        width={80}
-                        height={80}
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-gray-300 italic mb-4">
-                      {testimonials[0].quote}
-                    </p>
-                    <div>
-                      <p className="font-semibold text-white">
-                        {testimonials[0].name}
-                      </p>
-                      <p className="text-sm text-gray-400">
-                        {testimonials[0].position} • {testimonials[0].year}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div> */}
-
             {/* CTA Button (Mobile Only) */}
-            <motion.div variants={itemVariants} className="lg:hidden">
+            {/* <motion.div variants={itemVariants} className="lg:hidden">
               <button className="w-full py-3 px-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-medium flex items-center justify-center gap-2 hover:from-purple-700 hover:to-blue-700 transition-all duration-300 shadow-[0_0_15px_rgba(124,58,237,0.5)]">
                 Register Now
                 <ArrowRight size={18} />
               </button>
-            </motion.div>
+            </motion.div> */}
           </motion.div>
         </div>
 

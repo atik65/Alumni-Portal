@@ -267,6 +267,14 @@ const sidebarData = [
         icon: Briefcase,
         tooltip: "Jobs",
       },
+
+      {
+        id: 8,
+        title: "Alumni Requests",
+        href: "/portal/alumni-requests",
+        icon: Users,
+        tooltip: "Alumni Requests",
+      },
     ],
   },
 

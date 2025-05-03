@@ -38,7 +38,7 @@ const CustomRootProvider = ({ children, session }) => {
           <SessionProvider session={session}>
             <AppProgressBar
               height="3px"
-              color="#6EBD0F"
+              color="#805ad5"
               options={{ showSpinner: false }}
               shallowRouting
             />

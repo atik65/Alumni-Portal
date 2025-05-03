@@ -111,7 +111,7 @@ const RegistrationRequestSlider = () => {
   };
 
   return (
-    <div className="relative h-96 w-full overflow-hidden rounded-2xl">
+    <div className="relative h-60 sm:h-96 w-full overflow-hidden rounded-2xl">
       {/* Animated background gradient */}
       <motion.div
         className="absolute inset-0 bg-gradient-to-br from-purple-900/30 to-blue-900/30 z-10"
@@ -192,7 +192,6 @@ const RegistrationRequestSlider = () => {
                         transition={{
                           delay: 0.3 + index * 0.1,
                           duration: 0.5,
-                
                         }}
                       >
                         <div className="text-xl font-bold text-white">
