@@ -22,7 +22,8 @@ from cms.models import (
     Role,
     NewsFeed,
     Event,
-    Post
+    Post,
+    RegistrationRequest
 )
 
 
@@ -124,3 +125,9 @@ class PostSerializer(serializers.ModelSerializer):
                 "Post must be at least 10 characters long"
             )
         return value
+
+
+class RegistrationRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RegistrationRequest
+        fields = "__all__"

@@ -67,6 +67,7 @@ import {
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { enqueueSnackbar } from "notistack";
+import { useGetUserInfo } from "../../../hooks/tanstack/useAlumni";
 
 // This is sample data.
 const data = {
@@ -198,7 +199,7 @@ const data = {
   ],
 };
 
-const sidebarData = [
+let sidebarDataStatic = [
   // group --  menu
   {
     id: 100,
@@ -268,13 +269,13 @@ const sidebarData = [
         tooltip: "Jobs",
       },
 
-      {
-        id: 8,
-        title: "Alumni Requests",
-        href: "/portal/alumni-requests",
-        icon: Users,
-        tooltip: "Alumni Requests",
-      },
+      // {
+      //   id: 8,
+      //   title: "Alumni Requests",
+      //   href: "/portal/alumni-requests",
+      //   icon: Users,
+      //   tooltip: "Alumni Requests",
+      // },
     ],
   },
 
@@ -314,10 +315,54 @@ const sidebarData = [
 
 export function AppSidebar({ children }) {
   const [activeTeam, setActiveTeam] = React.useState(data.teams[0]);
+  const [sidebarData, setSidebarData] = React.useState(sidebarDataStatic);
 
   const { data: session } = useSession();
+  // const { data: user, isLoading } = useGetUserInfo();
+  const isSuperUser = session?.user?.user_info?.user?.is_superuser;
+  // console.log(isSuperUser);
+  // console.log("session", session);
 
-  // console.log("session = ", session);
+  React.useEffect(() => {
+    if (isSuperUser) {
+      //  href: "/portal/alumni-requests";
+
+      let newSidebarData = sidebarDataStatic;
+      // newSidebarData[1].items.push({
+      //   id: 8,
+      //   title: "Alumni Requests",
+      //   href: "/portal/alumni-requests",
+      //   icon: Users,
+      //   tooltip: "Alumni Requests",
+      // });
+
+      newSidebarData[1].items = newSidebarData[1].items.filter((item) => {
+        return item.title !== "Alumni Requests";
+      });
+
+      newSidebarData[1].items = [
+        ...newSidebarData[1].items,
+        {
+          id: 8,
+          title: "Alumni Requests",
+          href: "/portal/alumni-requests",
+          icon: Users,
+          tooltip: "Alumni Requests",
+        },
+      ];
+
+      // console.log(newSidebarData);
+
+      setSidebarData(newSidebarData);
+    } else {
+      // let newSidebarData = sidebarData;
+      // let alumniSidebarData = newSidebarData[1];
+      // alumniSidebarData.items = alumniSidebarData.items.filter((item) => {
+      //   return item.href !== "/portal/alumni-requests";
+      // });
+      // setSidebarData(newSidebarData);
+    }
+  }, [session]);
 
   return (
     <>

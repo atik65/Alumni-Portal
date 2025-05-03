@@ -6,6 +6,7 @@ from .models import UserInfo
 # from django.contrib.auth.models import User
 from cms.models import Role, Post
 from django.contrib.auth.models import User
+from cms.models import RegistrationRequest
 
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,8 +35,6 @@ class UserInfoSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-
-
 class UserInfoRegisterSerializer(serializers.Serializer):    
     email = serializers.EmailField()
     first_name = serializers.CharField()
@@ -45,3 +44,5 @@ class UserInfoRegisterSerializer(serializers.Serializer):
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()
+
+

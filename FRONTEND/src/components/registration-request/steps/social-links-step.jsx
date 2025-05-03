@@ -64,7 +64,7 @@ const InputField = ({ icon, ...props }) => {
   );
 };
 
-const FileUpload = ({ name, label, icon, accept }) => {
+const FileUpload = ({ name, label, icon, accept, required }) => {
   const [field, meta, helpers] = useField(name);
   const [fileName, setFileName] = useState(null);
 
@@ -79,7 +79,7 @@ const FileUpload = ({ name, label, icon, accept }) => {
   return (
     <div className="mb-4">
       <label className="block text-sm font-medium text-gray-300 mb-1">
-        {label}
+        {label} {required && <span className="text-red-500">*</span>}
       </label>
       <div className="flex flex-col">
         <div className="border border-dashed border-gray-600 rounded-lg p-6 bg-gray-900/30 hover:bg-gray-800/30 transition-colors duration-300">
@@ -146,7 +146,7 @@ export default function SocialLinksStep() {
           name="linkedin"
           label="LinkedIn Profile"
           placeholder="https://linkedin.com/in/username"
-          required
+          // required
           icon={<Linkedin size={18} className="text-gray-400" />}
         />
 
@@ -168,8 +168,9 @@ export default function SocialLinksStep() {
         />
 
         <FileUpload
-          name="nid"
-          label="Upload National ID"
+          required
+          name="proofDocument"
+          label="Upload Student ID or Certificate or Transcript"
           accept=".pdf,.jpg,.jpeg,.png"
           icon={<CreditCard size={24} className="text-gray-400 mb-2" />}
         />

@@ -35,6 +35,8 @@ import {
   TableHeader,
   TableRow,
 } from "../../components/ui/table";
+import { useSession } from "next-auth/react";
+import { useGetRegistrationRequests } from "../../hooks/tanstack/useRegistrationRequest";
 
 // Mock data for alumni requests
 const MOCK_REQUESTS = [
@@ -281,6 +283,25 @@ export default function AlumniRequests() {
       minute: "2-digit",
     }).format(date);
   };
+
+  const { data: session } = useSession();
+  // const { data: user, isLoading } = useGetUserInfo();
+  const isSuperUser = session?.user?.user_info?.user?.is_superuser;
+
+  const {
+    data: registrationRequests,
+    isLoading: isLoadingRegistrationRequests,
+  } = useGetRegistrationRequests();
+
+  if (!isSuperUser) {
+    return (
+      <div>
+        <h1 className="text-2xl font-bold text-white text-center my-10">
+          You do not have permission to view this page
+        </h1>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0F0F0F] to-[#1E1E1E] p-6">

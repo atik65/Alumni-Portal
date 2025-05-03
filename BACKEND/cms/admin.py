@@ -6,7 +6,8 @@ from cms.models import (
     NewsFeed,
     Event,
     Post,
-    Comment
+    Comment,
+    RegistrationRequest
 
 )
 
@@ -55,3 +56,4 @@ admin.site.register(NewsFeed)
 admin.site.register(Event)
 admin.site.register(Post)
 admin.site.register(Comment)
+admin.site.register(RegistrationRequest)

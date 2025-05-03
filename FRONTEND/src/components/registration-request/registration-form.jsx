@@ -11,6 +11,7 @@ import ProfessionalInfoStep from "./steps/professional-info-step";
 import SocialLinksStep from "./steps/social-links-step";
 import ReviewStep from "./steps/review-step";
 import StepIndicator from "./step-indicator";
+import { getImgToB64 } from "../../lib/utils";
 
 // Form validation schemas
 const personalInfoSchema = Yup.object({
@@ -18,9 +19,9 @@ const personalInfoSchema = Yup.object({
   lastName: Yup.string().required("Last name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   phone: Yup.string().required("Phone number is required"),
-  dateOfBirth: Yup.date().nullable(),
+  // dateOfBirth: Yup.date().nullable(),
   address: Yup.string().required("Address is required"),
-  avatar: Yup.mixed(),
+  // avatar: Yup.mixed(),
 });
 
 const academicInfoSchema = Yup.object({
@@ -31,23 +32,23 @@ const academicInfoSchema = Yup.object({
 });
 
 const professionalInfoSchema = Yup.object({
-  currentCompany: Yup.string().required("Current company is required"),
-  currentPosition: Yup.string().required("Current position is required"),
+  // currentCompany: Yup.string().required("Current company is required"),
+  // currentPosition: Yup.string().required("Current position is required"),
   experience: Yup.number().required("Years of experience is required"),
   skills: Yup.array().of(Yup.string()).min(1, "At least one skill is required"),
-  interests: Yup.array().of(Yup.string()),
-  achievements: Yup.string(),
+  // interests: Yup.array().of(Yup.string()),
+  // achievements: Yup.string(),
 });
 
 const socialLinksSchema = Yup.object({
   facebook: Yup.string().url("Must be a valid URL"),
   twitter: Yup.string().url("Must be a valid URL"),
-  linkedin: Yup.string()
-    .url("Must be a valid URL")
-    .required("LinkedIn is required"),
+  linkedin: Yup.string().url("Must be a valid URL"),
+  // .required("LinkedIn is required"),
   instagram: Yup.string().url("Must be a valid URL"),
-  cv: Yup.mixed(),
-  nid: Yup.mixed(),
+  // cv: Yup.mixed(),
+  // nid: Yup.mixed(),
+  proofDocument: Yup.mixed().required("Student ID or Certificate is required"),
 });
 
 // Combined schema for all steps
@@ -65,9 +66,9 @@ const validationSchemas = [
 ];
 
 const steps = [
-  "Personal Information",
-  "Academic Information",
-  "Professional Information",
+  "Personal Info",
+  "Academic Info",
+  "Professional Info",
   "Social Links",
   "Review & Submit",
 ];
@@ -106,7 +107,8 @@ export default function RegistrationForm() {
     linkedin: "",
     instagram: "",
     cv: null,
-    nid: null,
+    // nid: null,
+    proofDocument: null,
 
     // Review
     confirmInfo: false,
@@ -129,6 +131,47 @@ export default function RegistrationForm() {
     //   },
     // });
 
+
+    //     {
+    //     "firstName": "Md. Atikul Islam",
+    //     "lastName": "Atik",
+    //     "email": "atik.hasan.dev@gmail.com",
+    //     "phone": "01790631785",
+    //     "dateOfBirth": null,
+    //     "address": "Mirpur TSO",
+    //     "avatar": null,
+    //     "graduationYear": "2025",
+    //     "batch": "50",
+    //     "department": "computer_science",
+    //     "studentId": '21201063,
+    //     "currentCompany": "",
+    //     "currentPosition": "",
+    //     "experience": 324,
+    //     "skills": [
+    //         "dfsd"
+    //     ],
+    //     "interests": [],
+    //     "achievements": "",
+    //     "facebook": "",
+    //     "twitter": "",
+    //     "linkedin": "",
+    //     "instagram": "",
+    //     "cv": 'base64 version of cv',
+    //  "proofDocument": 'base64 version of student ID or certificate',
+    //     "confirmInfo": true
+    // }
+
+    const base64cv = await getImgToB64(values.cv);
+    const base64proofDocument = await getImgToB64(values.proofDocument);
+
+    const payload = {
+      ...values,
+      cv: base64cv,
+      proofDocument: base64proofDocument,
+    };
+
+    console.log("Payload:", payload);
+
     setSubmitting(false);
     // Show success message or redirect
     alert("Registration request submitted successfully!");
@@ -143,11 +186,11 @@ export default function RegistrationForm() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative overflow-x-hidden ">
       <StepIndicator steps={steps} currentStep={currentStep} />
 
       <motion.div
-        className="backdrop-blur-md bg-black/30 rounded-xl border border-gray-800 shadow-xl overflow-hidden"
+        className="backdrop-blur-md bg-black/30 rounded-xl border border-gray-800 shadow-xl overflow-hidden mt-16 sm:mt-0"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}

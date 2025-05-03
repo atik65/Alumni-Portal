@@ -240,7 +240,7 @@ export default function ProfessionalInfoStep() {
         name="currentCompany"
         label="Current Company"
         placeholder="Enter your current company"
-        required
+        // required
         icon={<Briefcase size={18} className="text-gray-400" />}
       />
 
@@ -249,7 +249,7 @@ export default function ProfessionalInfoStep() {
         name="currentPosition"
         label="Current Position"
         placeholder="Enter your current position"
-        required
+        // required
         icon={<Award size={18} className="text-gray-400" />}
       />
 

@@ -160,7 +160,7 @@ const RegistrationContainer = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center relative h-full">
         {/* Left Column - University Info */}
-        <div className="relative z-10 order-2 lg:order-1 ">
+        <div className="relative z-10 order-1 lg:order-1 ">
           {/* <canvas
             ref={canvasRef}
             className="absolute inset-0 w-full h-full"
@@ -238,7 +238,7 @@ const RegistrationContainer = () => {
 
         {/* Right Column - Registration Form */}
         <motion.div
-          className="order-1 lg:order-2"
+          className="order-2 lg:order-2 "
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}

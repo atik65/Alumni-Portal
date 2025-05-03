@@ -118,7 +118,10 @@ export default function ReviewStep({ values }) {
           <InfoItem label="LinkedIn" value={values.linkedin} />
           <InfoItem label="Instagram" value={values.instagram} />
           <InfoItem label="CV/Resume" value={values.cv} />
-          <InfoItem label="National ID" value={values.nid} />
+          <InfoItem
+            label="Student ID or Certificate or Transcript"
+            value={values.proofDocument}
+          />
         </div>
       </motion.div>
 

@@ -1,6 +1,6 @@
 from rest_framework import viewsets, permissions, filters  # type: ignore
 from .serializers import serializers
-from cms.models import Blog, Job, Event, NewsFeed, Post, Comment
+from cms.models import Blog, Job, Event, NewsFeed, Post, Comment, RegistrationRequest
 from authorization.models import UserInfo
 from authorization.serializer import UserInfoSerializer
 
@@ -511,3 +511,68 @@ class CommentListGetCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         post_id = self.kwargs['post_id']
         serializer.save(user=self.request.user, post_id=post_id)
+
+
+
+
+# Registration Request View
+
+class RegistrationRequestView(viewsets.GenericViewSet):
+    queryset = RegistrationRequest.objects.all()
+    serializer_class = serializers.RegistrationRequestSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    search_fields = ["firstName", "lastName", "email"]
+    filterset_fields = {
+        # "role": ["id"],  
+    }
+    # ordering_fields = ["first_name", "last_name", "email", "id", 'created_at', 'updated_at']
+    # ordering = ["-first_name"]
+
+    def list(self, request):
+        
+        queryset = self.get_queryset()
+        filtered_queryset = self.filter_queryset(queryset)
+        paginated_queryset = self.paginate_queryset(filtered_queryset)
+
+        if paginated_queryset is not None:
+            serializer = self.get_serializer(paginated_queryset, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(filtered_queryset, many=True)
+        return Response({"status": status.HTTP_200_OK, "results": serializer.data})
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.queryset.filter(id=kwargs['id']).first()
+        if not instance:
+            return Response({"status": status.HTTP_404_NOT_FOUND, "message": "Registration request not found."})
+        serializer = self.get_serializer(instance, context={'request': request})
+        return Response(serializer.data)
+    
+    def update(self, request, *args, **kwargs):
+        instance = self.queryset.filter(id=kwargs['id']).first()
+        if not instance:
+            return Response({"status": status.HTTP_404_NOT_FOUND, "message": "Registration request not found."})
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": status.HTTP_200_OK, "message": "Registration request updated successfully.", "data": serializer.data})
+        return Response({"status": status.HTTP_400_BAD_REQUEST, "message": "Invalid data provided.", "errors": serializer.errors})
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.queryset.filter(id=kwargs['id']).first()
+        if not instance:
+            return Response({"status": status.HTTP_404_NOT_FOUND, "message": "Registration request not found."})
+        instance.delete()
+        return Response({"status": status.HTTP_200_OK, "message": "Registration request deleted successfully."})
+    
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": status.HTTP_201_CREATED, "message": "Registration request created successfully.", "data": serializer.data})
+        return Response({"status": status.HTTP_400_BAD_REQUEST, "message": "Invalid data provided.", "errors": serializer.errors})

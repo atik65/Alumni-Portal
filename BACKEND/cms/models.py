@@ -189,3 +189,39 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.user.username} on {self.post.id}"
+
+    
+class RegistrationRequest(models.Model):
+    firstName = models.CharField(max_length=255)
+    lastName = models.CharField(max_length=255)
+    email = models.EmailField(unique=True)
+    phone = models.CharField(max_length=20)
+    address = models.TextField()
+    avatar = models.ImageField(upload_to='profiles/', blank=True, null=True)
+    graduationYear = models.IntegerField()
+    batch = models.CharField(max_length=255)
+    department = models.CharField(max_length=255)
+    studentId = models.CharField(max_length=255)
+    currentCompany = models.CharField(max_length=255, blank=True, null=True)
+    currentPosition = models.CharField(max_length=255, blank=True, null=True)
+    experience = models.IntegerField()
+    skills = models.TextField(null=True, blank=True, default="")
+    interests = models.TextField(null=True, blank=True, default="")
+    achievements = models.TextField(null=True, blank=True, default="")
+    facebook = models.URLField(blank=True, null=True)
+    twitter = models.URLField(blank=True, null=True)
+    linkedin = models.URLField(blank=True, null=True)
+    instagram = models.URLField(blank=True, null=True)
+    cv = models.ImageField(upload_to='documents/', blank=True, null=True)
+    proofDocument = models.ImageField(upload_to='documents/', blank=True, null=True)
+    isApproved = models.BooleanField(default=False)
+    rejectionReason = models.TextField(blank=True, null=True, default="")
+    createdAt = models.DateTimeField(auto_now_add=True)
+    updatedAt = models.DateTimeField(auto_now=True)
+
+    
+
+    
+
+    def __str__(self):
+        return f"{self.firstName} {self.lastName} - {self.email}"

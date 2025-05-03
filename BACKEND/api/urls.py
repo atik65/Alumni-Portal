@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers  # type: ignore
-from .views import BlogsViewSet, JobViewSet, EventViewSet, NewsFeedViewSet,PostViewSet, CommentListGetCreateView
+from .views import BlogsViewSet, JobViewSet, EventViewSet, NewsFeedViewSet,PostViewSet, CommentListGetCreateView, RegistrationRequestView
 
 router = routers.DefaultRouter()
 
@@ -9,6 +9,7 @@ router.register(r"jobs", JobViewSet, "jobs")
 router.register(r"events", EventViewSet, basename="events")
 router.register(r"newsfeeds", NewsFeedViewSet, basename="newsfeeds")
 router.register(r"posts", PostViewSet, basename="posts")
+router.register(r"registration-requests", RegistrationRequestView, "RegistrationRequests")
 # router.register(r"user", UserViewSet, "user")
 
 

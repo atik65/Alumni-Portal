@@ -9,6 +9,7 @@ router.register(r"signup", RegisterView, "register")
 router.register(r"login", LoginView, "login")
 router.register(r"users", UserInfoView, "userInfos")
 router.register(r"roles", UserRolesView, "UserRoles")
+# router.register(r"registration-requests", RegistrationRequestView, "RegistrationRequests")
 
 # router.register(r"blogs", BlogsViewSet, "blogs")
 

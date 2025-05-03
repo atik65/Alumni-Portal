@@ -11,6 +11,7 @@ from .models import UserInfo
 from cms.models import Role
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import LimitOffsetPagination
+from cms.models import RegistrationRequest
 
 
 
@@ -235,5 +236,4 @@ class UserRolesView(viewsets.GenericViewSet):
         serializer = self.get_serializer(filtered_queryset, many=True)
         return Response({"status": status.HTTP_200_OK, "results": serializer.data})
     
-
 
