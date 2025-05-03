@@ -128,6 +128,14 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class RegistrationRequestSerializer(serializers.ModelSerializer):
+    avatar = Base64ImageField(required=False, allow_null=True)
+    cv = Base64ImageField(required=False, allow_null=True)
+    proofDocument = Base64ImageField(required=False, allow_null=True)
+
+
+    skills = serializers.ListField(child=serializers.CharField(), required=False)
+    interests = serializers.ListField(child=serializers.CharField(), required=False)
+
     class Meta:
         model = RegistrationRequest
         fields = "__all__"

@@ -520,7 +520,7 @@ class CommentListGetCreateView(generics.ListCreateAPIView):
 class RegistrationRequestView(viewsets.GenericViewSet):
     queryset = RegistrationRequest.objects.all()
     serializer_class = serializers.RegistrationRequestSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     filter_backends = [
         DjangoFilterBackend,
         filters.SearchFilter,
@@ -538,6 +538,7 @@ class RegistrationRequestView(viewsets.GenericViewSet):
         queryset = self.get_queryset()
         filtered_queryset = self.filter_queryset(queryset)
         paginated_queryset = self.paginate_queryset(filtered_queryset)
+        permission_classes = [permissions.IsAuthenticated]
 
         if paginated_queryset is not None:
             serializer = self.get_serializer(paginated_queryset, many=True)
@@ -547,6 +548,7 @@ class RegistrationRequestView(viewsets.GenericViewSet):
         return Response({"status": status.HTTP_200_OK, "results": serializer.data})
     
     def retrieve(self, request, *args, **kwargs):
+        permission_classes = [permissions.IsAuthenticated]
         instance = self.queryset.filter(id=kwargs['id']).first()
         if not instance:
             return Response({"status": status.HTTP_404_NOT_FOUND, "message": "Registration request not found."})
@@ -554,6 +556,7 @@ class RegistrationRequestView(viewsets.GenericViewSet):
         return Response(serializer.data)
     
     def update(self, request, *args, **kwargs):
+        permission_classes = [permissions.IsAuthenticated]
         instance = self.queryset.filter(id=kwargs['id']).first()
         if not instance:
             return Response({"status": status.HTTP_404_NOT_FOUND, "message": "Registration request not found."})
@@ -564,6 +567,7 @@ class RegistrationRequestView(viewsets.GenericViewSet):
         return Response({"status": status.HTTP_400_BAD_REQUEST, "message": "Invalid data provided.", "errors": serializer.errors})
     
     def destroy(self, request, *args, **kwargs):
+        permission_classes = [permissions.IsAuthenticated]
         instance = self.queryset.filter(id=kwargs['id']).first()
         if not instance:
             return Response({"status": status.HTTP_404_NOT_FOUND, "message": "Registration request not found."})
@@ -574,5 +578,19 @@ class RegistrationRequestView(viewsets.GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({"status": status.HTTP_201_CREATED, "message": "Registration request created successfully.", "data": serializer.data})
-        return Response({"status": status.HTTP_400_BAD_REQUEST, "message": "Invalid data provided.", "errors": serializer.errors})
+            return Response(
+                {
+                    "status": status.HTTP_201_CREATED,
+                    "message": "Registration request created successfully.",
+                    "data": serializer.data,
+                },
+                status=status.HTTP_201_CREATED
+            )
+        return Response(
+            {
+                "status": status.HTTP_400_BAD_REQUEST,
+                "message": "Invalid data provided.",
+                "errors": serializer.errors,
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
