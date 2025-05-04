@@ -382,7 +382,7 @@ const JobDetails = () => {
                     </motion.button>
                   </Link>
 
-                  <motion.button
+                  {/* <motion.button
                     className="relative overflow-hidden group text-sm font-medium bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full h-10 flex gap-2 items-center justify-center px-5 flex-1"
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.98 }}
@@ -395,7 +395,7 @@ const JobDetails = () => {
                         className="group-hover:translate-x-1 transition-transform duration-200"
                       />
                     </span>
-                  </motion.button>
+                  </motion.button> */}
                 </motion.div>
               </div>
             </Card>

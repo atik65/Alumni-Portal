@@ -160,6 +160,8 @@ const Login = () => {
     },
   };
 
+  const router = useRouter();
+
   return (
     <div className="container mx-auto px-4 py-8  h-[100vh] items-center">
       <canvas
@@ -188,10 +190,23 @@ const Login = () => {
               variants={itemVariants}
               className="text-center lg:text-left"
             >
-              <div className="inline-block mb-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+              <div
+                onClick={() => router.push("/")}
+                className="inline-block mb-4"
+              >
+                {/* <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
                   <GraduationCap size={32} className="text-white" />
-                </div>
+                </div> */}
+
+                {/* plage logo */}
+                <Image
+                  src="/assets/logo.png"
+                  alt="Plage Logo"
+                  width={200}
+                  height={200}
+                  quality={100}
+                  className="w-28 h-24"
+                />
               </div>
               <h1 className="text-4xl md:text-5xl font-bold mb-2 font-orbitron">
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400">

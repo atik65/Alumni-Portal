@@ -22,6 +22,22 @@ export const useGetEvent = () => {
   });
 };
 
+export const useGetEventDetails = (id) => {
+  const { data: session } = useSession();
+
+  return useQuery({
+    queryKey: ["event", id],
+    queryFn: async () =>
+      await axiosRequest({
+        url: `/events/${id}/`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      }),
+  });
+};
+
 export const useCreateEvent = () => {
   const queryClient = useQueryClient();
   const { data: session } = useSession();

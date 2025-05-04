@@ -34,7 +34,7 @@ function AddJob() {
       <DialogTrigger asChild>
         <button
           id="add-job"
-          className="text-sm font-semibold bg-[--secondary-bg] dark:bg-[--secondary-bg] text-white rounded h-10 flex gap-2 items-center justify-center hover:bg-[--light-bg] dark:hover:bg-[--light-bg] hover:text-[--secondary-text] dark:hover:text-[--base-text] duration-200 px-5"
+          className="relative overflow-hidden group text-sm font-medium bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full h-10 flex gap-2 items-center justify-center px-5 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <span>Add Job</span>
           <Plus size={20} />

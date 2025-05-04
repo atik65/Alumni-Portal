@@ -245,13 +245,13 @@ let sidebarDataStatic = [
         icon: Users,
         tooltip: "Alumni List",
       },
-      // {
-      //   id: 5,
-      //   title: "Blogs",
-      //   href: "/portal/news",
-      //   icon: Newspaper,
-      //   tooltip: "News",
-      // },
+      {
+        id: 5,
+        title: "Students",
+        href: "/portal/students",
+        icon: Users,
+        tooltip: "Students",
+      },
       {
         id: 6,
         title: "Events",
@@ -293,13 +293,13 @@ let sidebarDataStatic = [
       },
 
       // comittee
-      {
-        id: 9,
-        title: "Committee",
-        href: "/portal/committee",
-        icon: Users,
-        tooltip: "Committee",
-      },
+      // {
+      //   id: 9,
+      //   title: "Committee",
+      //   href: "/portal/committee",
+      //   icon: Users,
+      //   tooltip: "Committee",
+      // },
 
       // contact
       {

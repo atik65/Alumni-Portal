@@ -103,17 +103,30 @@ export const useGetUserDetails = () => {
   console.log("session = ", session);
 
   return useQuery({
-    queryKey: ["userInfo"],
+    queryKey: ["userInfo", session?.user?.user_info?.user?.id],
     queryFn: async () =>
       await axiosRequest({
-        url: `/auth/users/${session?.user?.user_info?.user}/`,
+        url: `/auth/users/${session?.user?.user_info?.user?.id}/`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${session?.accessToken}`,
         },
       }),
-    onSuccess: () => {
-      queryClient.invalidateQueries("userInfo");
-    },
+  });
+};
+
+export const useGetAnyUserDetails = (userId) => {
+  const { data: session } = useSession();
+
+  return useQuery({
+    queryKey: ["any-user-Info", userId],
+    queryFn: async () =>
+      await axiosRequest({
+        url: `/auth/users/${userId}/`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      }),
   });
 };

@@ -451,7 +451,7 @@ export default function AlumniRequests() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0F0F0F] to-[#1E1E1E] p-6">
+    <div className="min-h-screen rounded-xl pt-10 bg-gradient-to-br from-[#0F0F0F] to-[#1E1E1E] p-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

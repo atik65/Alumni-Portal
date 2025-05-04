@@ -24,15 +24,15 @@ export const useGetRoles = () => {
   });
 };
 
-export const useGetUsers = ({ limit = 10, offset = 0 }) => {
+export const useGetUsers = ({ limit = 10, offset = 0, role = "" }) => {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
 
   return useQuery({
-    queryKey: ["users", limit, offset],
+    queryKey: ["users", limit, offset, role],
     queryFn: async () =>
       await axiosRequest({
-        url: `/auth/users/?limit=${limit}&offset=${offset}`,
+        url: `/auth/users/?limit=${limit}&offset=${offset}&role=${role}`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${session?.accessToken}`,

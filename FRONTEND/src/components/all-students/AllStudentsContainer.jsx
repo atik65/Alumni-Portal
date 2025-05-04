@@ -34,14 +34,14 @@ import { Skeleton } from "../ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useTheme } from "next-themes";
 
-const AllAlumniContainer = () => {
+const AllStudentsContainer = () => {
   const [offset, setOffSet] = useState(0);
   const limit = 10;
 
   const { data: users, isLoading } = useGetUsers({
     limit,
     offset,
-    role: 2, // alumni
+    role: 1, // student
   });
   const { data: roles, isLoading: isRolesLoading } = useGetRoles();
 
@@ -63,7 +63,7 @@ const AllAlumniContainer = () => {
         <div className="mb-8">
           <h1 className="font-orbitron text-3xl font-bold text-white md:text-4xl">
             <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-              Our Honorable Alumni
+              Our Sweet Students
             </span>
           </h1>
           <p className="mt-2 text-gray-400">
@@ -83,7 +83,7 @@ const AllAlumniContainer = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-10 overflow-hidden ">
           {users?.results?.map((user, index) => (
-            <AlumniCard key={user?.id} index={index} user={user} />
+            <StudentCard key={user?.id} index={index} user={user} />
           ))}
 
           {/* <AlumniCard /> */}
@@ -103,9 +103,9 @@ const AllAlumniContainer = () => {
   );
 };
 
-export default AllAlumniContainer;
+export default AllStudentsContainer;
 
-const AlumniCard = ({ index, user }) => {
+const StudentCard = ({ index, user }) => {
   const { data: roles, isLoading: isRolesLoading } = useGetRoles();
 
   // Function to get initials from name

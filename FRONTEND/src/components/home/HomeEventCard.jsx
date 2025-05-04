@@ -4,6 +4,7 @@ import React from "react";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useRouter } from "next-nprogress-bar";
 
 const HomeEventCard = ({ event }) => {
   // Define the color based on the event type
@@ -13,15 +14,20 @@ const HomeEventCard = ({ event }) => {
     // Add more types as needed
   };
 
+  const router = useRouter();
+
   return (
     <motion.div
+      onClick={() => {
+        router.push(`/portal/events/${event.id}`);
+      }}
       key={event.id}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
-      className="flex items-center justify-between bg-white dark:bg-[#1a202c] border-gray-200 dark:border-gray-700 rounded-lg p-4 mb-4  shadow hover:shadow-md transition-all duration-200 cursor-pointer border-gradient"
+      className="flex items-center justify-between bg-white dark:bg-[#1a202c] border-gray-200 dark:border-gray-700 rounded-lg p-4 mb-4  shadow hover:shadow-md transition-all duration-200 cursor-pointer border-gradient "
     >
       {/* Left Section (Icon) */}
       <div className="flex  gap-x-4">

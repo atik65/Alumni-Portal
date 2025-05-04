@@ -186,9 +186,17 @@ class UserInfoView(viewsets.GenericViewSet):
     search_fields = ["first_name", "last_name", "email"]
     filterset_fields = {
         # "role": ["id"],  
+        # "role": ["id"],
     }
     # ordering_fields = ["first_name", "last_name", "email", "id", 'created_at', 'updated_at']
     # ordering = ["-first_name"]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        role_id = self.request.query_params.get('role')
+        if role_id is not None:
+            queryset = queryset.filter(role_id=role_id)
+        return queryset
 
     def list(self, request):
         
@@ -204,7 +212,9 @@ class UserInfoView(viewsets.GenericViewSet):
         return Response({"status": status.HTTP_200_OK, "results": serializer.data})
     
     def retrieve(self, request, *args, **kwargs):
-        instance = self.queryset.filter(user=request.user).first()
+        # extract user id from params
+        user_id = kwargs.get('user')
+        instance = self.queryset.filter(user=user_id).first()
         if not instance:
             return Response({"status": status.HTTP_404_NOT_FOUND, "message": "User info not found."})
         serializer = self.get_serializer(instance, context={'request': request})
