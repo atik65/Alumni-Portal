@@ -6,11 +6,14 @@ import { useGetJobs } from "../../hooks/tanstack/useJobs";
 import { Skeleton } from "../ui/skeleton";
 import JobPost from "./JobPost";
 import AddJob from "./AddJob";
+import { useGetUserDetails } from "../../hooks/tanstack/useAuth";
 
 const JobPortal = () => {
   const { data, isLoading } = useGetJobs();
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+
+  const { data: userInfo, isLoading: isUserLoading } = useGetUserDetails();
 
   return (
     <div
@@ -48,7 +51,9 @@ const JobPortal = () => {
               >
                 Job Portal
               </h1>
-              <AddJob />
+
+              {/* id ==2 means Alumni */}
+              {userInfo?.role?.id == 2 && <AddJob />}
             </div>
             <p
               className={`text-sm ${
