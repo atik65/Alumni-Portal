@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from cms.models import Role
+from django.db.models import JSONField
 
 # Create your models here.
 
@@ -19,8 +20,8 @@ class UserInfo(models.Model):
     current_company = models.CharField(max_length=255, null=True, blank=True, default="")
     current_position = models.CharField(max_length=255, null=True, blank=True, default="")
     experience = models.TextField(null=True, blank=True, default="")
-    skills = models.TextField(null=True, blank=True, default="")
-    interests = models.TextField(null=True, blank=True, default="")
+    skills = models.JSONField(null=True, blank=True, default=list)
+    interests = models.JSONField(null=True, blank=True, default=list)
     achievements = models.TextField(null=True, blank=True, default="")
     facebook = models.URLField(null=True, blank=True, default="")
     twitter = models.URLField(null=True, blank=True, default="")

@@ -26,12 +26,19 @@ import {
 import { Button } from "../../components/ui/button";
 import { Textarea } from "../../components/ui/textarea";
 import { Badge } from "../../components/ui/badge";
+import { useApproveRegistrationRequest } from "../../hooks/tanstack/useRegistrationRequest";
+import { enqueueSnackbar } from "notistack";
 
 const RequestDetailModal = ({ isOpen, onClose, request }) => {
   const [isRejecting, setIsRejecting] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStatus, setCurrentStatus] = useState(null);
+
+  const {
+    mutateAsync: approveRegistrationRequest,
+    isLoading: isApproveLoading,
+  } = useApproveRegistrationRequest();
 
   // Reset state when modal closes or request changes
   const resetState = () => {
@@ -41,26 +48,38 @@ const RequestDetailModal = ({ isOpen, onClose, request }) => {
     setCurrentStatus(null);
   };
 
-  // Handle approve request
-  const handleApprove = () => {
+  // Approve request (local only)
+  const handleApprove = async () => {
     setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const res = await approveRegistrationRequest({
+        id: request.id?.split("-")[1],
+      });
+      console.log(res);
       setCurrentStatus("approved");
+      enqueueSnackbar(res?.message || "Request approved successfully", {
+        variant: "default",
+      });
+      onClose();
+    } catch (error) {
+      console.error("Failed to approve request:", error);
+      enqueueSnackbar(error?.message || "Failed to approve request", {
+        variant: "error",
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
-  // Handle reject request
+  // Reject request (local only)
   const handleReject = () => {
     if (isRejecting && rejectionReason.trim()) {
       setIsSubmitting(true);
-      // Simulate API call
       setTimeout(() => {
         setCurrentStatus("rejected");
         setIsSubmitting(false);
         setIsRejecting(false);
-      }, 1000);
+      }, 500);
     } else {
       setIsRejecting(true);
     }
@@ -219,7 +238,7 @@ const RequestDetailModal = ({ isOpen, onClose, request }) => {
                 <div className="text-right">
                   <div className="text-sm text-gray-400">Submitted</div>
                   <div className="mt-1 text-white">
-                    {formatDate(request.submittedAt)}
+                    {formatDate(request.createdAt)}
                   </div>
                 </div>
               </div>
@@ -356,17 +375,49 @@ const RequestDetailModal = ({ isOpen, onClose, request }) => {
               </Section>
 
               {/* Documents */}
-              <Section title="Documents" icon={<FileText size={16} />}>
+              <Section title="Documents" icon={<FileText size={18} />}>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <InfoItem
-                    label="CV/Resume"
-                    value={request.cv ? "Uploaded" : "Not uploaded"}
-                    icon={<FileText size={14} />}
+                    label="Avatar"
+                    value={
+                      request.avatar ? (
+                        <img
+                          src={request.avatar}
+                          alt="Avatar"
+                          className="w-16 h-16 rounded-full"
+                        />
+                      ) : null
+                    }
                   />
                   <InfoItem
-                    label="National ID"
-                    value={request.nid ? "Uploaded" : "Not uploaded"}
-                    icon={<CreditCard size={14} />}
+                    label="CV"
+                    value={
+                      request.cv ? (
+                        <a
+                          href={request.cv}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-purple-400 underline"
+                        >
+                          View CV
+                        </a>
+                      ) : null
+                    }
+                  />
+                  <InfoItem
+                    label="Proof Document"
+                    value={
+                      request.proofDocument ? (
+                        <a
+                          href={request.proofDocument}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-purple-400 underline"
+                        >
+                          View Proof
+                        </a>
+                      ) : null
+                    }
                   />
                 </div>
               </Section>
@@ -456,7 +507,8 @@ const RequestDetailModal = ({ isOpen, onClose, request }) => {
                     disabled={
                       isSubmitting ||
                       isRejecting ||
-                      request.status !== "pending"
+                      request.status !== "pending" ||
+                      isApproveLoading
                     }
                     className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500"
                   >

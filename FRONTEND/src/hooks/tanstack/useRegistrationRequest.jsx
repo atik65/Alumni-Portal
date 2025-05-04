@@ -20,6 +20,47 @@ export const useGetRegistrationRequests = () => {
   });
 };
 
+export const useCreateRegistrationRequest = () => {
+  const queryClient = useQueryClient();
+  const { data: session } = useSession();
+
+  return useMutation({
+    mutationFn: async (data) =>
+      await axiosRequest({
+        url: `/registration-requests/`,
+        method: "POST",
+        data: data,
+        // headers: {
+        //   Authorization: `Bearer ${session?.accessToken}`,
+        // },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries("registration-requests");
+    },
+  });
+};
+
+// approve registration request
+export const useApproveRegistrationRequest = () => {
+  const queryClient = useQueryClient();
+  const { data: session } = useSession();
+
+  return useMutation({
+    mutationFn: async (data) =>
+      await axiosRequest({
+        url: `/registration-requests/${data.id}/approve/`,
+        method: "PUT",
+        data: data,
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries("registration-requests");
+    },
+  });
+};
+
 export const useGetPosts = () => {
   const queryClient = useQueryClient();
   const { data: session } = useSession();

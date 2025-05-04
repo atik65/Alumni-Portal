@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Search,
@@ -16,6 +16,7 @@ import {
   Building,
   Briefcase,
   RefreshCw,
+  Check,
 } from "lucide-react";
 import RequestDetailModal from "./request-detail-modal";
 import { Badge } from "../../components/ui/badge";
@@ -210,43 +211,198 @@ export default function AlumniRequests() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const { data: session } = useSession();
+  // const { data: user, isLoading } = useGetUserInfo();
+  const isSuperUser = session?.user?.user_info?.user?.is_superuser;
+
+  const {
+    data: registrationRequests,
+    isLoading: isLoadingRegistrationRequests,
+    isError,
+  } = useGetRegistrationRequests();
+
+  // let registrationRequestsSample = [
+  //   {
+  //     id: 1,
+  //     avatar: null,
+  //     cv: null,
+  //     proofDocument: null,
+  //     skills: [],
+  //     interests: [],
+  //     firstName: "fdsfsd",
+  //     lastName: "sadfs",
+  //     email: "atik.hasan.dev@gmail.com",
+  //     phone: "01790631785",
+  //     address: "Mirpur TSO",
+  //     graduationYear: 2025,
+  //     batch: "50",
+  //     department: "cse",
+  //     studentId: "1211212",
+  //     currentCompany: null,
+  //     currentPosition: null,
+  //     experience: 2,
+  //     achievements: "",
+  //     facebook: null,
+  //     twitter: null,
+  //     linkedin: null,
+  //     instagram: null,
+  //     isApproved: false,
+  //     rejectionReason: "",
+  //     createdAt: "2025-05-04T02:00:36.856809+06:00",
+  //     updatedAt: "2025-05-04T02:00:36.856851+06:00",
+  //   },
+  //   {
+  //     id: 2,
+  //     avatar: "http://localhost:8000/media/profiles/temp.png",
+  //     cv: "http://localhost:8000/media/documents/temp.png",
+  //     proofDocument: "http://localhost:8000/media/documents/temp_bAFcZ3A.png",
+  //     skills: ["React"],
+  //     interests: ["x"],
+  //     firstName: "Md. Atikul Islam",
+  //     lastName: "Atik",
+  //     email: "atik.hasan.dev1@gmail.com",
+  //     phone: "01790631785",
+  //     address: "Mirpur TSO",
+  //     graduationYear: 2025,
+  //     batch: "50",
+  //     department: "computer_science",
+  //     studentId: "1211212",
+  //     currentCompany: null,
+  //     currentPosition: null,
+  //     experience: 2,
+  //     achievements: "",
+  //     facebook: null,
+  //     twitter: null,
+  //     linkedin: null,
+  //     instagram: null,
+  //     isApproved: false,
+  //     rejectionReason: "",
+  //     createdAt: "2025-05-04T02:49:02.199833+06:00",
+  //     updatedAt: "2025-05-04T15:09:01.866527+06:00",
+  //   },
+  //   {
+  //     id: 3,
+  //     avatar: "http://localhost:8000/media/profiles/temp_yr1U9z8.png",
+  //     cv: "http://localhost:8000/media/documents/temp_FdDqMFq.png",
+  //     proofDocument: "http://localhost:8000/media/documents/temp_PqRByZa.png",
+  //     skills: ["React", "Next.js", "Django"],
+  //     interests: ["SWE"],
+  //     firstName: "Md. Atikul Islam",
+  //     lastName: "Atik",
+  //     email: "atik.hasan.dev11@gmail.com",
+  //     phone: "01790631785",
+  //     address: "Mirpur TSO",
+  //     graduationYear: 2025,
+  //     batch: "50",
+  //     department: "computer_science",
+  //     studentId: "1211212",
+  //     currentCompany: "",
+  //     currentPosition: "",
+  //     experience: 2,
+  //     achievements: "",
+  //     facebook: "",
+  //     twitter: "",
+  //     linkedin: "",
+  //     instagram: "",
+  //     isApproved: false,
+  //     rejectionReason: "",
+  //     createdAt: "2025-05-04T15:14:43.239458+06:00",
+  //     updatedAt: "2025-05-04T15:14:43.239499+06:00",
+  //   },
+  // ];
+
   // Filter and sort requests
-  const filteredRequests = MOCK_REQUESTS.filter((request) => {
-    // Apply search query filter
-    const matchesSearch =
-      searchQuery === "" ||
-      request.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      request.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      request.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      request.id.toLowerCase().includes(searchQuery.toLowerCase());
+  // Filter and sort requests
+  const apiRequests = registrationRequests || [];
+  const filteredRequests = apiRequests
+    .filter((request) => {
+      // Apply search query filter
+      const matchesSearch =
+        searchQuery === "" ||
+        request.firstName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        request.lastName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        request.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        `REQ-${request.id}`.toLowerCase().includes(searchQuery.toLowerCase());
 
-    // Apply status filter
-    const matchesStatus =
-      statusFilter === null || request.status === statusFilter;
+      // Map status: isApproved -> "approved", else if rejectionReason -> "rejected", else "pending"
+      const requestStatus = request.isApproved
+        ? "approved"
+        : request.rejectionReason
+        ? "rejected"
+        : "pending";
 
-    return matchesSearch && matchesStatus;
-  }).sort((a, b) => {
-    if (!sortField) return 0;
+      // Apply status filter
+      const matchesStatus =
+        statusFilter === null || requestStatus === statusFilter;
 
-    // Handle different field types
-    if (sortField === "submittedAt") {
-      const dateA = new Date(a[sortField]).getTime();
-      const dateB = new Date(b[sortField]).getTime();
-      return sortDirection === "asc" ? dateA - dateB : dateB - dateA;
+      return matchesSearch && matchesStatus;
+    })
+    .map((request) => {
+      // Map API fields to match the format expected by the UI
+      return {
+        ...request,
+        id: `REQ-${request.id}`,
+        submittedAt: request.createdAt,
+        status: request.isApproved
+          ? "approved"
+          : request.rejectionReason
+          ? "rejected"
+          : "pending",
+        currentCompany: request.currentCompany || "-",
+        currentPosition: request.currentPosition || "-",
+        department:
+          request.department
+            ?.replace(/_/g, " ")
+            ?.replace(/\b\w/g, (c) => c.toUpperCase()) || "",
+      };
+    })
+    .sort((a, b) => {
+      if (!sortField) return 0;
+
+      if (sortField === "submittedAt") {
+        const dateA = new Date(a[sortField]).getTime();
+        const dateB = new Date(b[sortField]).getTime();
+        return sortDirection === "asc" ? dateA - dateB : dateB - dateA;
+      }
+
+      const valueA = a[sortField] || "";
+      const valueB = b[sortField] || "";
+
+      if (typeof valueA === "string" && typeof valueB === "string") {
+        return sortDirection === "asc"
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+
+      return 0;
+    });
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 6; // You can adjust this value as needed
+
+  // Calculate pagination
+  const totalRequests = filteredRequests.length;
+  const totalPages = Math.ceil(totalRequests / pageSize);
+  const paginatedRequests = filteredRequests.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
+  // Pagination handlers
+  const handlePreviousPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  // Reset to first page if filters/search change and currentPage is out of range
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(1);
     }
-
-    // String comparison for other fields
-    const valueA = a[sortField];
-    const valueB = b[sortField];
-
-    if (typeof valueA === "string" && typeof valueB === "string") {
-      return sortDirection === "asc"
-        ? valueA.localeCompare(valueB)
-        : valueB.localeCompare(valueA);
-    }
-
-    return 0;
-  });
+  }, [searchQuery, statusFilter, sortField, sortDirection, totalPages]);
 
   // Handle sort toggle
   const toggleSort = (field) => {
@@ -283,15 +439,6 @@ export default function AlumniRequests() {
       minute: "2-digit",
     }).format(date);
   };
-
-  const { data: session } = useSession();
-  // const { data: user, isLoading } = useGetUserInfo();
-  const isSuperUser = session?.user?.user_info?.user?.is_superuser;
-
-  const {
-    data: registrationRequests,
-    isLoading: isLoadingRegistrationRequests,
-  } = useGetRegistrationRequests();
 
   if (!isSuperUser) {
     return (
@@ -349,6 +496,7 @@ export default function AlumniRequests() {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="border-gray-800 bg-gray-900 text-white">
                 <DropdownMenuItem onClick={() => setStatusFilter(null)}>
+                  <Check className="mr-2 h-4 w-4 text-gray-500" />
                   All Statuses
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setStatusFilter("pending")}>
@@ -439,17 +587,36 @@ export default function AlumniRequests() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredRequests.length === 0 ? (
-                  <TableRow className="border-gray-800 hover:bg-gray-800/50 ">
+                {isError ? (
+                  <TableRow>
                     <TableCell
                       colSpan={7}
-                      className="h-24 text-center text-gray-500"
+                      className="text-center py-6 text-red-500"
+                    >
+                      Failed to load registration requests. Please try again
+                      later.
+                    </TableCell>
+                  </TableRow>
+                ) : isLoading || isLoadingRegistrationRequests ? (
+                  <TableRow>
+                    <TableCell colSpan={7} className="text-center py-6">
+                      <div className="flex items-center justify-center space-x-2 text-gray-500">
+                        <RefreshCw className="h-4 w-4 animate-spin" />
+                        <span>Loading...</span>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ) : paginatedRequests.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={7}
+                      className="text-center py-6 text-gray-500"
                     >
                       No requests found
                     </TableCell>
                   </TableRow>
                 ) : (
-                  filteredRequests.map((request) => (
+                  paginatedRequests.map((request) => (
                     <TableRow
                       key={request.id}
                       className="border-gray-800 text-gray-300 transition-colors hover:bg-gray-800/50 h-20"
@@ -498,20 +665,18 @@ export default function AlumniRequests() {
           <div className="text-sm text-gray-500">
             Showing{" "}
             <span className="font-medium text-white">
-              {filteredRequests.length}
+              {paginatedRequests.length}
             </span>{" "}
-            of{" "}
-            <span className="font-medium text-white">
-              {MOCK_REQUESTS.length}
-            </span>{" "}
-            requests
+            of <span className="font-medium text-white">{totalRequests}</span>{" "}
+            requests (Page {currentPage} of {totalPages})
           </div>
           <div className="flex items-center space-x-2">
             <Button
               variant="outline"
               size="sm"
               className="border-gray-800 bg-gray-900/50 text-white hover:bg-gray-800"
-              disabled
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
             >
               Previous
             </Button>
@@ -519,7 +684,8 @@ export default function AlumniRequests() {
               variant="outline"
               size="sm"
               className="border-gray-800 bg-gray-900/50 text-white hover:bg-gray-800"
-              disabled
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages || totalPages === 0}
             >
               Next
             </Button>

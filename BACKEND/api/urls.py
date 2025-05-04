@@ -10,6 +10,7 @@ router.register(r"events", EventViewSet, basename="events")
 router.register(r"newsfeeds", NewsFeedViewSet, basename="newsfeeds")
 router.register(r"posts", PostViewSet, basename="posts")
 router.register(r"registration-requests", RegistrationRequestView, "RegistrationRequests")
+# router.register(r"approve", RegistrationRequestView.approve(), "approve")
 # router.register(r"user", UserViewSet, "user")
 
 

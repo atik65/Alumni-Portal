@@ -12,6 +12,9 @@ import SocialLinksStep from "./steps/social-links-step";
 import ReviewStep from "./steps/review-step";
 import StepIndicator from "./step-indicator";
 import { getImgToB64 } from "../../lib/utils";
+import { useCreateRegistrationRequest } from "../../hooks/tanstack/useRegistrationRequest";
+import { useRouter } from "next-nprogress-bar";
+import { enqueueSnackbar } from "notistack";
 
 // Form validation schemas
 const personalInfoSchema = Yup.object({
@@ -114,11 +117,18 @@ export default function RegistrationForm() {
     confirmInfo: false,
   };
 
-  const finalHandleSubmit = async (values) => {
-    setSubmitting(true);
+  const router = useRouter();
+
+  const {
+    mutateAsync: createRegistrationRequest,
+    isPending: isCreatingRegistrationRequest,
+  } = useCreateRegistrationRequest();
+
+  const finalHandleSubmit = async (values, { resetForm }) => {
+    // setSubmitting(true);
 
     // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
 
     console.log("Form submitted with values:", values);
 
@@ -130,7 +140,6 @@ export default function RegistrationForm() {
     //     'Content-Type': 'application/json',
     //   },
     // });
-
 
     //     {
     //     "firstName": "Md. Atikul Islam",
@@ -161,20 +170,64 @@ export default function RegistrationForm() {
     //     "confirmInfo": true
     // }
 
-    const base64cv = await getImgToB64(values.cv);
-    const base64proofDocument = await getImgToB64(values.proofDocument);
+    let base64Avatar = values.avatar;
+    let base64cv = values.cv;
+    let base64proofDocument = values.proofDocument;
+
+    if (values.avatar) {
+      base64Avatar = await getImgToB64(values.avatar);
+    }
+    if (values.cv) {
+      base64cv = await getImgToB64(values.cv);
+    }
+    if (values.proofDocument) {
+      base64proofDocument = await getImgToB64(values.proofDocument);
+    }
 
     const payload = {
       ...values,
+      avatar: base64Avatar,
       cv: base64cv,
       proofDocument: base64proofDocument,
     };
 
-    console.log("Payload:", payload);
+    setCurrentStep(0);
+    resetForm();
+    try {
+      const res = await createRegistrationRequest(payload);
+      enqueueSnackbar(
+        res?.message || "Registration request submitted successfully!",
+        {
+          variant: "default",
+        }
+      );
+      // router.push("/login");
+    } catch (error) {
+      console.error(error);
 
-    setSubmitting(false);
-    // Show success message or redirect
-    alert("Registration request submitted successfully!");
+      //       {
+      //     "status": 400,
+      //     "message": "Invalid data provided.",
+      //     "errors": {
+      //         "email": [
+      //             "registration request with this email already exists."
+      //         ]
+      //     }
+      // }
+
+      const errors = error?.errors;
+      const errorMessages = Object.values(errors).flat();
+      console.log("errorMessages = ", errorMessages);
+
+      enqueueSnackbar(
+        errorMessages?.[0] || "Error submitting registration request",
+        {
+          variant: "error",
+        }
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const nextStep = () => {
@@ -276,14 +329,20 @@ export default function RegistrationForm() {
                   ) : (
                     <button
                       type="submit"
-                      disabled={submitting || !values.confirmInfo}
+                      disabled={
+                        submitting ||
+                        !values.confirmInfo ||
+                        isCreatingRegistrationRequest
+                      }
                       className={`px-6 py-2 rounded-full flex items-center gap-2 transition-all duration-300 ${
-                        submitting || !values.confirmInfo
+                        submitting ||
+                        !values.confirmInfo ||
+                        isCreatingRegistrationRequest
                           ? "bg-gray-700 text-gray-400 cursor-not-allowed"
                           : "bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700 shadow-[0_0_15px_rgba(16,185,129,0.5)]"
                       }`}
                     >
-                      {submitting ? (
+                      {submitting || isCreatingRegistrationRequest ? (
                         <>
                           <Loader2 size={18} className="animate-spin" />
                           Submitting...

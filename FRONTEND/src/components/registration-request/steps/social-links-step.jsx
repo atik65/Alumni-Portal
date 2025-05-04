@@ -163,7 +163,8 @@ export default function SocialLinksStep() {
         <FileUpload
           name="cv"
           label="Upload CV/Resume"
-          accept=".pdf,.doc,.docx"
+          // accept=".pdf,.doc,.docx"
+          accept=".pdf,.jpg,.jpeg,.png"
           icon={<FileText size={24} className="text-gray-400 mb-2" />}
         />
 

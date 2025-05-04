@@ -11,6 +11,10 @@ from rest_framework.response import Response  # type: ignore
 from rest_framework.pagination import LimitOffsetPagination  # type: ignore
 from rest_framework import status  # type: ignore
 from rest_framework import generics
+from rest_framework.decorators import action
+from django.contrib.auth.models import User
+from cms.models import Role
+
 
    
 class BlogFilter(FilterSet):
@@ -43,32 +47,6 @@ class BlogsViewSet(viewsets.ModelViewSet):
     ordering = ["-created_at"]  # Default ordering
 
 
-# class UserFilter(FilterSet):
-#     name = CharFilter(field_name="name", lookup_expr="icontains")
-#     email = CharFilter(field_name="email", lookup_expr="icontains")
-#     interests = CharFilter(field_name="interests", lookup_expr="icontains")
-
-#     class Meta:
-#         model = User
-#         fields = {
-#             "degree",
-#             "graduation_year",
-#         }
-
-
-# class UserViewSet(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = serializers.UserSerializer
-#     permission_classes = [permissions.AllowAny]
-#     filter_backends = [
-#         DjangoFilterBackend,
-#         filters.SearchFilter,
-#         filters.OrderingFilter,
-#     ]
-#     search_fields = ["name", "email", "interests", "achievements"]
-#     filterset_class = UserFilter
-#     ordering_fields = ["graduation_year", "name"]
-#     ordering = ["-name"]
 
 
 class JobFilter(FilterSet):
@@ -545,8 +523,8 @@ class RegistrationRequestView(viewsets.GenericViewSet):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(filtered_queryset, many=True)
-        return Response({"status": status.HTTP_200_OK, "results": serializer.data})
-    
+        # return Response({"status": status.HTTP_200_OK, "results": serializer.data})
+        return Response(serializer.data)    
     def retrieve(self, request, *args, **kwargs):
         permission_classes = [permissions.IsAuthenticated]
         instance = self.queryset.filter(id=kwargs['id']).first()
@@ -576,6 +554,7 @@ class RegistrationRequestView(viewsets.GenericViewSet):
     
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
+        print(f"serializer = {serializer}")
         if serializer.is_valid():
             serializer.save()
             return Response(
@@ -594,3 +573,87 @@ class RegistrationRequestView(viewsets.GenericViewSet):
             },
             status=status.HTTP_400_BAD_REQUEST
         )
+
+
+    @action(detail=True, methods=['put'], permission_classes=[permissions.IsAuthenticated])
+    def approve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if not instance:
+            return Response({"status": status.HTTP_404_NOT_FOUND, "message": "Registration request not found."})
+
+        # # Mark as approved
+        # instance.isApproved = True
+        # instance.save()
+
+        # Create user if not already exists
+        user = User.objects.filter(email=instance.email).first()
+      
+        if not user:
+            user = User.objects.create_user(
+                username=instance.email,
+                email=instance.email,
+                first_name=instance.firstName,
+                last_name=instance.lastName,
+                password='12345678'
+            )
+            # Assign default role (id=2) for alumni
+            role = Role.objects.filter(id=2).first()
+            if not role:
+                user.delete()
+                return Response({"message": "Role does not exist"}, status=400)
+
+            user_info = UserInfo.objects.create(
+                user=user,
+                role=role,
+                first_name=instance.firstName,
+                last_name=instance.lastName,
+                email=instance.email,
+                avatar=instance.avatar,
+                description='As an esteemed graduate of our university, this alumnus embodies the values of excellence, integrity, and lifelong learning. Through dedication to academic pursuits and active engagement in extracurricular activities, they have developed a strong foundation for personal and professional growth. Their commitment to innovation, leadership, and service is evident in their ongoing contributions to their chosen field and broader community. As part of our vibrant alumni network, they continue to foster meaningful connections, support fellow graduates, and inspire future generations. We are proud to recognize their achievements and celebrate their ongoing journey as a valued member of our alumni family.',
+                phone=instance.phone,
+                address=instance.address,
+                graduation_year=instance.graduationYear,
+                batch=instance.batch,
+                current_company=instance.currentCompany,
+                current_position=instance.currentPosition,
+                experience=instance.experience,
+                skills=instance.skills,
+                interests=instance.interests,
+                achievements='',
+                facebook=instance.facebook,
+                twitter=instance.twitter,
+                linkedin=instance.linkedin,
+                instagram=instance.instagram
+            )
+            user_info.save()
+
+            instance.isApproved = True
+            instance.save()
+        else:   
+            return Response({
+                "status": status.HTTP_200_OK,
+                "message": "User already exists.",
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # Optionally, serialize and return user_info if you want
+        return Response({
+            "status": status.HTTP_200_OK,
+            "message": "Registration request approved and user registered.",
+            "user_info": UserInfoSerializer(user_info).data if user_info else None,
+        })
+
+    @action(detail=True, methods=['put'], permission_classes=[permissions.IsAuthenticated])
+    def reject(self, request, *args, **kwargs):
+        instance = self.get_object()
+        body = request.data
+        if not instance:
+            return Response({"status": status.HTTP_404_NOT_FOUND, "message": "Registration request not found."})
+
+        instance.isApproved = False
+        instance.rejectionReason = body.get('rejectionReason', '')
+        instance.save()
+
+        return Response({
+            "status": status.HTTP_200_OK,
+            "message": "Registration request rejected.",
+        })
