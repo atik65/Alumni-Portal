@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -26,7 +26,10 @@ import {
 import { Button } from "../../components/ui/button";
 import { Textarea } from "../../components/ui/textarea";
 import { Badge } from "../../components/ui/badge";
-import { useApproveRegistrationRequest } from "../../hooks/tanstack/useRegistrationRequest";
+import {
+  useApproveRegistrationRequest,
+  useRejectRegistrationRequest,
+} from "../../hooks/tanstack/useRegistrationRequest";
 import { enqueueSnackbar } from "notistack";
 
 const RequestDetailModal = ({ isOpen, onClose, request }) => {
@@ -40,6 +43,9 @@ const RequestDetailModal = ({ isOpen, onClose, request }) => {
     isLoading: isApproveLoading,
   } = useApproveRegistrationRequest();
 
+  const { mutateAsync: rejectRegistrationRequest, isPending: isRejectLoading } =
+    useRejectRegistrationRequest();
+
   // Reset state when modal closes or request changes
   const resetState = () => {
     setIsRejecting(false);
@@ -48,6 +54,17 @@ const RequestDetailModal = ({ isOpen, onClose, request }) => {
     setCurrentStatus(null);
   };
 
+  const rejectionReasonRef = useRef(null);
+  const modalContentRef = useRef(null);
+
+  // Scroll to rejection reason section when isRejecting becomes true
+  useEffect(() => {
+    if (isRejecting && rejectionReasonRef.current) {
+      rejectionReasonRef.current.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  }, [isRejecting]);
   // Approve request (local only)
   const handleApprove = async () => {
     setIsSubmitting(true);
@@ -72,16 +89,34 @@ const RequestDetailModal = ({ isOpen, onClose, request }) => {
   };
 
   // Reject request (local only)
-  const handleReject = () => {
+  const handleReject = async () => {
+    setIsRejecting(true);
     if (isRejecting && rejectionReason.trim()) {
       setIsSubmitting(true);
-      setTimeout(() => {
+
+      try {
+        const res = await rejectRegistrationRequest({
+          id: request.id?.split("-")[1],
+          rejectionReason: rejectionReason,
+        });
+        console.log(res);
         setCurrentStatus("rejected");
+        enqueueSnackbar(res?.message || "Request rejected successfully", {
+          variant: "default",
+        });
+        onClose();
+      } catch (error) {
+        console.error("Failed to reject request:", error);
+        enqueueSnackbar(error?.message || "Failed to reject request", {
+          variant: "error",
+        });
+      } finally {
         setIsSubmitting(false);
-        setIsRejecting(false);
-      }, 500);
+      }
     } else {
-      setIsRejecting(true);
+      enqueueSnackbar("Please provide a rejection reason", {
+        variant: "error",
+      });
     }
   };
 
@@ -160,6 +195,7 @@ const RequestDetailModal = ({ isOpen, onClose, request }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          ref={modalContentRef}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -440,6 +476,7 @@ const RequestDetailModal = ({ isOpen, onClose, request }) => {
               <AnimatePresence>
                 {isRejecting && (
                   <motion.div
+                    ref={rejectionReasonRef}
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
