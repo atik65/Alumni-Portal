@@ -67,7 +67,7 @@ const AllStudentsContainer = () => {
             </span>
           </h1>
           <p className="mt-2 text-gray-400">
-            Here you can see all alumni of UAP.
+            Here you can see all students of UAP.
           </p>
         </div>
 

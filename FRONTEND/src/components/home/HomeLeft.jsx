@@ -106,11 +106,11 @@ const HomeLeft = () => {
       </div>
 
       {/* View Profiles Button */}
-      <div className="mt-4">
+      {/* <div className="mt-4">
         <button className="bg-blue-500 dark:bg-blue-700 text-white dark:text-gray-100 px-4 py-2 rounded hover:bg-blue-600 dark:hover:bg-blue-800 transition duration-300">
           View Profiles
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
