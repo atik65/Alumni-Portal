@@ -233,7 +233,7 @@ const ProfileContainer = () => {
                     {userInfo?.skills && (
                       <InfoSection title="Skills" isDark={isDark}>
                         <div className="flex flex-wrap gap-2">
-                          {userInfo.skills.split(",").map((skill, index) => (
+                          {userInfo?.skills?.map((skill, index) => (
                             <Badge
                               key={index}
                               className={
@@ -268,21 +268,19 @@ const ProfileContainer = () => {
                     {userInfo?.interests && (
                       <InfoSection title="Interests" isDark={isDark}>
                         <div className="flex flex-wrap gap-2">
-                          {userInfo.interests
-                            .split(",")
-                            .map((interest, index) => (
-                              <Badge
-                                key={index}
-                                variant="outline"
-                                className={
-                                  isDark
-                                    ? "text-gray-300 border-gray-700"
-                                    : "text-gray-700 border-gray-300"
-                                }
-                              >
-                                {interest.trim()}
-                              </Badge>
-                            ))}
+                          {userInfo?.interests?.map((interest, index) => (
+                            <Badge
+                              key={index}
+                              variant="outline"
+                              className={
+                                isDark
+                                  ? "text-gray-300 border-gray-700"
+                                  : "text-gray-700 border-gray-300"
+                              }
+                            >
+                              {interest.trim()}
+                            </Badge>
+                          ))}
                         </div>
                       </InfoSection>
                     )}

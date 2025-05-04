@@ -38,6 +38,10 @@ class RegisterView(viewsets.GenericViewSet):
                 if user:
                     # user already exists
                     return Response({"message": "User already exists"}, status=400)
+                
+                # check if email is valid -- must end with @uap-bd.edu
+                if not serializer.validated_data['email'].endswith("@uap-bd.edu"):
+                    return Response({"message": "Email must be a valid UAP address"}, status=400)
 
                 # create user
                 user = User.objects.create_user(

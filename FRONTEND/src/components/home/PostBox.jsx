@@ -18,16 +18,19 @@ const PostBox = () => {
       validationSchema: Yup.object({
         post: Yup.string().required("Required"),
       }),
-      onSubmit: (values) => {
+      onSubmit: async (values) => {
         try {
-          const res = mutateAsync(values);
+          const res = await mutateAsync(values);
           resetForm();
 
           enqueueSnackbar(res?.message || "Post created successfully", {
             variant: "default",
           });
         } catch (e) {
-          enqueueSnackbar(e?.message || "Something went wrong", {
+          const errors = Object.values(e || {}).flat();
+          console.log(errors);
+
+          enqueueSnackbar(errors[0] || "Something went wrong", {
             variant: "error",
           });
         }
