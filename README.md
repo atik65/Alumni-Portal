@@ -141,6 +141,38 @@ http://127.0.0.1:8000/api/v1/swagger/
  http://127.0.0.1:8000/api/v1/blogs/
 ```
 
+## **User Interface**
+
+## UI Screenshots
+
+![Screenshot From 2025-05-05 02-47-20](ui-ss/Screenshot%20From%202025-05-05%2002-47-20.png)
+![Screenshot From 2025-05-05 02-47-59](ui-ss/Screenshot%20From%202025-05-05%2002-47-59.png)
+![Screenshot From 2025-05-05 02-48-10](ui-ss/Screenshot%20From%202025-05-05%2002-48-10.png)
+![Screenshot From 2025-05-05 02-48-24](ui-ss/Screenshot%20From%202025-05-05%2002-48-24.png)
+![Screenshot From 2025-05-05 02-48-41](ui-ss/Screenshot%20From%202025-05-05%2002-48-41.png)
+![Screenshot From 2025-05-05 02-49-19](ui-ss/Screenshot%20From%202025-05-05%2002-49-19.png)
+![Screenshot From 2025-05-05 02-49-33](ui-ss/Screenshot%20From%202025-05-05%2002-49-33.png)
+![Screenshot From 2025-05-05 02-50-13](ui-ss/Screenshot%20From%202025-05-05%2002-50-13.png)
+![Screenshot From 2025-05-05 02-50-32](ui-ss/Screenshot%20From%202025-05-05%2002-50-32.png)
+![Screenshot From 2025-05-05 02-50-45](ui-ss/Screenshot%20From%202025-05-05%2002-50-45.png)
+![Screenshot From 2025-05-05 02-51-03](ui-ss/Screenshot%20From%202025-05-05%2002-51-03.png)
+![Screenshot From 2025-05-05 02-52-35](ui-ss/Screenshot%20From%202025-05-05%2002-52-35.png)
+![Screenshot From 2025-05-05 02-52-56](ui-ss/Screenshot%20From%202025-05-05%2002-52-56.png)
+![Screenshot From 2025-05-05 02-53-21](ui-ss/Screenshot%20From%202025-05-05%2002-53-21.png)
+![Screenshot From 2025-05-05 02-53-29](ui-ss/Screenshot%20From%202025-05-05%2002-53-29.png)
+![Screenshot From 2025-05-05 02-53-56](ui-ss/Screenshot%20From%202025-05-05%2002-53-56.png)
+![Screenshot From 2025-05-05 02-54-15](ui-ss/Screenshot%20From%202025-05-05%2002-54-15.png)
+![Screenshot From 2025-05-05 02-54-36](ui-ss/Screenshot%20From%202025-05-05%2002-54-36.png)
+![Screenshot From 2025-05-05 02-54-48](ui-ss/Screenshot%20From%202025-05-05%2002-54-48.png)
+![Screenshot From 2025-05-05 02-55-06](ui-ss/Screenshot%20From%202025-05-05%2002-55-06.png)
+![Screenshot From 2025-05-05 02-55-12](ui-ss/Screenshot%20From%202025-05-05%2002-55-12.png)
+![Screenshot From 2025-05-05 02-55-29](ui-ss/Screenshot%20From%202025-05-05%2002-55-29.png)
+![Screenshot From 2025-05-05 02-55-35](ui-ss/Screenshot%20From%202025-05-05%2002-55-35.png)
+![Screenshot From 2025-05-05 02-58-03](ui-ss/Screenshot%20From%202025-05-05%2002-58-03.png)
+![Screenshot From 2025-05-05 02-59-07](ui-ss/Screenshot%20From%202025-05-05%2002-59-07.png)
+![Screenshot From 2025-05-05 03-00-13](ui-ss/Screenshot%20From%202025-05-05%2003-00-13.png)
+![Screenshot From 2025-05-05 03-00-22](ui-ss/Screenshot%20From%202025-05-05%2003-00-22.png)
+
 ## Contributing
 
 1. Fork the repository.
@@ -161,7 +193,3 @@ Special thanks to the University of Asia Pacific for supporting this project.
 ---
 
 **Note**: For production deployment, ensure that sensitive information is kept secure and follow best practices for environment setup, such as configuring a production-ready database and securing API endpoints.
-
-```
-
-```
